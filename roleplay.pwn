@@ -13348,7 +13348,7 @@ public OnQueryError(errorid, error[], callback[], query[], connectionHandle)
 		if (PlayerData[i][pAdmin] >= 6 && PlayerData[i][pExecute])
 		{
 	    	PlayerData[i][pExecute] = 0;
-	    	Dialog_Show(i, ExecuteQuery, DIALOG_STYLE_INPUT, "Execute Query", "Error: \"%s\"\n\nPlease specify the MySQL query to execute below:", "Execute", "Vissza", error);
+	    	Dialog_Show(i, ExecuteQuery, DIALOG_STYLE_INPUT, "Execute Query", "Hiba: \"%s\"\n\nPlease specify the MySQL query to execute below:", "Execute", "Vissza", error);
 		}
 	}
  	printf("** [MySQL]: %s", error);
@@ -24699,7 +24699,7 @@ Dialog:FactionWeaponAmmo(playerid, response, listitem, inputtext[])
 	        return Dialog_Show(playerid, FactionWeaponAmmo, DIALOG_STYLE_INPUT, "Set Ammunition", "Current Ammo: %d\n\nPlease enter the new ammunition for the weapon in slot %d:", "Elküld", "Mégse", FactionData[PlayerData[playerid][pFactionEdit]][factionAmmo][PlayerData[playerid][pSelectedSlot]], PlayerData[playerid][pSelectedSlot]);
 
 		if (ammo < 1 || ammo > 15000)
-		    return Dialog_Show(playerid, FactionWeaponAmmo, DIALOG_STYLE_INPUT, "Set Ammunition", "Error: The ammo can't be below 1 or above 15,000.\n\nCurrent Ammo: %d\n\nPlease enter the new ammunition for the weapon in slot %d:", "Elküld", "Mégse", FactionData[PlayerData[playerid][pFactionEdit]][factionAmmo][PlayerData[playerid][pSelectedSlot]], PlayerData[playerid][pSelectedSlot]);
+		    return Dialog_Show(playerid, FactionWeaponAmmo, DIALOG_STYLE_INPUT, "Set Ammunition", "Hiba: The ammo can't be below 1 or above 15,000.\n\nCurrent Ammo: %d\n\nPlease enter the new ammunition for the weapon in slot %d:", "Elküld", "Mégse", FactionData[PlayerData[playerid][pFactionEdit]][factionAmmo][PlayerData[playerid][pSelectedSlot]], PlayerData[playerid][pSelectedSlot]);
 
         FactionData[PlayerData[playerid][pFactionEdit]][factionAmmo][PlayerData[playerid][pSelectedSlot]] = ammo;
         Faction_Save(PlayerData[playerid][pFactionEdit]);
@@ -24983,7 +24983,7 @@ Dialog:ContactInfo(playerid, response, listitem, inputtext[])
 		        format(string, sizeof(string), "DELETE FROM `contacts` WHERE `ID` = '%d' AND `contactID` = '%d'", PlayerData[playerid][pID], ContactData[playerid][id][contactID]);
 		        mysql_tquery(g_iHandle, string);
 
-		        SendServerMessage(playerid, "You have deleted \"%s\" from your contacts.", ContactData[playerid][id][contactName]);
+		        SendServerMessage(playerid, "Kitörölted \"%s\"-t a kapcsolataid közül.", ContactData[playerid][id][contactName]);
 
 		        ContactData[playerid][id][contactExists] = false;
 		        ContactData[playerid][id][contactNumber] = 0;
@@ -25004,12 +25004,12 @@ Dialog:Contacts(playerid, response, listitem, inputtext[])
 	if (response)
 	{
 	    if (!listitem) {
-	        Dialog_Show(playerid, NewContact, DIALOG_STYLE_INPUT, "Új kapcsolat", "Please enter the name of the contact below:", "Elküld", "Vissza");
+	        Dialog_Show(playerid, NewContact, DIALOG_STYLE_INPUT, "Új kapcsolat", "Add meg a kapcsolat nevét:", "Elküld", "Vissza");
 	    }
 	    else {
 		    PlayerData[playerid][pContact] = ListedContacts[playerid][listitem - 1];
 
-	        Dialog_Show(playerid, ContactInfo, DIALOG_STYLE_LIST, ContactData[playerid][PlayerData[playerid][pContact]][contactName], "Call Contact\nDelete Contact", "Kiválaszt", "Vissza");
+	        Dialog_Show(playerid, ContactInfo, DIALOG_STYLE_LIST, ContactData[playerid][PlayerData[playerid][pContact]][contactName], "Kapcsolat hívása\nKapcsolat törlése", "Kiválaszt", "Vissza");
 	    }
 	}
 	else {
@@ -25029,7 +25029,7 @@ Dialog:DialNumber(playerid, response, listitem, inputtext[])
 	        string[16];
 
 	    if (isnull(inputtext) || !IsNumeric(inputtext))
-	        return Dialog_Show(playerid, DialNumber, DIALOG_STYLE_INPUT, "Dial Number", "Please enter the number that you wish to dial below:", "Dial", "Vissza");
+	        return Dialog_Show(playerid, DialNumber, DIALOG_STYLE_INPUT, "Szám hívása", "Add meg a számot, amit tárcsázni szeretnél:", "Tárcsáz", "Vissza");
 
         format(string, 16, "%d", strval(inputtext));
 		cmd_call(playerid, string);
@@ -25047,13 +25047,13 @@ Dialog:SendText(playerid, response, listitem, inputtext[])
 	    new number = strval(inputtext);
 
 	    if (isnull(inputtext) || !IsNumeric(inputtext))
-	        return Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "Send Text Message", "Please enter the number that you wish to send a text message to:", "Dial", "Vissza");
+	        return Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "SMS küldése", "Add meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Tárcsáz", "Vissza");
 
         if (GetNumberOwner(number) == INVALID_PLAYER_ID)
-            return Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "Send Text Message", "Error: That number is not online right now.\n\nPlease enter the number that you wish to send a text message to:", "Dial", "Vissza");
+            return Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "SMS küldése", "Hiba: Ez a szám jelenleg nem elérhető.\n\nAdd meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Tárcsáz", "Vissza");
 
 		PlayerData[playerid][pContact] = GetNumberOwner(number);
-		Dialog_Show(playerid, TextMessage, DIALOG_STYLE_INPUT, "Text Message", "Please enter the message to send to %s:", "Send", "Vissza", ReturnName(PlayerData[playerid][pContact], 0));
+		Dialog_Show(playerid, TextMessage, DIALOG_STYLE_INPUT, "SMS", "Add meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Küldés", "Vissza", ReturnName(PlayerData[playerid][pContact], 0));
 	}
 	else {
 		cmd_phone(playerid, "\1");
@@ -25066,24 +25066,24 @@ Dialog:TextMessage(playerid, response, listitem, inputtext[])
 	if (response)
 	{
 		if (isnull(inputtext))
-			return Dialog_Show(playerid, TextMessage, DIALOG_STYLE_INPUT, "Text Message", "Error: Please enter a message to send.\n\nPlease enter the message to send to %s:", "Send", "Vissza", ReturnName(PlayerData[playerid][pContact], 0));
+			return Dialog_Show(playerid, TextMessage, DIALOG_STYLE_INPUT, "SMS", "Hiba: Küldj egy üzenetet.\n\nAdd meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Küldés", "Vissza", ReturnName(PlayerData[playerid][pContact], 0));
 
 		new targetid = PlayerData[playerid][pContact];
 
 		if (!IsPlayerConnected(targetid) || !PlayerData[targetid][pPhone])
-		    return SendErrorMessage(playerid, "The specified phone number went offline.");
+		    return SendErrorMessage(playerid, "A szám nem elérhető.");
 
 		GiveMoney(playerid, -1);
-		ShowPlayerFooter(playerid, "You've been ~r~charged~w~ $1 to send a text.");
+		ShowPlayerFooter(playerid, "~r~Fizettél~w~ $1-t az SMS-ért.");
 
-		SendClientMessageEx(targetid, COLOR_YELLOW, "[TEXT]: %s - %s (%d)", inputtext, ReturnName(playerid, 0), PlayerData[playerid][pPhone]);
-		SendClientMessageEx(playerid, COLOR_YELLOW, "[TEXT]: %s - %s (%d)", inputtext, ReturnName(playerid, 0), PlayerData[playerid][pPhone]);
+		SendClientMessageEx(targetid, COLOR_YELLOW, "[SMS]: %s - %s (%d)", inputtext, ReturnName(playerid, 0), PlayerData[playerid][pPhone]);
+		SendClientMessageEx(playerid, COLOR_YELLOW, "[SMS]: %s - %s (%d)", inputtext, ReturnName(playerid, 0), PlayerData[playerid][pPhone]);
 
         PlayerPlaySoundEx(targetid, 21001);
-		SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s takes out their phone and sends a text.", ReturnName(playerid, 0));
+		SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s előveszi a telefonját és küld egy SMS-t.", ReturnName(playerid, 0));
 	}
 	else {
-        Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "Send Text Message", "Please enter the number that you wish to send a text message to:", "Elküld", "Vissza");
+        Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "SMS", "Add meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Elküld", "Vissza");
 	}
 	return 1;
 }
@@ -25097,23 +25097,23 @@ Dialog:MyPhone(playerid, response, listitem, inputtext[])
 		    case 0:
 		    {
 		        if (PlayerData[playerid][pPhoneOff])
-		            return SendErrorMessage(playerid, "Your phone must be powered on.");
+		            return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
-				Dialog_Show(playerid, DialNumber, DIALOG_STYLE_INPUT, "Dial Number", "Please enter the number that you wish to dial below:", "Dial", "Vissza");
+				Dialog_Show(playerid, DialNumber, DIALOG_STYLE_INPUT, "Szám tárcsázása", "Add meg a számot, amit szeretnél tárcsázni:", "Tárcsáz", "Vissza");
 			}
 			case 1:
 			{
 			    if (PlayerData[playerid][pPhoneOff])
-		            return SendErrorMessage(playerid, "Your phone must be powered on.");
+		            return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
 			    ShowContacts(playerid);
 			}
 		    case 2:
 		    {
 		        if (PlayerData[playerid][pPhoneOff])
-		            return SendErrorMessage(playerid, "Your phone must be powered on.");
+		            return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
-		        Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "Send Text Message", "Please enter the number that you wish to send a text message to:", "Dial", "Vissza");
+		        Dialog_Show(playerid, SendText, DIALOG_STYLE_INPUT, "Send Text Message", "Add meg az üzenetet, amit el szeretnél küldeni neki: %s:", "Tárcsáz", "Vissza");
 			}
 			case 3:
 			{
@@ -25123,12 +25123,12 @@ Dialog:MyPhone(playerid, response, listitem, inputtext[])
 			        	CancelCall(playerid);
 					}
 					PlayerData[playerid][pPhoneOff] = 1;
-			        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has powered off their cellphone.", ReturnName(playerid, 0));
+			        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s bekapcsolta a telefonját.", ReturnName(playerid, 0));
 				}
 				else
 				{
 				    PlayerData[playerid][pPhoneOff] = 0;
-			        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has powered on their cellphone.", ReturnName(playerid, 0));
+			        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s kikapcsolta a telefonját.", ReturnName(playerid, 0));
 				}
 			}
 		}
@@ -25146,7 +25146,7 @@ Dialog:ListedFurniture(playerid, response, listitem, inputtext[])
 	    {
 	        PlayerData[playerid][pEditFurniture] = ListedFurniture[playerid][listitem];
 
-			Dialog_Show(playerid, FurnitureList, DIALOG_STYLE_LIST, FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName], "Edit Position\nPickup Furniture\nDestroy Furniture", "Kiválaszt", "Mégse");
+			Dialog_Show(playerid, FurnitureList, DIALOG_STYLE_LIST, FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName], "Pozíció szerkesztése\nBútor felszedése\nBútor törlése", "Kiválaszt", "Mégse");
 	    }
 	}
 	for (new i = 0; i != MAX_FURNITURE; i ++) {
@@ -25168,7 +25168,7 @@ Dialog:FurnitureList(playerid, response, listitem, inputtext[])
 		        case 0:
 				{
 					EditDynamicObject(playerid, FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureObject]);
-					SendServerMessage(playerid, "You are now editing the position of item \"%s\".", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
+					SendServerMessage(playerid, "Éppen szerkeszted a \"%s\" bútort.", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
 				}
 				case 1:
 				{
@@ -25177,8 +25177,8 @@ Dialog:FurnitureList(playerid, response, listitem, inputtext[])
 				    if (item == -1)
         				return SendErrorMessage(playerid, "Nem maradt több inventory slotod.");
 
-				    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has picked up \"%s\".", ReturnName(playerid, 0), FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
-				    SendServerMessage(playerid, "You have picked up your \"%s\". The item was added to your inventory.", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
+				    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s felvett egy \"%s\"-t.", ReturnName(playerid, 0), FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
+				    SendServerMessage(playerid, "Felvettél egy \"%s\"-t. A tárgy bekerült az inventorydban.", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
 
 				    Furniture_Delete(PlayerData[playerid][pEditFurniture]);
 					CancelEdit(playerid);
@@ -25188,7 +25188,7 @@ Dialog:FurnitureList(playerid, response, listitem, inputtext[])
 				case 2:
 				{
 				    Furniture_Delete(PlayerData[playerid][pEditFurniture]);
-				    SendServerMessage(playerid, "You have destroyed furniture \"%s\".", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
+				    SendServerMessage(playerid, "Törölted a \"%s\" tárgyat.", FurnitureData[PlayerData[playerid][pEditFurniture]][furnitureName]);
 
 				    CancelEdit(playerid);
 				    PlayerData[playerid][pEditFurniture] = -1;
@@ -25210,7 +25210,7 @@ Dialog:Trunk(playerid, response, listitem, inputtext[])
     new carid = Car_Nearest(playerid);
 
 	if (CarData[carid][carImpounded] != -1)
-    	return SendErrorMessage(playerid, "This vehicle is impounded and you can't use it.");
+    	return SendErrorMessage(playerid, "Ezt a járművet bevontatták, ezért nem lehet használni.");
 
 	if (carid != -1 && !CarData[carid][carLocked])
  	{
@@ -25219,22 +25219,22 @@ Dialog:Trunk(playerid, response, listitem, inputtext[])
 			if (!CarData[carid][carWeapons][listitem])
 			{
 			    if (!GetWeapon(playerid))
-			        return SendErrorMessage(playerid, "You aren't holding any weapon.");
+			        return SendErrorMessage(playerid, "Nincs a kezedben fegyver.");
 
        			if (GetWeapon(playerid) == 23 && PlayerData[playerid][pTazer])
-	    			return SendErrorMessage(playerid, "You can't store a tazer into your trunk.");
+	    			return SendErrorMessage(playerid, "Nem rakhatsz tasert a kocsiba.");
 
                 if (GetWeapon(playerid) == 25 && PlayerData[playerid][pBeanBag])
-	    			return SendErrorMessage(playerid, "You can't store a beanbag shotgun into your trunk.");
+	    			return SendErrorMessage(playerid, "Nem rakhatsz beanbag shotgunt a kocsiba.");
 
 				if (!Car_IsOwner(playerid, carid) && GetFactionType(playerid) == FACTION_POLICE)
-        			return SendErrorMessage(playerid, "You can't store weapons since you're a police officer.");
+        			return SendErrorMessage(playerid, "Rendőrként nem rakhatsz fegyvert a járműbe.");
 
 	   			CarData[carid][carWeapons][listitem] = GetWeapon(playerid);
 	            CarData[carid][carAmmo][listitem] = GetPlayerAmmo(playerid);
 
 	            ResetWeapon(playerid, CarData[carid][carWeapons][listitem]);
-	            SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s stored a %s into the trunk.", ReturnName(playerid, 0), ReturnWeaponName(CarData[carid][carWeapons][listitem]));
+	            SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s breakott egy %s-t a csomagtartóba.", ReturnName(playerid, 0), ReturnWeaponName(CarData[carid][carWeapons][listitem]));
 
 	            Car_Save(carid);
 				Car_WeaponStorage(playerid, carid);
@@ -25242,7 +25242,7 @@ Dialog:Trunk(playerid, response, listitem, inputtext[])
 			else
 			{
 			    GiveWeaponToPlayer(playerid, CarData[carid][carWeapons][listitem], CarData[carid][carAmmo][listitem]);
-	            SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s takes a %s from the trunk.", ReturnName(playerid, 0), ReturnWeaponName(CarData[carid][carWeapons][listitem]));
+	            SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s kivett egy %s-t a csomagtartóból.", ReturnName(playerid, 0), ReturnWeaponName(CarData[carid][carWeapons][listitem]));
 
 	            CarData[carid][carWeapons][listitem] = 0;
 	            CarData[carid][carAmmo][listitem] = 0;
@@ -25273,7 +25273,7 @@ Dialog:ConfirmCarBuy(playerid, response, listitem, inputtext[])
 			    return SendErrorMessage(playerid, "Nem tudod kifizetni.");
 
 			if (Car_GetCount(playerid) >= MAX_OWNABLE_CARS)
-			    return SendErrorMessage(playerid, "You already have %d vehicles (server limit).", MAX_OWNABLE_CARS);
+			    return SendErrorMessage(playerid, "Már van %d járműved, többet nem vehetsz.", MAX_OWNABLE_CARS);
 
 			new id = Car_Create(PlayerData[playerid][pID], DealershipCars[bizid][carid][vehModel], BusinessData[bizid][bizSpawn][0], BusinessData[bizid][bizSpawn][1], BusinessData[bizid][bizSpawn][2], BusinessData[bizid][bizSpawn][3], 1, 1);
 
@@ -25284,11 +25284,11 @@ Dialog:ConfirmCarBuy(playerid, response, listitem, inputtext[])
 			    BusinessData[bizid][bizVault] += Tax_Percent(price);
 			    Business_Save(bizid);
 
-				SendServerMessage(playerid, "You have bought a %s for %s!", ReturnVehicleModelName(DealershipCars[bizid][carid][vehModel]), FormatNumber(price));
+				SendServerMessage(playerid, "Vettél egy %s-t %s-ért!", ReturnVehicleModelName(DealershipCars[bizid][carid][vehModel]), FormatNumber(price));
 				GiveMoney(playerid, -price);
 
-				ShowPlayerFooter(playerid, "~w~Vehicle ~p~purchased!");
-				Log_Write("logs/car_log.txt", "[%s] %s has purchased a %s for %s.", ReturnDate(), ReturnName(playerid, 0), ReturnVehicleModelName(DealershipCars[bizid][carid][vehModel]), FormatNumber(price));
+				ShowPlayerFooter(playerid, "~w~Vettél ~p~egy járművet.");
+				Log_Write("logs/car_log.txt", "[%s] %s vett egy %s-t ennyiért: %s.", ReturnDate(), ReturnName(playerid, 0), ReturnVehicleModelName(DealershipCars[bizid][carid][vehModel]), FormatNumber(price));
 			}
 		}
 	}
@@ -25304,12 +25304,12 @@ Dialog:DealerCarPrice(playerid, response, listitem, inputtext[])
 	    if (id != -1 && BusinessData[id][bizExists] && BusinessData[id][bizType] == 5)
 	    {
 		    if (isnull(inputtext) || strval(inputtext) < 1)
-		        return Dialog_Show(playerid, DealerCarPrice, DIALOG_STYLE_INPUT, "Enter Price", "Please enter a price for '%s':", "Elküld", "Mégse", ReturnVehicleModelName(PlayerData[playerid][pDealerCar]));
+		        return Dialog_Show(playerid, DealerCarPrice, DIALOG_STYLE_INPUT, "Ár megadása", "Add meg a(z) '%s' árát:", "Elküld", "Mégse", ReturnVehicleModelName(PlayerData[playerid][pDealerCar]));
 
 		    Business_AddVehicle(id, PlayerData[playerid][pDealerCar], strval(inputtext));
 	        Business_EditCars(playerid, id);
 
-		    SendServerMessage(playerid, "You have added a '%s' to the dealership.", ReturnVehicleModelName(PlayerData[playerid][pDealerCar]));
+		    SendServerMessage(playerid, "Beraktál egy '%s'-t a kereskedésbe.", ReturnVehicleModelName(PlayerData[playerid][pDealerCar]));
 		    return 1;
 		}
 	}
@@ -25325,7 +25325,7 @@ Dialog:CarPrice(playerid, response, listitem, inputtext[])
 	    if (id != -1 && BusinessData[id][bizExists] && BusinessData[id][bizType] == 5)
 	    {
 		    if (isnull(inputtext) || strval(inputtext) < 1)
-		        return Dialog_Show(playerid, CarPrice, DIALOG_STYLE_INPUT, "Set Price", "The current price for '%s' is %s.\n\nPlease enter the new price for this vehicle model below:", "Elküld", "Mégse", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
+		        return Dialog_Show(playerid, CarPrice, DIALOG_STYLE_INPUT, "Ár állítása", "A(z) '%s' jelenlegi ára: %s.\n\nAdd meg a jármű árát:", "Elküld", "Mégse", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
 
 			new
 			    string[128];
@@ -25335,7 +25335,7 @@ Dialog:CarPrice(playerid, response, listitem, inputtext[])
 			format(string, sizeof(string), "UPDATE `dealervehicles` SET `vehPrice` = '%d' WHERE `ID` = '%d' AND `vehID` = '%d'", strval(inputtext), BusinessData[id][bizID], DealershipCars[id][PlayerData[playerid][pDealerCar]][vehID]);
 			mysql_tquery(g_iHandle, string);
 
-			SendServerMessage(playerid, "You have set the price of '%s' to %s.", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
+			SendServerMessage(playerid, "Beállítottad '%s' árát %s-ra/re.", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
 			Business_EditCars(playerid, id);
 		}
 		return 1;
@@ -25353,14 +25353,14 @@ Dialog:CarOptions(playerid, response, listitem, inputtext[])
 	    {
 		    if (listitem == 0)
 		    {
-		        Dialog_Show(playerid, CarPrice, DIALOG_STYLE_INPUT, "Set Price", "The current price for '%s' is %s.\n\nPlease enter the new price for this vehicle model below:", "Elküld", "Mégse", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
+		        Dialog_Show(playerid, CarPrice, DIALOG_STYLE_INPUT, "Ár állítása", "A(z) '%s' jelenlegi ára: %s.\n\nAdd meg a jármű árát:", "Elküld", "Mégse", ReturnVehicleModelName(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel]), FormatNumber(DealershipCars[id][PlayerData[playerid][pDealerCar]][vehPrice]));
 		    }
 		    else if (listitem == 1)
 		    {
 			    new model = DealershipCars[id][PlayerData[playerid][pDealerCar]][vehModel];
 			    Business_RemoveVehicle(id, model);
 
-				SendServerMessage(playerid, "You have removed the '%s' from the dealership.", ReturnVehicleModelName(model));
+				SendServerMessage(playerid, "Kitörölted '%s'-t a kereskedésből.", ReturnVehicleModelName(model));
 				Business_EditCars(playerid, id);
 			}
 		}
@@ -25379,15 +25379,15 @@ Dialog:BankAccount(playerid, response, listitem, inputtext[])
 	    {
 	        case 0:
 	        {
-				Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+				Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "A számlád egyenlege: %s\n\nAdd meg, hogy mennyi pénzt akarsz kivenni:", "Kivesz", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 			}
 	        case 1:
 	        {
-				Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+				Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Pénzbetét", "A számlád egyenlege: %s\n\nAdd meg, mennyi pénzt akarsz berakni:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 			}
 			case 2:
 			{
-			    Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Make a transfer", "Your bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+			    Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Utalás", "A számlád egyenlege: %s\n\nAdd meg, hogy kinek akarsz utalni:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 			}
 	    }
 	}
@@ -25409,16 +25409,16 @@ Dialog:Transfer(playerid, response, listitem, inputtext[])
 	        userid;
 
 		if (sscanf(inputtext, "u", userid))
-		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Make a transfer", "Your bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Utalás", "Your bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		if (userid == INVALID_PLAYER_ID)
-		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Make a transfer", "Error: Invalid player specified.\n\nYour bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Utalás", "Hiba: Invalid player specified.\n\nYour bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		if (userid == playerid)
-		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Make a transfer", "Error: You can't transfer funds to yourself.\n\nYour bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+		    return Dialog_Show(playerid, Transfer, DIALOG_STYLE_INPUT, "Utalás", "Hiba: You can't transfer funds to yourself.\n\nYour bank account's balance: %s\n\nPlease enter the name or ID of the player below:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		PlayerData[playerid][pTransfer] = userid;
-		Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Make a transfer", "Your bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
+		Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Utalás", "Your bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
 	}
     else {
 	    Dialog_Show(playerid, BankAccount, DIALOG_STYLE_LIST, "Bank Account", "Withdraw funds\nDeposit funds\nMake a transfer", "Kiválaszt", "Vissza");
@@ -25436,10 +25436,10 @@ Dialog:TransferCash(playerid, response, listitem, inputtext[])
 	    new amount = strval(inputtext);
 
 	    if (isnull(inputtext))
-	        return Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Make a transfer", "Your bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
+	        return Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Utalás", "Your bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
 
 		if (amount < 1 || amount > PlayerData[playerid][pBankMoney])
-			return Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Make a transfer", "Error: Insufficient funds!\n\nYour bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
+			return Dialog_Show(playerid, TransferCash, DIALOG_STYLE_INPUT, "Utalás", "Hiba: Insufficient funds!\n\nYour bank account's balance: %s\n\nPlease enter the amount of money to transfer to %s:", "Continue", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]), ReturnName(PlayerData[playerid][pTransfer], 0));
 
 		if (!strcmp(PlayerData[playerid][pIP], PlayerData[PlayerData[playerid][pTransfer]][pIP])) {
 		    SendAdminAlert(COLOR_LIGHTRED, "[ADMIN]: %s (%s) has transferred %s to %s (%s).", ReturnName(playerid, 0), PlayerData[playerid][pIP], FormatNumber(amount), ReturnName(PlayerData[playerid][pTransfer], 0), PlayerData[playerid][pIP]);
@@ -25470,11 +25470,11 @@ Dialog:Savings(playerid, response, listitem, inputtext[])
 	    {
 	        case 0:
 	        {
-				Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+				Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 			}
 	        case 1:
 	        {
-				Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+				Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Pénzbetét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 			}
 	    }
 	}
@@ -25495,16 +25495,16 @@ Dialog:Withdraw(playerid, response, listitem, inputtext[])
 	    new amount = strval(inputtext);
 
 	    if (isnull(inputtext))
-	        return Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+	        return Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "A számlád egyenlege: %s\n\nAdd meg, hogy mennyi pénzt akarsz kivenni:", "Kivesz", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		if (amount < 1 || amount > PlayerData[playerid][pBankMoney])
-			return Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Error: Insufficient funds!\n\nYour bank account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+			return Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "Hiba: Insufficient funds!\n\nYour bank account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		PlayerData[playerid][pBankMoney] -= amount;
 	    GiveMoney(playerid, amount);
 
 	    SendServerMessage(playerid, "You have withdrawn %s from your bank account.", FormatNumber(amount));
-        Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+        Dialog_Show(playerid, Withdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "A számlád egyenlege: %s\n\nAdd meg, hogy mennyi pénzt akarsz kivenni:", "Kivesz", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 	}
 	else {
 	    Dialog_Show(playerid, BankAccount, DIALOG_STYLE_LIST, "Bank Account", "Withdraw funds\nDeposit funds\nMake a transfer", "Kiválaszt", "Vissza");
@@ -25522,16 +25522,16 @@ Dialog:Deposit(playerid, response, listitem, inputtext[])
 	    new amount = strval(inputtext);
 
 	    if (isnull(inputtext))
-	        return Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+	        return Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Pénzbetét", "A számlád egyenlege: %s\n\nAdd meg, mennyi pénzt akarsz berakni:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		if (amount < 1 || amount > GetMoney(playerid))
-			return Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Deposit funds", "Error: You don't have that much.\n\nYour bank account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+			return Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Pénzbetét", "Hiba: You don't have that much.\n\nYour bank account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 
 		PlayerData[playerid][pBankMoney] += amount;
 	    GiveMoney(playerid, -amount);
 
 	    SendServerMessage(playerid, "You have deposited %s into your bank account.", FormatNumber(amount));
-        Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your bank account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
+        Dialog_Show(playerid, Deposit, DIALOG_STYLE_INPUT, "Pénzbetét", "A számlád egyenlege: %s\n\nAdd meg, mennyi pénzt akarsz berakni:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pBankMoney]));
 	}
 	else {
 	    Dialog_Show(playerid, BankAccount, DIALOG_STYLE_LIST, "Bank Account", "Withdraw funds\nDeposit funds\nMake a transfer", "Kiválaszt", "Vissza");
@@ -25549,16 +25549,16 @@ Dialog:SavingsWithdraw(playerid, response, listitem, inputtext[])
 	    new amount = strval(inputtext);
 
 	    if (isnull(inputtext))
-	        return Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+	        return Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 
 		if (amount < 1 || amount > PlayerData[playerid][pSavings])
-			return Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Error: Insufficient funds!\n\nYour savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+			return Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "Hiba: Insufficient funds!\n\nYour savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 
 		PlayerData[playerid][pSavings] -= amount;
 	    GiveMoney(playerid, amount);
 
 	    SendServerMessage(playerid, "You have withdrawn %s from your savings account.", FormatNumber(amount));
-        Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Withdraw funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+        Dialog_Show(playerid, SavingsWithdraw, DIALOG_STYLE_INPUT, "Pénzfelvét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to withdraw:", "Withdraw", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 	}
 	else {
 	    Dialog_Show(playerid, Savings, DIALOG_STYLE_LIST, "Savings Account", "Withdraw funds\nDeposit funds", "Kiválaszt", "Vissza");
@@ -25576,16 +25576,16 @@ Dialog:SavingsDeposit(playerid, response, listitem, inputtext[])
 	    new amount = strval(inputtext);
 
 	    if (isnull(inputtext))
-	        return Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+	        return Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Pénzbetét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 
 		if (amount < 1 || amount > GetMoney(playerid))
-			return Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Deposit funds", "Error: You don't have that much.\n\nYour savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+			return Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Pénzbetét", "Hiba: You don't have that much.\n\nYour savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 
 		PlayerData[playerid][pSavings] += amount;
 	    GiveMoney(playerid, -amount);
 
 	    SendServerMessage(playerid, "You have deposited %s into your savings account.", FormatNumber(amount));
-        Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Deposit funds", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
+        Dialog_Show(playerid, SavingsDeposit, DIALOG_STYLE_INPUT, "Pénzbetét", "Your savings account's balance: %s\n\nPlease enter the amount of money you wish to deposit:", "Deposit", "Vissza", FormatNumber(PlayerData[playerid][pSavings]));
 	}
 	else {
 	    Dialog_Show(playerid, Savings, DIALOG_STYLE_LIST, "Savings Account", "Withdraw funds\nDeposit funds", "Kiválaszt", "Vissza");
@@ -25788,7 +25788,7 @@ Dialog:DropItem(playerid, response, listitem, inputtext[])
 	        return Dialog_Show(playerid, DropItem, DIALOG_STYLE_INPUT, "Drop Item", "Item: %s - Quantity: %d\n\nPlease specify how much of this item you wish to drop:", "Drop", "Mégse", string, InventoryData[playerid][itemid][invQuantity]);
 
 		if (strval(inputtext) < 1 || strval(inputtext) > InventoryData[playerid][itemid][invQuantity])
-		    return Dialog_Show(playerid, DropItem, DIALOG_STYLE_INPUT, "Drop Item", "Error: Insufficient amount specified.\n\nItem: %s - Quantity: %d\n\nPlease specify how much of this item you wish to drop:", "Drop", "Mégse", string, InventoryData[playerid][itemid][invQuantity]);
+		    return Dialog_Show(playerid, DropItem, DIALOG_STYLE_INPUT, "Drop Item", "Hiba: Insufficient amount specified.\n\nItem: %s - Quantity: %d\n\nPlease specify how much of this item you wish to drop:", "Drop", "Mégse", string, InventoryData[playerid][itemid][invQuantity]);
 
 		DropPlayerItem(playerid, itemid, strval(inputtext));
 	}
@@ -26863,7 +26863,7 @@ Dialog:HouseWithdrawCash(playerid, response, listitem, inputtext[])
 		        return Dialog_Show(playerid, HouseWithdrawCash, DIALOG_STYLE_INPUT, "Withdraw from safe", "Safe Balance: %s\n\nPlease enter how much money you wish to withdraw from the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
 
 			if (amount < 1 || amount > HouseData[houseid][houseMoney])
-			    return Dialog_Show(playerid, HouseWithdrawCash, DIALOG_STYLE_INPUT, "Withdraw from safe", "Error: Insufficient funds.\n\nSafe Balance: %s\n\nPlease enter how much money you wish to withdraw from the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
+			    return Dialog_Show(playerid, HouseWithdrawCash, DIALOG_STYLE_INPUT, "Withdraw from safe", "Hiba: Insufficient funds.\n\nSafe Balance: %s\n\nPlease enter how much money you wish to withdraw from the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
 
 			HouseData[houseid][houseMoney] -= amount;
 			GiveMoney(playerid, amount);
@@ -26893,7 +26893,7 @@ Dialog:HouseDepositCash(playerid, response, listitem, inputtext[])
 		        return Dialog_Show(playerid, HouseDepositCash, DIALOG_STYLE_INPUT, "Deposit into safe", "Safe Balance: %s\n\nPlease enter how much money you wish to deposit into the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
 
 			if (amount < 1 || amount > GetMoney(playerid))
-			    return Dialog_Show(playerid, HouseDepositCash, DIALOG_STYLE_INPUT, "Deposit into safe", "Error: Insufficient funds.\n\nSafe Balance: %s\n\nPlease enter how much money you wish to deposit into the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
+			    return Dialog_Show(playerid, HouseDepositCash, DIALOG_STYLE_INPUT, "Deposit into safe", "Hiba: Insufficient funds.\n\nSafe Balance: %s\n\nPlease enter how much money you wish to deposit into the safe:", "Withdraw", "Vissza", FormatNumber(HouseData[houseid][houseMoney]));
 
 			HouseData[houseid][houseMoney] += amount;
 			GiveMoney(playerid, -amount);
@@ -27323,7 +27323,7 @@ Dialog:CreateChar(playerid, response, listitem, inputtext[])
         return Dialog_Show(playerid, CreateChar, DIALOG_STYLE_INPUT, "Create Character", "Please enter the name of your new character below:\n\nWarning: Your name must be in the Firstname_Lastname format and not exceed 20 characters.", "Létrehoz", "Mégse");
 
 	else if (!IsValidRoleplayName(inputtext))
-	    return Dialog_Show(playerid, CreateChar, DIALOG_STYLE_INPUT, "Create Character", "Error: You have entered an invalid roleplay name.\n\nPlease enter the name of your new character below:\n\nWarning: Your name must be in the Firstname_Lastname format and not exceed 20 characters.", "Létrehoz", "Mégse");
+	    return Dialog_Show(playerid, CreateChar, DIALOG_STYLE_INPUT, "Create Character", "Hiba: You have entered an invalid roleplay name.\n\nPlease enter the name of your new character below:\n\nWarning: Your name must be in the Firstname_Lastname format and not exceed 20 characters.", "Létrehoz", "Mégse");
 
 	else
 	{
@@ -27379,16 +27379,16 @@ Dialog:DateBirth(playerid, response, listitem, inputtext[])
 	        arrMonthDays[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	    if (sscanf(inputtext, "p</>ddd", iDay, iMonth, iYear)) {
-	        Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Error: Invalid format specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
+	        Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Hiba: Invalid format specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
 		}
 		else if (iYear < 1900 || iYear > 2014) {
-		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Error: Invalid year specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
+		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Hiba: Invalid year specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
 		}
 		else if (iMonth < 1 || iMonth > 12) {
-		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Error: Invalid month specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
+		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Hiba: Invalid month specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
 		}
 		else if (iDay < 1 || iDay > arrMonthDays[iMonth - 1]) {
-		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Error: Invalid day specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
+		    Dialog_Show(playerid, DateBirth, DIALOG_STYLE_INPUT, "Date of Birth", "Hiba: Invalid day specified!\n\nPlease enter your date of birth below (DD/MM/YYYY):", "Elküld", "Mégse");
 		}
 		else {
 		    format(PlayerData[playerid][pBirthdate], 24, inputtext);
@@ -27413,7 +27413,7 @@ Dialog:Origin(playerid, response, listitem, inputtext[])
 		    if ((inputtext[i] >= 'A' && inputtext[i] <= 'Z') || (inputtext[i] >= 'a' && inputtext[i] <= 'z') || (inputtext[i] >= '0' && inputtext[i] <= '9') || (inputtext[i] == ' ') || (inputtext[i] == ',') || (inputtext[i] == '.'))
 				continue;
 
-			else return Dialog_Show(playerid, Origin, DIALOG_STYLE_INPUT, "Origin", "Error: Only letters and numbers are accepted in the origin.\n\nPlease enter the geographical origin of your character below:", "Elküld", "Mégse");
+			else return Dialog_Show(playerid, Origin, DIALOG_STYLE_INPUT, "Origin", "Hiba: Only letters and numbers are accepted in the origin.\n\nPlease enter the geographical origin of your character below:", "Elküld", "Mégse");
 		}
 		format(PlayerData[playerid][pOrigin], 32, inputtext);
 
@@ -29920,7 +29920,7 @@ CMD:abandon(playerid, params[])
 	        SendClientMessage(playerid, COLOR_LIGHTRED, "[FIGYELEM]:{FFFFFF} You are about to abandon your vehicle with no refund.");
 		}
 		else if (CarData[id][carImpounded] != -1)
-    		return SendErrorMessage(playerid, "This vehicle is impounded and you can't use it.");
+    		return SendErrorMessage(playerid, "Ezt a járművet bevontatták, ezért nem lehet használni.");
 
 		else if (!strcmp(params, "Megerősít", true))
 		{
@@ -31465,7 +31465,7 @@ CMD:park(playerid, params[])
 	    return SendErrorMessage(playerid, "You must be inside your vehicle.");
 
     if (IsVehicleImpounded(carid))
-    	return SendErrorMessage(playerid, "This vehicle is impounded and you can't use it.");
+    	return SendErrorMessage(playerid, "Ezt a járművet bevontatták, ezért nem lehet használni.");
 
 	if ((carid = Car_GetID(carid)) != -1 && Car_IsOwner(playerid, carid))
 	{
@@ -31646,7 +31646,7 @@ CMD:unmod(playerid, params[])
 	    return SendErrorMessage(playerid, "You must be inside your vehicle.");
 
     if (IsVehicleImpounded(carid))
-    	return SendErrorMessage(playerid, "This vehicle is impounded and you can't use it.");
+    	return SendErrorMessage(playerid, "Ezt a járművet bevontatták, ezért nem lehet használni.");
 
 	if ((carid = Car_GetID(carid)) != -1 && Car_IsOwner(playerid, carid))
 	{
@@ -31673,7 +31673,7 @@ CMD:trunk(playerid, params[])
 	if ((id = Car_Nearest(playerid)) != -1)
 	{
 	    if (IsVehicleImpounded(CarData[id][carVehicle]))
-	        return SendErrorMessage(playerid, "This vehicle is impounded and you can't use it.");
+	        return SendErrorMessage(playerid, "Ezt a járművet bevontatták, ezért nem lehet használni.");
 
 	    if (IsPlayerInAnyVehicle(playerid))
 	        return SendErrorMessage(playerid, "You must exit the vehicle first.");
@@ -32245,7 +32245,7 @@ CMD:text(playerid, params[])
 	    return SendErrorMessage(playerid, "You don't have a cellphone on you.");
 
     if (PlayerData[playerid][pPhoneOff])
-		return SendErrorMessage(playerid, "Your phone must be powered on.");
+		return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
 	static
 	    targetid,
@@ -32291,7 +32291,7 @@ CMD:answer(playerid, params[])
 	    return SendErrorMessage(playerid, "You can't use this command at the moment.");
 
     if (PlayerData[playerid][pPhoneOff])
-    	return SendErrorMessage(playerid, "Your phone must be powered on.");
+    	return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
 	new targetid = PlayerData[playerid][pCallLine];
 
@@ -38967,7 +38967,7 @@ CMD:call(playerid, params[])
 	    return SendErrorMessage(playerid, "You don't have a cellphone on you.");
 
     if (PlayerData[playerid][pPhoneOff])
-		return SendErrorMessage(playerid, "Your phone must be powered on.");
+		return SendErrorMessage(playerid, "Nincs bekapcsolva a telefonod.");
 
     if (PlayerData[playerid][pHospital] != -1 || PlayerData[playerid][pCuffed] || PlayerData[playerid][pInjured] || !IsPlayerSpawned(playerid))
 	    return SendErrorMessage(playerid, "You can't use this command now.");
