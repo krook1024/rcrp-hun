@@ -15733,6 +15733,8 @@ public OnPlayerDeath(playerid, killerid, reason)
 
         if (reason == 29 && killerid != INVALID_PLAYER_ID && GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
 		    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t drive by-al.", ReturnName(killerid, 0), ReturnName(playerid, 0));
+
+        SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t.", ReturnName(killerid, 0), ReturnName(playerid, 0));
 	}
 	return 1;
 }
@@ -27817,6 +27819,9 @@ CMD:engine(playerid, params[])
 
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
+
+	if (Car_IsOwner(playerid, vehicleid) || (PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == GetFactionType(playerid)))
+	    return SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elidítani.");
 
 	switch (GetEngineStatus(vehicleid))
 	{
