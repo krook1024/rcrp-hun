@@ -9476,22 +9476,22 @@ Business_Create(playerid, type, price)
                 	BusinessData[i][bizInt][3] = 0.0000;
 					BusinessData[i][bizInterior] = 4;
 
-					BusinessData[i][bizPrices][0] = 75;
-		            BusinessData[i][bizPrices][1] = 125;
-		            BusinessData[i][bizPrices][2] = 15;
-		            BusinessData[i][bizPrices][3] = 100;
-		            BusinessData[i][bizPrices][4] = 3;
-		            BusinessData[i][bizPrices][5] = 2;
-		            BusinessData[i][bizPrices][6] = 10;
-		            BusinessData[i][bizPrices][7] = 100;
-		            BusinessData[i][bizPrices][8] = 20;
-		            BusinessData[i][bizPrices][9] = 10;
-		            BusinessData[i][bizPrices][10] = 150;
-		            BusinessData[i][bizPrices][11] = 200;
-		            BusinessData[i][bizPrices][12] = 160;
-                    BusinessData[i][bizPrices][13] = 60;
-                    BusinessData[i][bizPrices][14] = 50;
-		            BusinessData[i][bizPrices][15] = 5;
+					BusinessData[i][bizPrices][0] = 500;
+		            BusinessData[i][bizPrices][1] = 600;
+		            BusinessData[i][bizPrices][2] = 650;
+		            BusinessData[i][bizPrices][3] = 400;
+		            BusinessData[i][bizPrices][4] = 2;
+		            BusinessData[i][bizPrices][5] = 3;
+		            BusinessData[i][bizPrices][6] = 300;
+		            BusinessData[i][bizPrices][7] = 2500;
+		            BusinessData[i][bizPrices][8] = 500;
+		            BusinessData[i][bizPrices][9] = 300;
+		            BusinessData[i][bizPrices][10] = 800;
+		            BusinessData[i][bizPrices][11] = 5000;
+		            BusinessData[i][bizPrices][12] = 350;
+                    BusinessData[i][bizPrices][13] = 1000;
+                    BusinessData[i][bizPrices][14] = 6000;
+		            BusinessData[i][bizPrices][15] = 500;
 		            BusinessData[i][bizPrices][16] = 10;
 		            BusinessData[i][bizPrices][17] = 5;
 				}
@@ -29374,7 +29374,7 @@ CMD:respawnnear(playerid, params[])
 	if (!count)
 	    return SendErrorMessage(playerid, "Nincs közeledben jármû.");
 
-	SendServerMessage(playerid, "Respawnoltad az %d legközelebbi jármût.", count);
+	SendServerMessage(playerid, "Respawnoltad az %d legközelebbi jármûvet.", count);
 	return 1;
 }
 
@@ -30577,49 +30577,49 @@ CMD:near(playerid, params[])
 	    return SendErrorMessage(playerid, "Nincs jogosultságod a parancs használatához.");
 
 	if ((id = House_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû ház közlében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû ház közlében.", id);
 
     if ((id = Business_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû üzlet közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû üzlet közelében.", id);
 
     if ((id = Entrance_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû bejárat közelében..", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû bejárat közelében..", id);
 
     if ((id = Job_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû munka közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû munka közelében.", id);
 
     if ((id = Arrest_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû letartóztatási pont közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû letartóztatási pont közelében.", id);
 
     if ((id = Pump_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû pumpa közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû pumpa közelében.", id);
 
     if ((id = Crate_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû láda közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû láda közelében.", id);
 
     if ((id = Gate_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû kapu közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû kapu közelében.", id);
 
     if ((id = ATM_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû ATM közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû ATM közelében.", id);
 
     if ((id = Garbage_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû szemetes közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû szemetes közelében.", id);
 
     if ((id = Vendor_Nearest(playerid)) != -1)
-	    SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû árus közelében.", id);
+	    SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû árus közelében.", id);
 
 	if ((id = Rack_Nearest(playerid)) != -1)
- 		SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû fegyverrekesz közelében.", id);
+ 		SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû fegyverrekesz közelében.", id);
 
     if ((id = Speed_Nearest(playerid)) != -1)
- 		SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû traffipax közelében.", id);
+ 		SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû traffipax közelében.", id);
 
     if ((id = Graffiti_Nearest(playerid)) != -1)
- 		SendServerMessage(playerid, "Nem állsz a(z) %d ID-jû graffiti közelében.", id);
+ 		SendServerMessage(playerid, "Pozíció: a(z) %d ID-jû graffiti közelében.", id);
 
     if ((id = Detector_Nearest(playerid)) != -1)
- 		SendServerMessage(playerid, "Nem állsz a(z) %d-jû fémdetektor közelében.", id);
+ 		SendServerMessage(playerid, "Pozíció: a(z) %d-jû fémdetektor közelében.", id);
 
 	return 1;
 }
