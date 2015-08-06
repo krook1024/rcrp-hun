@@ -42,6 +42,14 @@ stock Text:fixchars_TextDrawCreate(Float:x, Float:y, text[])
 
 //*******************
 
+stock PlayerText:fixchars_CreatePTextDraw(playerid, Float:x, Float:y, text[])
+{
+	return CreatePlayerTextDraw(playerid,x,y,FixGameString(text));
+}
+#define CreatePlayerTextDraw fixchars_CreatePTextDraw
+
+//*******************
+
 stock Menu:fixchars_CreateMenu(const title[], columns, Float:x, Float:y, Float:col1width, Float:col2width = 0.0)
 {
 	return CreateMenu(FixGameString(title),columns,x,y,col1width,col2width);
@@ -66,6 +74,14 @@ stock fixchars_AddMenuItem(Menu:menuid, column, const menutext[])
 
 //*******************
 
+stock fixchars_PTextDrawSetString(playerid, PlayerText:text, string[])
+{
+	return PlayerTextDrawSetString(playerid, text, FixGameString(string));
+}
+#define PlayerTextDrawSetString fixchars_PTextDrawSetString
+
+//*******************
+
 stock fixchars_TextDrawSetString(Text:text, string[])
 {
 	return TextDrawSetString(text,FixGameString(string));
@@ -73,6 +89,7 @@ stock fixchars_TextDrawSetString(Text:text, string[])
 #define TextDrawSetString fixchars_TextDrawSetString
 
 //*******************
+
 stock FixGameString(const string[])
 {
 	// Tárolók létrehozása

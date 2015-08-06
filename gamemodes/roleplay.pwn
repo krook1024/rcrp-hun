@@ -1,6 +1,7 @@
 #pragma dynamic 500000
 
 #include <a_samp>
+#include <fixchars.h>
 
 #undef MAX_PLAYERS
 #define MAX_PLAYERS (100)
@@ -13,7 +14,6 @@
 #include <sscanf2>
 #include <streamer>
 #include <zcmd>
-#include <fixchars.h>
 
 #define SQL_HOSTNAME "127.0.0.1"
 #define SQL_USERNAME "root"
@@ -27769,7 +27769,7 @@ CMD:help(playerid, params[])
  		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /radio, /dept, /twithdraw, /tdeposit.");
 		}
 	}
-	SendClientMessage(playerid, COLOR_CLIENT, "JÁRMû:{FFFFFF} /park, /lock, /abandon, /refuel, /unmod, /trunk, /listcars, /engine, /lights, /hood, /tow.");
+	SendClientMessage(playerid, COLOR_CLIENT, "JÁRMÛ:{FFFFFF} /park, /lock, /abandon, /refuel, /unmod, /trunk, /listcars, /engine, /lights, /hood, /tow.");
 
     if (PlayerData[playerid][pTester] > 0)
 	{
@@ -39034,4 +39034,3 @@ CMD:mybillboard(playerid, params[])
     Dialog_Show(playerid, MyBillboardMenu, DIALOG_STYLE_LIST, "Hirdetõtábla kezelése", "Üzenet módosítása\nBérlés felmondása", "Tovább", "Mégse");
     return 1;
 }
-
