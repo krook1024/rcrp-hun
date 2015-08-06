@@ -1,6 +1,3 @@
 *.exe
 *.txt
 *.log
-
-pawno/*
-!pawno/include/*
