@@ -9823,7 +9823,7 @@ ShowStatsForPlayer(playerid, targetid)
 	if (strlen(PlayerData[targetid][pOrigin]) > 16)
 		strcat(origin, "...");
 
-	format(string, sizeof(string), "~g~Nem:~w~ %s~n~~g~Születési idõ:~w~ %s~n~~g~Származás:~w~ %s", (PlayerData[targetid][pGender] == 2) ? ("Female") : ("Male"), PlayerData[targetid][pBirthdate], origin);
+	format(string, sizeof(string), "~g~Nem:~w~ %s~n~~g~Születési idõ:~w~ %s~n~~g~Származás:~w~ %s", (PlayerData[targetid][pGender] == 2) ? ("Nõ") : ("Férfi"), PlayerData[targetid][pBirthdate], origin);
 	PlayerTextDrawSetString(playerid, PlayerData[playerid][pTextdraws][42], string);
 
 	format(string, sizeof(string), "%s (ID: %d)", ReturnName(targetid), targetid);
@@ -33065,7 +33065,7 @@ CMD:flocker(playerid, params[])
 	    return SendErrorMessage(playerid, "Nem vagy frakcióban.");
 
 	if (!IsNearFactionLocker(playerid))
-	    return SendErrorMessage(playerid, "Nem vagy az öltözõszekrényben.");
+	    return SendErrorMessage(playerid, "Nem vagy az öltözõszekrénynél.");
 
  	if (FactionData[factionid][factionType] != FACTION_GANG)
 		Dialog_Show(playerid, Locker, DIALOG_STYLE_LIST, "Öltözõ", "Szoglálatba lépés\nMellény\nSkinek\nFegyverek", "Kiválaszt", "Mégse");
