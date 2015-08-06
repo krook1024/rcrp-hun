@@ -100,7 +100,7 @@
 	SendClientMessageEx(%0, COLOR_SERVER, "SZERVER:{FFFFFF} "%1)
 
 #define SendSyntaxMessage(%0,%1) \
-	SendClientMessageEx(%0, COLOR_GREY, "SZINTAXIS:{FFFFFF} "%1) // COLOR_YELLOW
+	SendClientMessageEx(%0, COLOR_GREY, "HASZNÁLAT:{FFFFFF} "%1) // COLOR_YELLOW
 
 #define SendErrorMessage(%0,%1) \
 	SendClientMessageEx(%0, COLOR_LIGHTRED, "HIBA:{FFFFFF} "%1)
