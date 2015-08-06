@@ -14848,8 +14848,9 @@ public PlayerCheck()
 
 			if (PlayerData[i][pHospitalTime] >= 15)
 			{
-       			SetPlayerPos(i, -204.5867, -1740.7955, 675.7687);
-			    SetPlayerFacingAngle(i, 0.0000);
+			
+       			SetPlayerPos(i, 1244.3008,335.7028,19.5547);
+			    SetPlayerFacingAngle(i, 338.7587);
 
 			    TogglePlayerControllable(i, 1);
 			    SetCameraBehindPlayer(i);
@@ -14935,7 +14936,7 @@ public PlayerCheck()
 		        SetPlayerHealth(i, ReturnHealth(i) - 3.0);
 			    PlayerData[i][pBleedTime] = 10;
 
-			    CreateBlood(i);
+//			    CreateBlood(i);
 			    SetTimerEx("HidePlayerBox", 500, false, "dd", i, _:ShowPlayerBox(i, 0xFF000066));
 			}
 		}
@@ -15664,7 +15665,9 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 //			    PlayerData[damagedid][pBleeding] = 1;
 //			    PlayerData[damagedid][pBleedTime] = 10;
 
-				CreateBlood(damagedid);
+//				if( weaponid > 15 )
+//					CreateBlood(damagedid);
+					
 			    SetTimerEx("HidePlayerBox", 500, false, "dd", damagedid, _:ShowPlayerBox(damagedid, 0xFF000066));
 			}
 		}
@@ -28324,8 +28327,8 @@ CMD:bleeding(playerid, params[])
 //	        PlayerData[userid][pBleeding] = 1;
 //	        PlayerData[userid][pBleedTime] = 10;
 
-            CreateBlood(userid);
-			SetTimerEx("HidePlayerBox", 500, false, "dd", userid, _:ShowPlayerBox(userid, 0xFF000066));
+//            CreateBlood(userid);
+//			SetTimerEx("HidePlayerBox", 500, false, "dd", userid, _:ShowPlayerBox(userid, 0xFF000066));
 
 			SendServerMessage(playerid, "Vérzés mód bekapcsolva %s részére.", ReturnName(userid, 0));
 		}
