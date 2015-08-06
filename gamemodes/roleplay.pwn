@@ -7106,8 +7106,8 @@ public FirstAidUpdate(playerid)
 	        PlayerData[playerid][pLoopAnim] = true;
 			ShowPlayerFooter(playerid, "Nyomd meg a ~y~SPRINT~w~ gombot az animáció leállításához.");
 		}
-        PlayerData[playerid][pBleeding] = 0;
-		PlayerData[playerid][pBleedTime] = 0;
+//        PlayerData[playerid][pBleeding] = 0;
+//		PlayerData[playerid][pBleedTime] = 0;
 
 		PlayerData[playerid][pFirstAid] = false;
 		KillTimer(PlayerData[playerid][pAidTimer]);
@@ -13513,7 +13513,7 @@ public OnQueryFinished(extraid, threadid)
 			        PlayerData[extraid][pInjured] = cache_get_field_int(0, "Injured");
 			        PlayerData[extraid][pWarrants] = cache_get_field_int(0, "Warrants");
 			        PlayerData[extraid][pChannel] = cache_get_field_int(0, "Channel");
-			        PlayerData[extraid][pBleeding] = cache_get_field_int(0, "Bleeding");
+//			        PlayerData[extraid][pBleeding] = cache_get_field_int(0, "Bleeding");
 			        PlayerData[extraid][pAdminHide] = cache_get_field_int(0, "AdminHide");
 			        PlayerData[extraid][pWarnings] = cache_get_field_int(0, "Warnings");
 			        PlayerData[extraid][pMaskID] = cache_get_field_int(0, "MaskID");
@@ -15661,8 +15661,8 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 		{
 		    if (!PlayerHasTazer(playerid) && !PlayerHasBeanBag(playerid))
 		    {
-			    PlayerData[damagedid][pBleeding] = 1;
-			    PlayerData[damagedid][pBleedTime] = 10;
+//			    PlayerData[damagedid][pBleeding] = 1;
+//			    PlayerData[damagedid][pBleedTime] = 10;
 
 				CreateBlood(damagedid);
 			    SetTimerEx("HidePlayerBox", 500, false, "dd", damagedid, _:ShowPlayerBox(damagedid, 0xFF000066));
@@ -28321,8 +28321,8 @@ CMD:bleeding(playerid, params[])
 	{
 	    case 0:
 	    {
-	        PlayerData[userid][pBleeding] = 1;
-	        PlayerData[userid][pBleedTime] = 10;
+//	        PlayerData[userid][pBleeding] = 1;
+//	        PlayerData[userid][pBleedTime] = 10;
 
             CreateBlood(userid);
 			SetTimerEx("HidePlayerBox", 500, false, "dd", userid, _:ShowPlayerBox(userid, 0xFF000066));
@@ -28331,8 +28331,8 @@ CMD:bleeding(playerid, params[])
 		}
 		case 1:
 	    {
-	        PlayerData[userid][pBleeding] = 0;
-	        PlayerData[userid][pBleedTime] = 0;
+//	        PlayerData[userid][pBleeding] = 0;
+//	        PlayerData[userid][pBleedTime] = 0;
 
 			SendServerMessage(playerid, "Vérzés mód kikapcsolva %s részére.", ReturnName(userid, 0));
 		}
