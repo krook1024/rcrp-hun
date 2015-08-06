@@ -13,7 +13,7 @@
 #include <sscanf2>
 #include <streamer>
 #include <zcmd>
-#include <fixchars>
+#include <fixchars.h>
 
 #define SQL_HOSTNAME "127.0.0.1"
 #define SQL_USERNAME "root"
