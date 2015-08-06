@@ -14937,7 +14937,7 @@ public PlayerCheck()
 			    PlayerData[i][pBleedTime] = 10;
 
 //			    CreateBlood(i);
-			    SetTimerEx("HidePlayerBox", 500, false, "dd", i, _:ShowPlayerBox(i, 0xFF000066));
+//			    SetTimerEx("HidePlayerBox", 500, false, "dd", i, _:ShowPlayerBox(i, 0xFF000066));
 			}
 		}
 		else if (PlayerData[i][pFingerTime] > 0)
