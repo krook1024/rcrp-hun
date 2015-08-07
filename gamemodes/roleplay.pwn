@@ -15779,7 +15779,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 		            Float:fY,
 		            Float:fZ;
 
-				GetPlayerPos(playerid, fX, fY, fZ);
+				GetPlayerPos(killerid, fX, fY, fZ);
 		
 	            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%s, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason), GetLocation(fX, fY, fZ));
 			}
@@ -15810,7 +15810,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 		            Float:fY,
 		            Float:fZ;
 
-				GetPlayerPos(playerid, fX, fY, fZ);
+				GetPlayerPos(killerid, fX, fY, fZ);
 
 	            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%i, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), reason, GetLocation(fX, fY, fZ));
 			}
