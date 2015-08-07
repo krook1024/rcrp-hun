@@ -33240,7 +33240,7 @@ CMD:editfaction(playerid, params[])
 	    Faction_Update(id);
 
 	    Faction_Save(id);
-		SendFactionAlert(COLOR_LIGHTRED, "AdmCmd: %s átállította a(z) %d ID-jû frakció {%06x}színét{FF6347}.", ReturnName(playerid, 0), color >>> 8, id);
+		SendFactionAlert(COLOR_LIGHTRED, "AdmCmd: %s átállította a(z) %d ID-jû frakció {%06x}színét{FF6347}.", ReturnName(playerid, 0), id, color >>> 8);
 	}
 	else if (!strcmp(type, "type", true))
 	{
