@@ -9513,10 +9513,10 @@ Business_Create(playerid, type, price)
                 	BusinessData[i][bizInt][3] = 0.0000;
 					BusinessData[i][bizInterior] = 18;
 
-					BusinessData[i][bizPrices][0] = 25;
-		            BusinessData[i][bizPrices][1] = 15;
-		            BusinessData[i][bizPrices][2] = 10;
-		            BusinessData[i][bizPrices][3] = 10;
+					BusinessData[i][bizPrices][0] = 600;
+		            BusinessData[i][bizPrices][1] = 350;
+		            BusinessData[i][bizPrices][2] = 250;
+		            BusinessData[i][bizPrices][3] = 250;
 				}
 				else if (type == 4) {
                 	BusinessData[i][bizInt][0] = 363.3402;
