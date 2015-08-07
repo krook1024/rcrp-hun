@@ -10748,8 +10748,8 @@ KickEx(playerid)
 	    return 0;
 
 	PlayerData[playerid][pKicked] = 1;
+	TogglePlayerControllable(playerid, false);
 	SetTimerEx("KickTimer", 200, false, "d", playerid);
-
 	return 1;
 }
 
