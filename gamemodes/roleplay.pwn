@@ -28238,7 +28238,7 @@ CMD:aduty(playerid, params[])
 
 	if (!PlayerData[playerid][pAdminDuty])
 	{
-		SetPlayerColor(playerid, 0x33CC3300);
+		SetPlayerColor(playerid, 0x006fa3AA);
 		PlayerData[playerid][pAdminDuty] = 1;
 		SendServerMessage(playerid, "Beléptél az adminszolgálatba.");
 	}
