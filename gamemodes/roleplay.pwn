@@ -85,6 +85,7 @@
 #define FACTION_MEDIC (3)
 #define FACTION_GOV (4)
 #define FACTION_GANG (5)
+#define FACTION_EMPTY (6)
 
 #define JOB_COURIER (1)
 #define JOB_MECHANIC (2)
@@ -32773,11 +32774,11 @@ CMD:createfaction(playerid, params[])
 	if (sscanf(params, "ds[32]", type, name))
 	{
 	    SendSyntaxMessage(playerid, "/createfaction [típus] [név]");
-	    SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda");
+	    SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres");
 		return 1;
 	}
-	if (type < 1 || type > 5)
-	    return SendErrorMessage(playerid, "Érvénytelen típus (1-5).");
+	if (type < 1 || type > 6)
+	    return SendErrorMessage(playerid, "Érvénytelen típus (1-6).");
 
 	id = Faction_Create(name, type);
 
@@ -33033,11 +33034,11 @@ CMD:editfaction(playerid, params[])
 	    if (sscanf(string, "d", typeint))
      	{
 		 	SendSyntaxMessage(playerid, "/editfaction [id] [típus] [típus]");
-            SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda");
+            SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres");
             return 1;
 		}
-		if (typeint < 1 || typeint > 5)
-		    return SendErrorMessage(playerid, "Érvénytelen típus (1-5).");
+		if (typeint < 1 || typeint > 6)
+		    return SendErrorMessage(playerid, "Érvénytelen típus (1-6).");
 
 	    FactionData[id][factionType] = typeint;
 
