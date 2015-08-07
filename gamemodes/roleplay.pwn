@@ -32174,7 +32174,7 @@ CMD:takejob(playerid, params[])
 
 	    PlayerData[playerid][pJob] = JobData[id][jobType];
 
-	    return SendServerMessage(playerid, "Mostmár egy %s  vagy. Használd a \"/jobcmds\" parancsot a parancsokért.", Job_GetName(JobData[id][jobType]));
+	    return SendServerMessage(playerid, "Mostmár egy %s vagy. Használd a \"/jobcmds\" parancsot a parancsokért.", Job_GetName(JobData[id][jobType]));
 	}
     SendErrorMessage(playerid, "Nem vagy munkapickup közelében.");
 	return 1;
