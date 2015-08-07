@@ -28240,12 +28240,13 @@ CMD:aduty(playerid, params[])
 	{
 		SetPlayerColor(playerid, 0x33CC3300);
 		PlayerData[playerid][pAdminDuty] = 1;
+		SendServerMessage(playerid, "Beléptél az adminszolgálatba.");
 	}
 	else
 	{
 	    SetPlayerColor(playerid, DEFAULT_COLOR);
 		PlayerData[playerid][pAdminDuty] = 0;
-		SendServerMessage(playerid, "Nem vagy adminszolgálatban.");
+		SendServerMessage(playerid, "Kiléptél az adminszolgálatból.");
 	}
 	return 1;
 }
