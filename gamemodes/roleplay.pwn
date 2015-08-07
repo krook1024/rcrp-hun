@@ -35574,9 +35574,9 @@ CMD:restart(playerid, params[])
 	if (sscanf(params, "di", time, restart))
 	    return SendSyntaxMessage(playerid, "/restart [mp] [indítsa újra? 1 v. 0]");
 
-	if (time < 0 || time > 1)
+	if (restart < 0 || restart > 1)
 	    return SendErrorMessage(playerid, "Érvénytelen érték (0 vagy 1)");
-	    
+
 	if (time < 3 || time > 600)
 	    return SendErrorMessage(playerid, "3 és 600 másodperc között kell lennie.");
 
