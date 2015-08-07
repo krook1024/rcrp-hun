@@ -32044,7 +32044,7 @@ CMD:editjob(playerid, params[])
 	    new typeint;
 
 	    if (sscanf(string, "d", typeint))
-	        return SendSyntaxMessage(playerid, "/edithouse [id] [típus] [new type]");
+	        return SendSyntaxMessage(playerid, "/edithouse [id] [típus] [új típus]");
 
         if (typeint < 1 || typeint > 9)
 	    	return SendErrorMessage(playerid, "Érvénytelen típus (1-9).");
