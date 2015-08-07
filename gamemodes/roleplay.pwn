@@ -13173,27 +13173,25 @@ stock GetDuration(time)
 	    return str;
 	}
 	else if (time < 60)
-		format(str, sizeof(str), "%d másodperc", time);
+		format(str, sizeof(str), "%d másodperce", time);
 
 	else if (time >= 0 && time < 60)
-		format(str, sizeof(str), "%d másodperc", time);
+		format(str, sizeof(str), "%d másodperce", time);
 
 	else if (time >= 60 && time < 3600)
-		format(str, sizeof(str), (time >= 120) ? ("%d perc") : ("%d perc"), time / 60);
+		format(str, sizeof(str), (time >= 120) ? ("%d perce") : ("%d perce"), time / 60);
 
 	else if (time >= 3600 && time < 86400)
-		format(str, sizeof(str), (time >= 7200) ? ("%d óra") : ("%d óra"), time / 3600);
+		format(str, sizeof(str), (time >= 7200) ? ("%d órája") : ("%d órája"), time / 3600);
 
 	else if (time >= 86400 && time < 2592000)
- 		format(str, sizeof(str), (time >= 172800) ? ("%d nap") : ("%d nap"), time / 86400);
+ 		format(str, sizeof(str), (time >= 172800) ? ("%d napja") : ("%d napja"), time / 86400);
 
 	else if (time >= 2592000 && time < 31536000)
- 		format(str, sizeof(str), (time >= 5184000) ? ("%d hónap") : ("%d hónap"), time / 2592000);
+ 		format(str, sizeof(str), (time >= 5184000) ? ("%d hónapja") : ("%d hónapja"), time / 2592000);
 
 	else if (time >= 31536000)
-		format(str, sizeof(str), (time >= 63072000) ? ("%d év") : ("%d év"), time / 31536000);
-
-	strcat(str, " óta");
+		format(str, sizeof(str), (time >= 63072000) ? ("%d éve") : ("%d éve"), time / 31536000);
 
 	return str;
 }
