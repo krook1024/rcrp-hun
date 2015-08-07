@@ -8307,7 +8307,7 @@ Job_Refresh(jobid)
 		    JobData[jobid][jobText3D][1] = CreateDynamic3DTextLabel("[Bányász]\n{FFFFFF}/mine a bányászáshoz.", COLOR_DARKBLUE, JobData[jobid][jobPoint][0], JobData[jobid][jobPoint][1], JobData[jobid][jobPoint][2], 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, JobData[jobid][jobPointWorld], JobData[jobid][jobPointInt]);
 			JobData[jobid][jobPickups][1] = CreateDynamicPickup(1239, 23, JobData[jobid][jobPoint][0], JobData[jobid][jobPoint][1], JobData[jobid][jobPoint][2], JobData[jobid][jobPointWorld], JobData[jobid][jobPointInt]);
 
-			JobData[jobid][jobText3D][2] = CreateDynamic3DTextLabel("[Bányász]\n{FFFFFF}A bányászott tárgyakat ide vigyed.", COLOR_DARKBLUE, JobData[jobid][jobDeliver][0], JobData[jobid][jobDeliver][1], JobData[jobid][jobDeliver][2], 15.0);
+			JobData[jobid][jobText3D][2] = CreateDynamic3DTextLabel("[Bányász]\n{FFFFFF}A bányászott tárgyakat ide hozzad.", COLOR_DARKBLUE, JobData[jobid][jobDeliver][0], JobData[jobid][jobDeliver][1], JobData[jobid][jobDeliver][2], 15.0);
 			JobData[jobid][jobPickups][2] = CreateDynamicPickup(1239, 23, JobData[jobid][jobDeliver][0], JobData[jobid][jobDeliver][1], JobData[jobid][jobDeliver][2]);
 		}
 		else if (JobData[jobid][jobType] == 7) {
@@ -16801,7 +16801,7 @@ public OnPlayerEnterCheckpoint(playerid)
 		{
 		    new money = random(20) + 5;
 
-			SendServerMessage(playerid, "You have earned $%d for the rock.", money);
+			SendServerMessage(playerid, "Kaptál $%d-t a kõért.", money);
 			GiveMoney(playerid, money);
 
 			PlayerData[playerid][pMinedRock] = 0;
