@@ -38461,9 +38461,9 @@ CMD:time(playerid, params[])
 	    case 11: month = "November";
 	    case 12: month = "December";
 	}
-	format(string, sizeof(string), "%d/60 minutes until PayDay.",PlayerData[playerid][pMinutes]);
+	format(string, sizeof(string), "%d/60 perc a fizetésig.",PlayerData[playerid][pMinutes]);
 	SendClientMessage(playerid, COLOR_YELLOW, string);
-	format(string, sizeof(string), "~g~%s %02d %d~n~~b~%02d:%02d:%02d", month, date[0], date[2], date[3], date[4], date[5]);
+	format(string, sizeof(string), "~g~%d %s %02d~n~~b~%02d:%02d:%02d", date[0], month, date[2], date[3], date[4], date[5]);
 	GameTextForPlayer(playerid, string, 6000, 1);
 
 	return 1;
