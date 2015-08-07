@@ -27918,24 +27918,27 @@ CMD:engine(playerid, params[])
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
 
-	if ( !(Car_IsOwner(playerid, vehicleid) || (CoreVehicles[vehicleid][vehTemporary] && PlayerData[playerid][pAdmin] >= 3) || PlayerData[playerid][pTempCar] == vehicleid || ((CarData[vehicleid][carFaction] > 0 && GetFactionType(playerid) != CarData[vehicleid][carFaction]) || (CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] != CarData[vehicleid][carJob])) ))
-	    return SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elidítani.");
-
-	switch (GetEngineStatus(vehicleid))
-	{
-	    case false:
-	    {
-	        SetEngineStatus(vehicleid, true);
-	        ShowPlayerFooter(playerid, "~g~Elindítottad~w~ a motort.");
-	        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és beindítja a jármûvet.", ReturnName(playerid, 0));
-		}
-		case true:
+	if( Car_IsOwner(playerid, vehicleid) ||
+		PlayerData[playerid][pTempCar] == vehicleid ||
+		(PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == PlayerData[playerid][pFaction]) ||
+ 		(CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] > 0 && PlayerData[playerid][pJob] == CarData[vehicleid][carJob])
+	   ) {
+		switch (GetEngineStatus(vehicleid))
 		{
-		    SetEngineStatus(vehicleid, false);
-		    ShowPlayerFooter(playerid, "~r~Leállítottad~w~ a motort.");
-		    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és leállítja a jármûvet.", ReturnName(playerid, 0));
+		    case false:
+		    {
+		        SetEngineStatus(vehicleid, true);
+		        ShowPlayerFooter(playerid, "~g~Elindítottad~w~ a motort.");
+		        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és beindítja a jármûvet.", ReturnName(playerid, 0));
+			}
+			case true:
+			{
+			    SetEngineStatus(vehicleid, false);
+			    ShowPlayerFooter(playerid, "~r~Leállítottad~w~ a motort.");
+			    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és leállítja a jármûvet.", ReturnName(playerid, 0));
+			}
 		}
-	}
+	} else SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elidítani.");
 	return 1;
 }
 
@@ -30277,7 +30280,7 @@ CMD:lock(playerid, params[])
 
 	    GetVehicleParamsEx(CarData[id][carVehicle], engine, lights, alarm, doors, bonnet, boot, objective);
 
-	    if (Car_IsOwner(playerid, id) || PlayerData[playerid][pTempCar] == id || (PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == GetFactionType(playerid)))
+	    if (Car_IsOwner(playerid, id) || PlayerData[playerid][pTempCar] == id || (PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == PlayerData[playerid][pFaction]))
 	    {
 			if (!CarData[id][carLocked])
 			{
