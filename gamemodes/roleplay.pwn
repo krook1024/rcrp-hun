@@ -998,7 +998,7 @@ new const Float:arrHospitalDeliver[6][3] = {
 	{1243.9304, 331.4186, 19.5547}
 };
 
-new const Float:arrHospitalSpawns[6][4] = {
+new const Float:arrHospitalSpawns[1][4] = {
 	{1241.6802, 326.4038, 19.7555, 335.0000}
 };
 
