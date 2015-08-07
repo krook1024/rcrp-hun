@@ -12785,6 +12785,9 @@ ResetStatistics(playerid)
     PlayerData[playerid][pPickCar] = -1;
 	PlayerData[playerid][pPickTime] = 0;
     PlayerData[playerid][pNameTag] = Text3D:INVALID_3DTEXT_ID;
+	PlayerData[playerid][pTempHouse] = -1;
+	PlayerData[playerid][pTempBiz] = -1;
+	PlayerData[playerid][pTempCar] = -1;
     ResetWarnings(playerid);
 }
 
@@ -13537,6 +13540,10 @@ public OnQueryFinished(extraid, threadid)
 			        PlayerData[extraid][pFactionMod] = cache_get_field_int(0, "FactionMod");
 			        PlayerData[extraid][pCapacity] = cache_get_field_int(0, "Capacity");
 			        PlayerData[extraid][pSpawnPoint] = cache_get_field_int(0, "SpawnPoint");
+
+					PlayerData[extraid][pTempHouse] = -1;
+					PlayerData[extraid][pTempBiz] = -1;
+					PlayerData[extraid][pTempCar] = -1;
 
 					cache_get_field_content(0, "Warn1", PlayerData[extraid][pWarn1], g_iHandle, 32);
 					cache_get_field_content(0, "Warn2", PlayerData[extraid][pWarn2], g_iHandle, 32);
@@ -14512,7 +14519,7 @@ stock RestartCheck()
 		    SQL_SaveCharacter(i);
 		    SetPlayerName(i, PlayerData[i][pUsername]);
 		}
-		
+
 		if( g_KickEveryoneAfterRestart == 1 )
 			SendRconCommand("gmx");
 		else
@@ -15687,7 +15694,7 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 
 //				if( weaponid > 15 )
 //					CreateBlood(damagedid);
-					
+
 //			    SetTimerEx("HidePlayerBox", 500, false, "dd", damagedid, _:ShowPlayerBox(damagedid, 0xFF000066));
 			}
 		}
@@ -16437,7 +16444,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             SetPlayerAttachedObject(playerid, 4, 964, 1, -0.157020, 0.413313, 0.000000, 0.000000, 88.000000, 180.000000, 0.500000, 0.500000, 0.500000);
 
 			SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s lehajol és felvesz egy ládát.", ReturnName(playerid, 0));
-			SendServerMessage(playerid, "Felvettél egy ládát. Nyomd meg az 'N' gombot a lerakáshoz.");
+			SendServerMessage(playerid, "Felvettél egy ládát. Nyomd meg az 'F' gombot a lerakáshoz.");
 
 			DestroyDynamicObject(CrateData[id][crateObject]);
 			DestroyDynamic3DTextLabel(CrateData[id][crateText3D]);
@@ -25254,7 +25261,7 @@ Dialog:Trunk(playerid, response, listitem, inputtext[])
                 if (GetWeapon(playerid) == 25 && PlayerData[playerid][pBeanBag])
 	    			return SendErrorMessage(playerid, "Nem rakhatsz beanbag shotgunt a kocsiba.");
 
-				if (!Car_IsOwner(playerid, carid) && GetFactionType(playerid) == FACTION_POLICE)
+				if ( (!Car_IsOwner(playerid, carid)) && GetFactionType(playerid) == FACTION_POLICE)
         			return SendErrorMessage(playerid, "Rendõrként nem rakhatsz fegyvert a jármûbe.");
 
 	   			CarData[carid][carWeapons][listitem] = GetWeapon(playerid);
@@ -27843,7 +27850,7 @@ CMD:engine(playerid, params[])
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
 
-	if (Car_IsOwner(playerid, vehicleid) || (PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == GetFactionType(playerid)))
+	if (Car_IsOwner(playerid, vehicleid) || PlayerData[playerid][pTempCar] == vehicleid || (PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == GetFactionType(playerid)))
 	    return SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elidítani.");
 
 	switch (GetEngineStatus(vehicleid))
@@ -27860,6 +27867,140 @@ CMD:engine(playerid, params[])
 		    ShowPlayerFooter(playerid, "~r~Leállítottad~w~ a motort.");
 		    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és leállítja a jármûvet.", ReturnName(playerid, 0));
 		}
+	}
+	return 1;
+}
+
+CMD:tempkey(playerid, params[])
+{
+	static
+	    targetid,
+	    type[24],
+	    string[128];
+
+	if (sscanf(params, "us[24]S()[128]", targetid, type, string))
+	{
+		SendSyntaxMessage(playerid, "/tempkey [playerid/név] [nevek]");
+	    SendClientMessage(playerid, COLOR_YELLOW, "[NEVEK]:{FFFFFF} vehicle, house, business");
+		SendClientMessage(playerid, COLOR_CLIENT, "MÛKÖDÉS:{FFFFFF} Csak egy kulcs lehet a játékosnál mindegyik kategóriából. Ha van már nála, a korábbit felülírja. Kilépéskor törlõdik.");
+		return 1;
+	}
+
+	if (targetid == INVALID_PLAYER_ID || !IsPlayerNearPlayer(playerid, targetid, 7.0))
+	    return SendErrorMessage(playerid, "Ez a játékos nincs kapcsolódva vagy nincs a közeledben.");
+
+	if (!strcmp(type, "house", true))
+	{
+		static
+			houseid = -1;
+
+		if ((houseid = House_Nearest(playerid)) != -1 && House_IsOwner(playerid, houseid))
+		{
+			PlayerData[targetid][pTempHouse] = houseid;
+
+		    SendServerMessage(playerid, "Adtál %s-nek ideiglenes kulcsot a házadhoz. A kulcs törölve lesz, amint kilép, vagy /taketempkey.", ReturnName(targetid, 0));
+            SendServerMessage(targetid, "Kaptál %s-tõl ideiglenes kulcsot a házhoz. A kulcs törölve lesz, amint kilépsz.", ReturnName(playerid, 0));
+		}
+		else SendErrorMessage(playerid, "Nem vagy a házad közelében.");
+	}
+	else if (!strcmp(type, "vehicle", true))
+	{
+		static
+			carid = -1;
+
+		if ((carid = Car_Inside(playerid)) != -1 && Car_IsOwner(playerid, carid))
+		{
+			PlayerData[targetid][pTempCar] = carid;
+
+		    SendServerMessage(playerid, "Adtál %s-nek ideiglenes kulcsot a jármûvedhez. A kulcs törölve lesz, amint kilép, vagy /taketempkey.", ReturnName(targetid, 0));
+            SendServerMessage(targetid, "Kaptál %s-tõl ideiglenes kulcsot a jármûvéhez. A kulcs törölve lesz, amint kilépsz.", ReturnName(playerid, 0));
+		}
+		else SendErrorMessage(playerid, "Nem vagy a kocsid közelében.");
+	}
+	else if (!strcmp(type, "business", true))
+	{
+		static
+			bizid = -1;
+
+		if ((bizid = Business_Nearest(playerid)) != -1 && Business_IsOwner(playerid, bizid))
+		{
+			PlayerData[targetid][pTempBiz] = bizid;
+
+		    SendServerMessage(playerid, "Adtál %s-nek ideiglenes kulcsot az üzletedhez. A kulcs törölve lesz, amint kilép, vagy /taketempkey.", ReturnName(targetid, 0));
+            SendServerMessage(targetid, "Kaptál %s-tõl ideiglenes kulcsot az üzlethez. A kulcs törölve lesz, amint kilépsz.", ReturnName(playerid, 0));
+		}
+		else SendErrorMessage(playerid, "Nem vagy az üzleted közelében.");
+	}
+	return 1;
+}
+
+CMD:taketempkey(playerid, params[])
+{
+	static
+	    targetid,
+	    type[24],
+	    string[128];
+
+	if (sscanf(params, "us[24]S()[128]", targetid, type, string))
+	{
+		SendSyntaxMessage(playerid, "/taketempkey [playerid/név] [nevek]");
+	    SendClientMessage(playerid, COLOR_YELLOW, "[NEVEK]:{FFFFFF} vehicle, house, business");
+		return 1;
+	}
+
+	if (targetid == INVALID_PLAYER_ID || !IsPlayerNearPlayer(playerid, targetid, 7.0))
+	    return SendErrorMessage(playerid, "Ez a játékos nincs kapcsolódva vagy nincs a közeledben.");
+
+	if (!strcmp(type, "house", true))
+	{
+		static
+			houseid = -1;
+
+		if ((houseid = House_Nearest(playerid)) != -1 && House_IsOwner(playerid, houseid))
+		{
+		    if( PlayerData[targetid][pTempHouse] == houseid )
+		    {
+				PlayerData[targetid][pTempHouse] = 0;
+
+			    SendServerMessage(playerid, "Elvetted %s-tõl az ideiglenes kulcsot a házadhoz.", ReturnName(targetid, 0));
+	            SendServerMessage(targetid, "Elvette %s az ideiglenes kulcsot a házház.", ReturnName(playerid, 0));
+			} else SendErrorMessage(playerid, "A játékosnak nincs ehhez ideiglenes kulcsa.");
+		}
+		else SendErrorMessage(playerid, "Nem vagy a házad közelében.");
+	}
+	else if (!strcmp(type, "vehicle", true))
+	{
+		static
+			carid = -1;
+
+		if ((carid = Car_Inside(playerid)) != -1 && Car_IsOwner(playerid, carid))
+		{
+		    if( PlayerData[targetid][pTempCar] == carid )
+		    {
+				PlayerData[targetid][pTempCar] = -1;
+
+			    SendServerMessage(playerid, "Elvetted %s-tõl az ideiglenes kulcsot a kocsidhoz.", ReturnName(targetid, 0));
+	            SendServerMessage(targetid, "Elvette %s az ideiglenes kulcsot a kocsijához.", ReturnName(playerid, 0));
+			} else SendErrorMessage(playerid, "A játékosnak nincs ehhez ideiglenes kulcsa.");
+		}
+		else SendErrorMessage(playerid, "Nem vagy a kocsid közelében.");
+	}
+	else if (!strcmp(type, "business", true))
+	{
+		static
+			bizid = -1;
+
+		if ((bizid = Business_Nearest(playerid)) != -1 && Business_IsOwner(playerid, bizid))
+		{
+		    if( PlayerData[targetid][pTempBiz] == bizid )
+		    {
+				PlayerData[targetid][pTempBiz] = 0;
+
+			    SendServerMessage(playerid, "Elvetted %s-tõl az ideiglenes kulcsot az üzletedhez.", ReturnName(targetid, 0));
+	            SendServerMessage(targetid, "Elvette %s az ideiglenes kulcsot az üzletéhez.", ReturnName(playerid, 0));
+			} else SendErrorMessage(playerid, "A játékosnak nincs ehhez ideiglenes kulcsa.");
+		}
+		else SendErrorMessage(playerid, "Nem vagy az üzleted közelében.");
 	}
 	return 1;
 }
@@ -30002,7 +30143,7 @@ CMD:lock(playerid, params[])
 	static
 	    id = -1;
 
-	if (!IsPlayerInAnyVehicle(playerid) && (id = (House_Inside(playerid) == -1) ? (House_Nearest(playerid)) : (House_Inside(playerid))) != -1 && House_IsOwner(playerid, id))
+	if (!IsPlayerInAnyVehicle(playerid) && (id = (House_Inside(playerid) == -1) ? (House_Nearest(playerid)) : (House_Inside(playerid))) != -1 && (House_IsOwner(playerid, id) || PlayerData[playerid][pTempHouse] == id) )
 	{
 		if (!HouseData[id][houseLocked])
 		{
@@ -30023,7 +30164,7 @@ CMD:lock(playerid, params[])
 	}
 	else if (!IsPlayerInAnyVehicle(playerid) && (id = (Business_Inside(playerid) == -1) ? (Business_Nearest(playerid)) : (Business_Inside(playerid))) != -1)
 	{
-		if (Business_IsOwner(playerid, id))
+		if (Business_IsOwner(playerid, id) || PlayerData[playerid][pTempBiz] == id)
 		{
 			if (!BusinessData[id][bizLocked])
 			{
@@ -30067,7 +30208,7 @@ CMD:lock(playerid, params[])
 
 	    GetVehicleParamsEx(CarData[id][carVehicle], engine, lights, alarm, doors, bonnet, boot, objective);
 
-	    if (Car_IsOwner(playerid, id) || (PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == GetFactionType(playerid)))
+	    if (Car_IsOwner(playerid, id) || PlayerData[playerid][pTempCar] == id || (PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == GetFactionType(playerid)))
 	    {
 			if (!CarData[id][carLocked])
 			{
@@ -35600,7 +35741,7 @@ CMD:restart(playerid, params[])
 	g_ServerRestart = 1;
 	g_KickEveryoneAfterRestart = restart;
 	g_RestartTime = time;
-	
+
 
 	SendClientMessageToAllEx(COLOR_LIGHTRED, "AdmCmd: %s elindított egy szerver restartot %d mp múlva.", ReturnName(playerid, 0), time);
 	return 1;
@@ -37070,7 +37211,7 @@ CMD:spawnitem(playerid, params[])
 
 	    if (id == -1)
 	        return SendErrorMessage(playerid, "A szerver elérte a lespawnolt itemek limitjét.");
-	        
+
         Log_Write("logs/spawnitem.txt", "[%s] %s lehívott egy itemet: %s", ReturnDate(), ReturnName(playerid, 0), g_aInventoryItems[i][e_InventoryItem]);
 		SendServerMessage(playerid, "Lehívtál egy itemet \"%s\" (/setquantity a mennyiség beállításához).", g_aInventoryItems[i][e_InventoryItem]);
 		return 1;
