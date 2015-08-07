@@ -27954,7 +27954,7 @@ CMD:engine(playerid, params[])
 			    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és leállítja a jármûvet.", ReturnName(playerid, 0));
 			}
 		}
-	} else SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elidítani.");
+	} else SendErrorMessage(playerid, "Nem te vagy a jármû tulajdonosa, ezért nem tudod elindítani.");
 	return 1;
 }
 
