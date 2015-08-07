@@ -9594,7 +9594,7 @@ Business_Create(playerid, type, price)
 				BusinessData[i][bizExterior] = GetPlayerInterior(playerid);
 				BusinessData[i][bizExteriorVW] = GetPlayerVirtualWorld(playerid);
 
-				BusinessData[i][bizLocked] = true;
+				BusinessData[i][bizLocked] = 1;
 				BusinessData[i][bizVault] = 0;
 				BusinessData[i][bizProducts] = 100;
 				BusinessData[i][bizShipment] = 0;
@@ -29872,7 +29872,7 @@ CMD:buy(playerid, params[])
 	}
 	else if ((id = Business_Inside(playerid)) != -1)
 	{
-		if (BusinessData[id][bizLocked] != 0 || !BusinessData[id][bizOwner])
+		if (BusinessData[id][bizLocked] == 1 && !BusinessData[id][bizOwner])
 		    return SendErrorMessage(playerid, "Ez az üzlet zárva.");
 
 		if (BusinessData[id][bizType] == 5) {
@@ -30010,7 +30010,7 @@ CMD:lock(playerid, params[])
 		{
 			if (!BusinessData[id][bizLocked])
 			{
-				BusinessData[id][bizLocked] = true;
+				BusinessData[id][bizLocked] = 1;
 
 				Business_Refresh(id);
 				Business_Save(id);
@@ -30020,7 +30020,7 @@ CMD:lock(playerid, params[])
 			}
   			else
 			{
-				BusinessData[id][bizLocked] = false;
+				BusinessData[id][bizLocked] = 0;
 
 				Business_Refresh(id);
 				Business_Save(id);
