@@ -32693,7 +32693,7 @@ CMD:mine(playerid, params[])
 	    PlayerData[playerid][pMineCount] = 0;
 
 		RemovePlayerAttachedObject(playerid, 4);
-	    SendServerMessage(playerid, "Már befejezted a bányászást.");
+	    SendServerMessage(playerid, "Befejezted a bányászást.");
 	}
 	else
 	{
