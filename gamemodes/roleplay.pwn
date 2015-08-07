@@ -828,6 +828,8 @@ new Text:gServerTextdraws[4];
 
 new g_ServerRestart;
 new g_RestartTime;
+new g_KickEveryoneAfterRestart;
+
 new g_BoothUsed[MAX_BOOTHS];
 new g_BoothObject[MAX_BOOTHS] = {-1, ...};
 
@@ -14495,7 +14497,11 @@ stock RestartCheck()
 		    SQL_SaveCharacter(i);
 		    SetPlayerName(i, PlayerData[i][pUsername]);
 		}
-		SendRconCommand("gmx");
+		
+		if( g_KickEveryoneAfterRestart == 1 )
+			SendRconCommand("gmx");
+		else
+		    SendRconCommand("exit");
 	}
 	else if (g_ServerRestart == 1) {
 		GetElapsedTime(g_RestartTime--, time[0], time[1], time[2]);
@@ -14848,15 +14854,14 @@ public PlayerCheck()
 
 			if (PlayerData[i][pHospitalTime] >= 15)
 			{
-			
-       			SetPlayerPos(i, 1244.3008,335.7028,19.5547);
-			    SetPlayerFacingAngle(i, 338.7587);
+			    SetPlayerPos(i, -204.5867, -1740.7955, 675.7687);
+			    SetPlayerFacingAngle(i, 0.0000);
 
 			    TogglePlayerControllable(i, 1);
 			    SetCameraBehindPlayer(i);
 
 			    SetPlayerVirtualWorld(i, PlayerData[i][pHospital] + 5000);
-			    SendServerMessage(i, "Újraéledtél a legközelebbi kórháznál.");
+			    SendServerMessage(i, "Újraéledtél a kórháznál.");
 
 			    GameTextForPlayer(i, " ", 1, 3);
 			    ShowHungerTextdraw(i, 1);
@@ -35551,7 +35556,7 @@ CMD:removecp(playerid, params[])
 
 CMD:restart(playerid, params[])
 {
-	new time;
+	new time, restart;
 
 	if (PlayerData[playerid][pAdmin] < 5)
 	    return SendErrorMessage(playerid, "Nincs jogosultságod a parancs használatához.");
@@ -35561,20 +35566,26 @@ CMD:restart(playerid, params[])
 	    TextDrawHideForAll(gServerTextdraws[3]);
 
 	    g_ServerRestart = 0;
+	    g_KickEveryoneAfterRestart = 0;
 	    g_RestartTime = 0;
 
 	    return SendClientMessageToAllEx(COLOR_LIGHTRED, "AdmCmd: %s eltolta a szerver restartot.", ReturnName(playerid, 0));
 	}
-	if (sscanf(params, "d", time))
-	    return SendSyntaxMessage(playerid, "/restart [mp]");
+	if (sscanf(params, "di", time, restart))
+	    return SendSyntaxMessage(playerid, "/restart [mp] [indítsa újra? 1 v. 0]");
 
+	if (time < 0 || time > 1)
+	    return SendErrorMessage(playerid, "Érvénytelen érték (0 vagy 1)");
+	    
 	if (time < 3 || time > 600)
 	    return SendErrorMessage(playerid, "3 és 600 másodperc között kell lennie.");
 
     TextDrawShowForAll(gServerTextdraws[3]);
 
 	g_ServerRestart = 1;
+	g_KickEveryoneAfterRestart = restart;
 	g_RestartTime = time;
+	
 
 	SendClientMessageToAllEx(COLOR_LIGHTRED, "AdmCmd: %s elindított egy szerver restartot %d mp múlva.", ReturnName(playerid, 0), time);
 	return 1;
