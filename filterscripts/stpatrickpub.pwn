@@ -1,0 +1,47 @@
+#include <a_samp>
+#include <streamer>
+
+public OnFilterScriptInit()
+{
+	CreateDynamicObject(19377,509.0737300,-78.3275200,997.9583100,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(19858,504.3201000,-81.0942400,999.2348000,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(1736,504.6288100,-80.3386000,1001.1665000,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(11691,508.4940200,-84.6755100,997.9558700,0.0000000,0.0000000,0.0000000); //
+	CreateDynamicObject(11691,508.4942000,-83.0985000,997.9558700,0.0000000,0.0000000,0.0000000); //
+	CreateDynamicObject(11691,508.4942000,-81.4993000,997.9558700,0.0000000,0.0000000,0.0000000); //
+	CreateDynamicObject(1714,508.4957900,-86.3620000,997.9381100,0.0000000,0.0000000,180.0000000); //
+	CreateDynamicObject(1715,510.9426900,-84.6755000,997.9600800,0.0000000,0.0000000,-90.0000000); //
+	CreateDynamicObject(1715,510.9426900,-83.0985000,997.9600800,0.0000000,0.0000000,-90.0000000); //
+	CreateDynamicObject(1715,510.9426900,-81.4993000,997.9600800,0.0000000,0.0000000,-90.0000000); //
+	CreateDynamicObject(1715,506.1192900,-84.6755000,997.9600800,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(1715,506.1192900,-83.0985000,997.9600800,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(1715,506.1192900,-81.4993000,997.9600800,0.0000000,0.0000000,90.0000000); //
+	CreateDynamicObject(1715,507.7146900,-79.7785000,997.9600800,0.0000000,0.0000000,0.0000000); //
+	CreateDynamicObject(1715,509.3158900,-79.7784800,997.9600800,0.0000000,0.0000000,0.0000000); //
+	CreateDynamicObject(2614,508.4942000,-78.4772000,1000.1657700,0.0000000,0.0000000,0.0000000); //
+	return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+	RemoveBuildingForPlayer(playerid, 2657, 504.3438, -88.0313, 999.0547, 0.25);
+	RemoveBuildingForPlayer(playerid, 2691, 504.3750, -81.3281, 1000.4141, 0.25);
+	RemoveBuildingForPlayer(playerid, 2778, 504.8203, -79.9297, 997.9609, 0.25);
+	RemoveBuildingForPlayer(playerid, 2681, 504.8359, -81.1719, 997.9609, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 505.2344, -78.8281, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2695, 505.3594, -89.0781, 1000.0078, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 505.4922, -81.2969, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 506.1484, -87.9688, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2964, 506.4844, -84.8359, 997.9375, 0.25);
+	RemoveBuildingForPlayer(playerid, 2232, 507.1797, -88.3906, 998.5391, 0.25);
+	RemoveBuildingForPlayer(playerid, 2662, 507.5078, -89.0703, 1000.4609, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 508.4141, -88.9844, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2660, 509.8516, -89.0781, 1000.9219, 0.25);
+	RemoveBuildingForPlayer(playerid, 2964, 510.1016, -84.8359, 997.9375, 0.25);
+	RemoveBuildingForPlayer(playerid, 2232, 510.5234, -88.2578, 998.5391, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 510.8984, -84.8906, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2670, 511.1484, -87.3672, 998.0703, 0.25);
+	RemoveBuildingForPlayer(playerid, 2659, 512.3828, -86.6641, 1000.8516, 0.25);
+	RemoveBuildingForPlayer(playerid, 2696, 512.3906, -85.2422, 999.7344, 0.25);
+	return 1;
+}
