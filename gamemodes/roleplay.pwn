@@ -7824,7 +7824,7 @@ Faction_ShowRanks(playerid, factionid)
 		string[0] = 0;
 
 		for (new i = 0; i < FactionData[factionid][factionRanks]; i ++)
-		    format(string, sizeof(string), "%Rang %d: %s\n", string, i + 1, FactionRanks[factionid][i]);
+	      format(string, sizeof(string), "%sRang %d: %s\n", string, i + 1, FactionRanks[factionid][i]);
 
 		PlayerData[playerid][pFactionEdit] = factionid;
 		Dialog_Show(playerid, EditRanks, DIALOG_STYLE_LIST, FactionData[factionid][factionName], string, "Változtat", "Mégse");
