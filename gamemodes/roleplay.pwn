@@ -15756,12 +15756,64 @@ public OnPlayerDeath(playerid, killerid, reason)
 	    if (1 <= reason <= 46)
 	    {
 			Log_Write("logs/kill_log.txt", "[%s] %s megölte %s (%s).", ReturnDate(), ReturnName(killerid), ReturnName(playerid), ReturnWeaponName(reason));
-            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (indok: %s)", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason));
+
+			static
+			    id;
+
+	        if ((id = House_Inside(playerid)) != -1)
+			{
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%s, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason), HouseData[id][houseAddress]);
+   			}
+	        else if ((id = Business_Inside(playerid)) != -1)
+	        {
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%s, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason), BusinessData[id][bizName]);
+	        }
+	        else if ((id = Entrance_Inside(playerid)) != -1)
+	        {
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%s, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason), EntranceData[id][entranceName]);
+	        }
+	        else
+	        {
+                static
+		            Float:fX,
+		            Float:fY,
+		            Float:fZ;
+
+				GetPlayerPos(playerid, fX, fY, fZ);
+		
+	            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%s, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason), GetLocation(fX, fY, fZ));
+			}
 		}
 		else
 		{
-			Log_Write("logs/kill_log.txt", "[%s] %s megölte %s (indok: %d).", ReturnDate(), ReturnName(killerid), ReturnName(playerid), reason);
-            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (indok: %d)", ReturnName(killerid, 0), ReturnName(playerid, 0), reason);
+			Log_Write("logs/kill_log.txt", "[%s] %s megölte %s (%d).", ReturnDate(), ReturnName(killerid), ReturnName(playerid), reason);
+
+			static
+			    id;
+
+	        if ((id = House_Inside(playerid)) != -1)
+			{
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%i, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), reason, HouseData[id][houseAddress]);
+   			}
+	        else if ((id = Business_Inside(playerid)) != -1)
+	        {
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%i, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), reason, BusinessData[id][bizName]);
+	        }
+	        else if ((id = Entrance_Inside(playerid)) != -1)
+	        {
+			    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%i, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), reason, EntranceData[id][entranceName]);
+	        }
+	        else
+	        {
+                static
+		            Float:fX,
+		            Float:fY,
+		            Float:fZ;
+
+				GetPlayerPos(playerid, fX, fY, fZ);
+
+	            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (%i, %s).", ReturnName(killerid, 0), ReturnName(playerid, 0), reason, GetLocation(fX, fY, fZ));
+			}
 		}
 	}
 	return 1;
