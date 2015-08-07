@@ -400,7 +400,10 @@ enum playerData {
 	pFreeze,
 	pFreezeTimer,
 	Text3D:pNameTag,
-	pSpawnPoint
+	pSpawnPoint,
+	pTempCar,
+	pTempHouse,
+	pTempBiz,
 };
 
 enum reportData {
@@ -7553,7 +7556,7 @@ Business_GetCount(playerid)
 
 	for (new i = 0; i != MAX_BUSINESSES; i ++)
 	{
-		if (BusinessData[i][bizExists] && Business_IsOwner(playerid, i))
+		if (BusinessData[i][bizExists] && Business_IsOwnerEx(playerid, i))
    		{
    		    count++;
 		}
@@ -9688,10 +9691,10 @@ Business_IsOwner(playerid, bizid)
 	if (!PlayerData[playerid][pLogged] || PlayerData[playerid][pID] == -1)
 	    return 0;
 
-	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 99999999 && PlayerData[playerid][pAdmin] > 0)
+	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 99999999 && PlayerData[playerid][pAdmin] > 5)
 		return 1;
 
-	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 0 && PlayerData[playerid][pAdmin] > 0)
+	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 0 && PlayerData[playerid][pAdmin] > 5)
 		return 1;
 
     if ((BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] != 0) && BusinessData[bizid][bizOwner] == PlayerData[playerid][pID])
@@ -9699,6 +9702,19 @@ Business_IsOwner(playerid, bizid)
 
 	return 0;
 }
+
+// This alternative function removes every check related to admins so other functions checking for true ownership don't fail because of admin rights
+Business_IsOwnerEx(playerid, bizid)
+{
+	if (!PlayerData[playerid][pLogged] || PlayerData[playerid][pID] == -1)
+	    return 0;
+
+    if ((BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] != 0) && BusinessData[bizid][bizOwner] == PlayerData[playerid][pID])
+		return 1;
+
+	return 0;
+}
+
 
 forward OpenInventory(playerid);
 public OpenInventory(playerid)
