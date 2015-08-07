@@ -9691,6 +9691,9 @@ Business_IsOwner(playerid, bizid)
 	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 99999999 && PlayerData[playerid][pAdmin] > 0)
 		return 1;
 
+	if (BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] == 0 && PlayerData[playerid][pAdmin] > 0)
+		return 1;
+
     if ((BusinessData[bizid][bizExists] && BusinessData[bizid][bizOwner] != 0) && BusinessData[bizid][bizOwner] == PlayerData[playerid][pID])
 		return 1;
 
