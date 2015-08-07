@@ -15754,18 +15754,15 @@ public OnPlayerDeath(playerid, killerid, reason)
 	if (killerid != INVALID_PLAYER_ID)
 	{
 	    if (1 <= reason <= 46)
+	    {
 			Log_Write("logs/kill_log.txt", "[%s] %s megölte %s (%s).", ReturnDate(), ReturnName(killerid), ReturnName(playerid), ReturnWeaponName(reason));
-
+            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (indok: %s)", ReturnName(killerid, 0), ReturnName(playerid, 0), ReturnWeaponName(reason));
+		}
 		else
+		{
 			Log_Write("logs/kill_log.txt", "[%s] %s megölte %s (indok: %d).", ReturnDate(), ReturnName(killerid), ReturnName(playerid), reason);
-
-		if (reason == 50 && killerid != INVALID_PLAYER_ID)
-		    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t helikillel.", ReturnName(killerid, 0), ReturnName(playerid, 0));
-
-        if (reason == 29 && killerid != INVALID_PLAYER_ID && GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
-		    SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t drive by-al.", ReturnName(killerid, 0), ReturnName(playerid, 0));
-
-        SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t.", ReturnName(killerid, 0), ReturnName(playerid, 0));
+            SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s megölte %s-t (indok: %d)", ReturnName(killerid, 0), ReturnName(playerid, 0), reason);
+		}
 	}
 	return 1;
 }
