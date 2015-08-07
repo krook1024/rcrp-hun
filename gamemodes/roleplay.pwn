@@ -24825,7 +24825,7 @@ Dialog:FactionSkin(playerid, response, listitem, inputtext[])
 		switch (listitem)
 		{
 		    case 0:
-		        Dialog_Show(playerid, FactionModel, DIALOG_STYLE_INPUT, "Hozzáadás ID szerint", "Add meg a skin ID-jét (0-299):", "Hozzáad", "Mégse");
+		        Dialog_Show(playerid, FactionModel, DIALOG_STYLE_INPUT, "Hozzáadás ID szerint", "Add meg a skin ID-jét (0-311):", "Hozzáad", "Mégse");
 
 			case 1:
 			{
@@ -24858,8 +24858,8 @@ Dialog:FactionModel(playerid, response, listitem, inputtext[])
 	    if (isnull(inputtext))
 	        return Dialog_Show(playerid, FactionModel, DIALOG_STYLE_INPUT, "Hozzáadás ID szerint", "Add meg a skin ID-jét (0-299):", "Hozzáad", "Mégse");
 
-		if (skin < 0 || skin > 299)
-		    return Dialog_Show(playerid, FactionModel, DIALOG_STYLE_INPUT, "Hozzáadás ID szerint", "Hiba: A skin ID-nek 0 és 299 között kell lennie.\n\nAdd meg a skin ID-jét (0-299):", "Hozzáad", "Mégse");
+		if (skin < 0 || skin > 311)
+		    return Dialog_Show(playerid, FactionModel, DIALOG_STYLE_INPUT, "Hozzáadás ID szerint", "Hiba: A skin ID-nek 0 és 311 között kell lennie.\n\nAdd meg a skin ID-jét (0-299):", "Hozzáad", "Mégse");
 
         FactionData[PlayerData[playerid][pFactionEdit]][factionSkins][PlayerData[playerid][pSelectedSlot]] = skin;
 		Faction_Save(PlayerData[playerid][pFactionEdit]);
@@ -28812,8 +28812,8 @@ CMD:skin(playerid, params[])
     if (userid == INVALID_PLAYER_ID)
 	    return SendErrorMessage(playerid, "Érvénytelen játékos.");
 
-	if (skinid < 0 || skinid > 299)
-	    return SendErrorMessage(playerid, "Érvénytelen skin ID (0-299).");
+	if (skinid < 0 || skinid > 311)
+	    return SendErrorMessage(playerid, "Érvénytelen skin ID (0-311).");
 
 	SetPlayerSkin(userid, skinid);
 	PlayerData[userid][pSkin] = skinid;
