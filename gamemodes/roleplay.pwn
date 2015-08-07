@@ -15671,7 +15671,7 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 //				if( weaponid > 15 )
 //					CreateBlood(damagedid);
 					
-			    SetTimerEx("HidePlayerBox", 500, false, "dd", damagedid, _:ShowPlayerBox(damagedid, 0xFF000066));
+//			    SetTimerEx("HidePlayerBox", 500, false, "dd", damagedid, _:ShowPlayerBox(damagedid, 0xFF000066));
 			}
 		}
 		if (PlayerData[playerid][pDrugUsed] == 4 && (weaponid >= 0 && weaponid <= 15))
