@@ -22416,7 +22416,10 @@ Dialog:Radio(playerid, response, listitem, inputtext[])
 			case 8:
 			    Dialog_Show(playerid, ElectricRadio, DIALOG_STYLE_LIST, "Elektromos", "ElectricFM.com\n1Dance.fm\nDanceTime.fm", "Kiválaszt", "Mégse");
 
-			case 9:
+   			case 9:
+   			    Dialog_Show(playerid, CustomRadio, DIALOG_STYLE_INPUT, "Egyedi rádió", "Add meg az URL-t, amit le szeretnél játszani.", "Elküld", "Mégse");
+   			    
+			case 10:
 			{
 			    new vehicleid = GetPlayerVehicleID(playerid);
 
@@ -22427,6 +22430,20 @@ Dialog:Radio(playerid, response, listitem, inputtext[])
 				SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s bekapcsolta a jármû rádióját.", ReturnName(playerid, 0));
 			}
 	    }
+	}
+	return 1;
+}
+
+Dialog:CustomRadio(playerid, response, listitem, inputtext[])
+{
+	if (response)
+	{
+	    new vehicleid = GetPlayerVehicleID(playerid);
+
+		if (GetPlayerState(playerid) != PLAYER_STATE_DRIVER || !IsEngineVehicle(vehicleid))
+  			return 0;
+
+		SetVehicleRadio(vehicleid, inputtext);
 	}
 	return 1;
 }
@@ -38673,7 +38690,7 @@ CMD:setradio(playerid, params[])
 	if (!IsEngineVehicle(vehicleid))
 	    return SendErrorMessage(playerid, "Nincs a jármûben rádió.");
 
-	Dialog_Show(playerid, Radio, DIALOG_STYLE_LIST, "Rádió csatornák", "Kultúra\nElmúlt 10 év\nEgyéb\nPop\nRhythm & Blues\nRock\nBeszéd\nUrban\nElektronikus\nKikapcsolás", "Kiválaszt", "Mégse");
+	Dialog_Show(playerid, Radio, DIALOG_STYLE_LIST, "Rádió csatornák", "Kultúra\nElmúlt 10 év\nEgyéb\nPop\nRhythm & Blues\nRock\nBeszéd\nUrban\nElektronikus\nEgyedi\nKikapcsolás", "Kiválaszt", "Mégse");
 	return 1;
 }
 
