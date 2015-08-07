@@ -27856,7 +27856,7 @@ CMD:help(playerid, params[])
 
  		if (GetFactionType(playerid) == FACTION_POLICE) {
  		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /tazer, /cuff, /uncuff, /drag, /detain, /mdc, /arrest, /radio, /dept, /seizeplant.");
- 		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /ticket, /spike, /roadblock, /fingerprint, /impound, /revokeweapon.");
+ 		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /ticket, /spike, /roadblock, /impound, /revokeweapon.");
  		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /take, /kickdoor, /siren, /beanbag /callsign");
 		}
 		else if (GetFactionType(playerid) == FACTION_NEWS) {
@@ -35218,6 +35218,7 @@ CMD:usedrug(playerid, params[])
 	return 1;
 }
 
+/*
 CMD:fingerprint(playerid, params[])
 {
     if (GetFactionType(playerid) != FACTION_POLICE)
@@ -35237,7 +35238,7 @@ CMD:fingerprint(playerid, params[])
 	SendErrorMessage(playerid, "Nincs közelben tárgy.");
 	return 1;
 }
-
+*/
 CMD:createcar(playerid, params[])
 {
 	static
