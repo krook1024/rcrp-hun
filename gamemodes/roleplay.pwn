@@ -86,6 +86,7 @@
 #define FACTION_GOV (4)
 #define FACTION_GANG (5)
 #define FACTION_EMPTY (6)
+#define FACTION_MECHANIC (7)
 
 #define JOB_COURIER (1)
 #define JOB_MECHANIC (2)
@@ -32241,6 +32242,12 @@ CMD:takejob(playerid, params[])
 	    if (PlayerData[playerid][pJob] == JobData[id][jobType])
 	        return SendErrorMessage(playerid, "Már vagy ebbe a munkába.");
 
+		if( (id == 2) || (GetFactionType(playerid) != FACTION_MECHANIC) )
+	        return SendErrorMessage(playerid, "Ezt a munkát csak a szerelõ frakciókban lévõk vehetik fel.");
+
+		if( (id == 9) || (GetFactionType(playerid) != FACTION_GANG) )
+	        return SendErrorMessage(playerid, "Ezt a munkát csak illegális frakciókban lévõk vehetik fel.");
+	        
 	    PlayerData[playerid][pJob] = JobData[id][jobType];
 
 	    return SendServerMessage(playerid, "Mostmár egy %s vagy. Használd a \"/jobcmds\" parancsot a parancsokért.", Job_GetName(JobData[id][jobType]));
