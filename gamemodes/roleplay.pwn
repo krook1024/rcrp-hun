@@ -7553,6 +7553,22 @@ House_GetCount(playerid)
 	return count;
 }
 
+// This alternative function ignores houses in interiors so that apartment complex owners can buy multiple apartments in their complexes
+House_GetCountEx(playerid)
+{
+	new
+		count = 0;
+
+	for (new i = 0; i != MAX_HOUSES; i ++)
+	{
+		if (HouseData[i][houseExists] && House_IsOwner(playerid, i) && HouseData[i][houseInterior] == 0 )
+		{
+			count++;
+		}
+	}
+	return count;
+}
+
 Business_GetCount(playerid)
 {
 	new
@@ -30080,7 +30096,7 @@ CMD:buy(playerid, params[])
 	}
 	else if ((id = Business_Nearest(playerid)) != -1)
 	{
-	    if (Business_GetCount(playerid) >= MAX_OWNABLE_BUSINESSES)
+	    if (Business_GetCountEx(playerid) >= MAX_OWNABLE_BUSINESSES)
 			return SendErrorMessage(playerid, "Egyszerre csak %d üzleted lehet.", MAX_OWNABLE_BUSINESSES);
 
 		if (BusinessData[id][bizOwner] != 0)
