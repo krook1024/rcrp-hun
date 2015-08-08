@@ -1736,6 +1736,7 @@ stock ViewBillboards(playerid)
 	mysql_tquery(g_iHandle, string, "OnViewBillboards", "d", playerid);
 	return 1;
 }
+
 stock ViewFactions(playerid)
 {
 	new string[1040];
@@ -1745,6 +1746,7 @@ stock ViewFactions(playerid)
 	Dialog_Show(playerid, FactionsList, DIALOG_STYLE_MSGBOX, "Frakciólista", string, "Bezár", "");
 	return 1;
 }
+
 stock SQL_ReturnEscaped(const string[])
 {
 	new
@@ -28315,7 +28317,7 @@ CMD:ahelp(playerid, params[])
 	    SendClientMessage(playerid, COLOR_YELLOW, "[LEVEL 3]:{FFFFFF} /atune, /acolorcar, /apaintjob, /afire, /akillfire, /adestroybox.");
 	}
 	if (PlayerData[playerid][pAdmin] >= 4) {
-        SendClientMessage(playerid, COLOR_YELLOW, "[LEVEL 4]:{FFFFFF} /givewep, /settester, /baninfo, /setname, /asetfaction, /asetrank, /setitem.");
+        SendClientMessage(playerid, COLOR_YELLOW, "[LEVEL 4]:{FFFFFF} /settester, /baninfo, /setname, /asetfaction, /asetrank, /setitem.");
         SendClientMessage(playerid, COLOR_YELLOW, "[LEVEL 4]:{FFFFFF} /asellhouse, /asellbiz, /jetpack, /setweather, /setfuel, /setcarhp, /spawnitem.");
         SendClientMessage(playerid, COLOR_YELLOW, "[LEVEL 4]:{FFFFFF} /setquantity, /destroyitem, /setplayer, /setleader, /setinventory, /givecar.");
 	}
