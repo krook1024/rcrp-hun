@@ -18,7 +18,7 @@
 
 #define SERVER_NAME 	 "Red County Roleplay"
 #define SERVER_URL 		 "rc-rp.gq"
-#define SERVER_REVISION  "RC-RP 1.02"
+#define SERVER_REVISION  "RC-RP 1.03"
 #define SERVER_CITY 	 (1) // (1) Los Santos, (2) San Fierro, (3) Las Venturas
 
 #define COLOR_CLIENT      (0xAAC4E5FF)
