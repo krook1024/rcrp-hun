@@ -21352,9 +21352,9 @@ public OnPlayerText(playerid, text[])
 			else SendNearbyMessage(playerid, 20.0, COLOR_WHITE, "(Telefon) %s mondja: %s", ReturnName(playerid, 0), text);
 
 			if (!IsPlayerInAnyVehicle(playerid) && !PlayerData[playerid][pInjured] && !PlayerData[playerid][pLoopAnim]) {
-				ApplyAnimation(playerid, "GANGS", "prtial_gngtlkA", 4.1, 0, 1, 1, 1, strlen(text) * 100, 1);
+				//ApplyAnimation(playerid, "GANGS", "prtial_gngtlkA", 4.1, 0, 1, 1, 1, strlen(text) * 100, 1);
 
-				SetTimerEx("StopChatting", strlen(text) * 100, false, "d", playerid);
+				//SetTimerEx("StopChatting", strlen(text) * 100, false, "d", playerid);
 			}
 		}
 		switch (PlayerData[playerid][pEmergency])
