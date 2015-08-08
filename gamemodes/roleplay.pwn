@@ -15991,7 +15991,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		    PlayerData[playerid][pMineTime] = 1;
 		    SetTimerEx("MineTime", 400, false, "d", playerid);
 
-		    if (PlayerData[playerid][pMineCount] < 5)
+		    if (PlayerData[playerid][pMineCount] < 15)
 	    	{
 	    	    PlayerData[playerid][pMineCount]++;
 
