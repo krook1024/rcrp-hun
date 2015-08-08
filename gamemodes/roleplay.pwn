@@ -6834,6 +6834,9 @@ public Car_Load()
 	    CarData[i][carImpounded] = cache_get_field_int(i, "carImpounded");
 	    CarData[i][carImpoundPrice] = cache_get_field_int(i, "carImpoundPrice");
         CarData[i][carFaction] = cache_get_field_int(i, "carFaction");
+        
+		printf("carFaction(%i): %i", i, CarData[i][carFaction] );
+		
         CarData[i][carJob] = cache_get_field_int(i, "carJob");
 
 		for (new j = 0; j < 14; j ++)
@@ -27923,6 +27926,7 @@ CMD:lastlogged(playerid, params[])
 CMD:engine(playerid, params[])
 {
 	new vehicleid = GetPlayerVehicleID(playerid);
+	new id = Car_GetID(vehicleid);
 
 	if (!IsEngineVehicle(vehicleid))
 		return SendErrorMessage(playerid, "Nem vagy jármûben.");
@@ -27936,9 +27940,9 @@ CMD:engine(playerid, params[])
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
 
-	if( Car_IsOwner(playerid, vehicleid) ||
+	if( Car_IsOwner(playerid, id) ||
 		PlayerData[playerid][pTempCar] == vehicleid ||
-		(PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == PlayerData[playerid][pFaction]) ||
+		(PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == PlayerData[playerid][pFaction]) ||
 		(CoreVehicles[vehicleid][vehTemporary] && PlayerData[playerid][pAdmin] >= 3) ||
  		(CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] > 0 && PlayerData[playerid][pJob] == CarData[vehicleid][carJob])
 	   ) {
@@ -33058,7 +33062,7 @@ CMD:open(playerid, params[])
 		}
 		else
 		{
-		    if (GateData[id][gateFaction] != -1 && PlayerData[playerid][pFaction] != GetFactionByID(GateData[id][gateFaction]))
+		    if (GateData[id][gateFaction] != -1 && PlayerData[playerid][pFaction] != GateData[id][gateFaction])
 				return SendErrorMessage(playerid, "Ezt nem nyithatod ki.");
 
 			Gate_Operate(id);
@@ -36100,6 +36104,7 @@ CMD:editcar(playerid, params[])
 {
 	static
 	    id,
+		id2,
 	    type[24],
 	    string[128];
 
@@ -36115,12 +36120,13 @@ CMD:editcar(playerid, params[])
 	if (!IsValidVehicle(id) || Car_GetID(id) == -1)
 	    return SendErrorMessage(playerid, "Érvénytelen jármû ID.");
 
+	id2 = id;
 	id = Car_GetID(id);
 
 	if (!strcmp(type, "location", true))
 	{
  		GetPlayerPos(playerid, CarData[id][carPos][0], CarData[id][carPos][1], CarData[id][carPos][2]);
-		GetPlayerFacingAngle(playerid, CarData[id][carPos][3]);
+		GetVehicleZAngle(id2, CarData[id][carPos][3]);
 
 		Car_Save(id);
 		Car_Spawn(id);
