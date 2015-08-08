@@ -4463,7 +4463,7 @@ Location_Delete(playerid, name[])
 	return 0;
 }
 
-stock SetPlayerPosEx(playerid, Float:x, Float:y, Float:z, time = 2000)
+stock SetPlayerPosEx(playerid, Float:x, Float:y, Float:z, time = 3000)
 {
 	if (PlayerData[playerid][pFreeze])
 	{
@@ -16442,7 +16442,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		}
 		for (new i = 0; i < sizeof(arrHospitalSpawns); i ++) if (IsPlayerInRangeOfPoint(playerid, 3.0, arrHospitalSpawns[i][0], arrHospitalSpawns[i][1], arrHospitalSpawns[i][2]))
 		{
-			SetPlayerPos(playerid, -204.5648, -1736.1201, 675.7687);
+			SetPlayerPosEx(playerid, -204.5648, -1736.1201, 675.7687);
 			SetPlayerFacingAngle(playerid, 180.0000);
 
 			SetPlayerInterior(playerid, 3);
