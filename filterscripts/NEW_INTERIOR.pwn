@@ -1,7 +1,7 @@
 #include <a_samp>
 #include <streamer>
 
-public OnGameModeInit()
+public OnFilterScriptInit()
 {
 	CreateDynamicObject(19458, 485.57327, 638.14124, 1020.20831,   0.00000, 90.00000, 352.35001);
 	CreateDynamicObject(19458, 482.11316, 638.60437, 1020.20831,   0.00000, 90.00000, 352.35001);
