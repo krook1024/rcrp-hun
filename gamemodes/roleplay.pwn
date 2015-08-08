@@ -18,7 +18,7 @@
 
 #define SERVER_NAME 	 "Red County Roleplay"
 #define SERVER_URL 		 "rc-rp.gq"
-#define SERVER_REVISION  "RC-RP 1.01"
+#define SERVER_REVISION  "RC-RP 1.02"
 #define SERVER_CITY 	 (1) // (1) Los Santos, (2) San Fierro, (3) Las Venturas
 
 #define COLOR_CLIENT      (0xAAC4E5FF)
@@ -234,6 +234,7 @@ enum playerData {
 	pHouseSeller,
 	pHouseOffered,
 	pHouseValue,
+	pFactionPayDay,
 	pBusinessSeller,
 	pBusinessOffered,
 	pBusinessValue,
@@ -642,6 +643,7 @@ enum factionData {
 	factionColor,
 	factionType,
 	factionRanks,
+	factionPayDay,
 	Float:factionLockerPos[3],
 	factionLockerInt,
 	factionLockerWorld,
@@ -1744,6 +1746,61 @@ stock ViewFactions(playerid)
  		format(string, sizeof(string), "%s{FFFFFF}Frakció ({FFBF00}%i{FFFFFF}) | %s\n", string, i, FactionData[i][factionName]);
 	}
 	Dialog_Show(playerid, FactionsList, DIALOG_STYLE_MSGBOX, "Frakciólista", string, "Bezár", "");
+	return 1;
+}
+
+stock FactionPayDay(playerid)
+{
+	if (GetFactionType(playerid) != FACTION_GOV)
+	    return SendErrorMessage(playerid, "Nem vagy a kormány tagja.");
+
+	new string[1040];
+	for (new i = 0; i != MAX_FACTIONS; i ++) if (FactionData[i][factionExists]) {
+ 		format(string, sizeof(string), "%s{FFFFFF}Frakció ({FFBF00}%i{FFFFFF}) | %s\n", string, i, FactionData[i][factionName]);
+	}
+	Dialog_Show(playerid, FactionPayDay2, DIALOG_STYLE_LIST, "Frakciólista", string, "Bezár", "");
+	return 1;
+}
+
+Dialog:FactionPayDay2(playerid, response, listitem, inputtext[])
+{
+	if (GetFactionType(playerid) != FACTION_GOV)
+	    return 0;
+
+   	PlayerData[playerid][pFactionPayDay] = listitem;
+
+	Dialog_Show(playerid, FactionPayDay2, DIALOG_STYLE_INPUT, "Frakciófizetés", "Frakció neve: %s\n\nAdd meg, mennyit kapjanak a tagok óránként:", "OK", "", FactionData[listitem][factionName]);
+	return 1;
+}
+
+Dialog:FactionPayDay3(playerid, response, listitem, inputtext[])
+{
+	if (GetFactionType(playerid) != FACTION_GOV)
+	    return 0;
+
+	if (response)
+	{
+	    new amount = strval(inputtext);
+
+	    if (isnull(inputtext))
+	    {
+			SendErrorMessage( playerid, "Érvénytelen adat.");
+			return FactionPayDay(playerid);
+		}
+
+		if (amount < 1 || amount > PlayerData[playerid][pBankMoney])
+		{
+			SendErrorMessage( playerid, "Érvénytelen szám.");
+	        return FactionPayDay(playerid);
+		}
+		
+		FactionData[playerid][factionPayDay] = amount;
+		SendServerMessage(playerid, "Átállítottad a(z) %s frakció fizetését erre: %i.", FactionData[PlayerData[playerid][pFactionPayDay]][factionName], FormatNumber(amount));
+		PlayerData[playerid][pFactionPayDay] = -1;
+	}
+	else {
+	    return FactionPayDay(playerid);
+	}
 	return 1;
 }
 
@@ -6424,6 +6481,7 @@ public Faction_Load()
 	    FactionData[i][factionColor] = cache_get_field_int(i, "factionColor");
 	    FactionData[i][factionType] = cache_get_field_int(i, "factionType");
 	    FactionData[i][factionRanks] = cache_get_field_int(i, "factionRanks");
+	    FactionData[i][factionPayDay] = cache_get_field_int(i, "factionPayDay");
 	    FactionData[i][factionLockerPos][0] = cache_get_field_float(i, "factionLockerX");
 	    FactionData[i][factionLockerPos][1] = cache_get_field_float(i, "factionLockerY");
 	    FactionData[i][factionLockerPos][2] = cache_get_field_float(i, "factionLockerZ");
@@ -7733,11 +7791,12 @@ Faction_Save(factionid)
 	static
 	    query[2048];
 
-	format(query, sizeof(query), "UPDATE `factions` SET `factionName` = '%s', `factionColor` = '%d', `factionType` = '%d', `factionRanks` = '%d', `factionLockerX` = '%.4f', `factionLockerY` = '%.4f', `factionLockerZ` = '%.4f', `factionLockerInt` = '%d', `factionLockerWorld` = '%d', `SpawnX` = '%f', `SpawnY` = '%f', `SpawnZ` = '%f', `SpawnInterior` = '%d', `SpawnVW` = '%d'",
+	format(query, sizeof(query), "UPDATE `factions` SET `factionName` = '%s', `factionColor` = '%d', `factionType` = '%d', `factionRanks` = '%d', `factionPayDay` = '%d', `factionLockerX` = '%.4f', `factionLockerY` = '%.4f', `factionLockerZ` = '%.4f', `factionLockerInt` = '%d', `factionLockerWorld` = '%d', `SpawnX` = '%f', `SpawnY` = '%f', `SpawnZ` = '%f', `SpawnInterior` = '%d', `SpawnVW` = '%d'",
 		SQL_ReturnEscaped(FactionData[factionid][factionName]),
 		FactionData[factionid][factionColor],
 		FactionData[factionid][factionType],
 		FactionData[factionid][factionRanks],
+		FactionData[factionid][factionPayDay],
 		FactionData[factionid][factionLockerPos][0],
 		FactionData[factionid][factionLockerPos][1],
 		FactionData[factionid][factionLockerPos][2],
@@ -12663,6 +12722,7 @@ ResetStatistics(playerid)
 	PlayerData[playerid][pRefill] = INVALID_VEHICLE_ID;
 	PlayerData[playerid][pRefillPrice] = 0;
 	PlayerData[playerid][pHouseSeller] = INVALID_PLAYER_ID;
+	PlayerData[playerid][pFactionPayDay] = -1;
 	PlayerData[playerid][pHouseOffered] = -1;
 	PlayerData[playerid][pHouseValue] = 0;
 	PlayerData[playerid][pBusinessSeller] = INVALID_PLAYER_ID;
@@ -14591,6 +14651,11 @@ public MinuteCheck()
         if (PlayerData[i][pMinutes] >= 60)
        	{
        	    new paycheck = random(100) + 100;
+       	    
+           	new factionid = PlayerData[i][pFaction];
+		 	if (factionid != -1)
+		 	    paycheck += FactionData[i][factionPayDay];
+
 
         	PlayerData[i][pMinutes] = 0;
 
