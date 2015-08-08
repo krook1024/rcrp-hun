@@ -35989,6 +35989,34 @@ CMD:listcars(playerid, params[])
 	return 1;
 }
 
+CMD:grantweapon(playerid, params[])
+{
+	new userid;
+
+	if (GetFactionType(playerid) != FACTION_POLICE && GetFactionType(playerid) != FACTION_GOV)
+	    return SendErrorMessage(playerid, "Rendõrnek vagy kormányzati tagnak kell lenned.");
+
+	if (sscanf(params, "u", userid))
+	    return SendSyntaxMessage(playerid, "/grantweapon [playerid/név]");
+
+	if (userid == INVALID_PLAYER_ID || !IsPlayerNearPlayer(playerid, userid, 5.0))
+	    return SendErrorMessage(playerid, "A játékos nincs csatlakozva, vagy nincs a közeledben.");
+
+	if (PlayerData[playerid][pFactionRank] < FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1)
+	    return SendErrorMessage(playerid, "Nem vagy legalább %d-es rangú.", FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1);
+	    
+	if (Inventory_HasItem(userid, "Fegyverengedély"))
+	    return SendErrorMessage(playerid, "Már van fegyverengedélyed.");
+
+	Inventory_Add(userid, "Fegyverengedély", 1581);
+
+	SendServerMessage(playerid, "Adtál %s-nak egy fegyverengedélyt.", ReturnName(userid, 0));
+	SendServerMessage(userid, "%s adott egy fegyverengedélyt.", ReturnName(playerid, 0));
+
+	SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s adott %s-nak egy fegyverengedélyt.", ReturnName(playerid, 0), ReturnName(userid, 0));
+	return 1;
+}
+
 CMD:revokeweapon(playerid, params[])
 {
 	new userid;
