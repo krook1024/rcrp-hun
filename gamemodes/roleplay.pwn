@@ -35421,8 +35421,6 @@ CMD:setitem(playerid, params[])
 	{
 	    for (new i = 0; i < sizeof(g_aFurnitureData); i ++) if (!strcmp(g_aFurnitureData[i][e_FurnitureName], item, true))
 		{
-	        Inventory_Set(userid, g_aFurnitureData[i][e_FurnitureName], g_aFurnitureData[i][e_FurnitureModel], amount);
-
 			SendServerMessage(playerid, "Átállítottad %s \"%s\"-jeinek mennyiségét erre: %d.", ReturnName(userid, 0), item, amount);
 			return 1;
 		}
@@ -35431,10 +35429,12 @@ CMD:setitem(playerid, params[])
 	{
 	    if (!strcmp(item, "Mobiltelefon", true)) {
 	        PlayerData[userid][pPhone] = random(90000) + 10000;
-	    }
-        Inventory_Set(userid, g_aInventoryItems[i][e_InventoryItem], g_aInventoryItems[i][e_InventoryModel], amount);
-
-		return SendServerMessage(playerid, "Átállítottad %s \"%s\"-jeinek mennyiségét erre: to %d.", ReturnName(userid, 0), item, amount);
+	   }
+	    if (i < 7 || i > 20)
+	    {
+			Inventory_Set(userid, g_aInventoryItems[i][e_InventoryItem], g_aInventoryItems[i][e_InventoryModel], amount);
+			return SendServerMessage(playerid, "Átállítottad %s \"%s\"-jeinek mennyiségét erre: to %d.", ReturnName(userid, 0), item, amount);
+		}else return SendErrorMessage(playerid, "Nononono krook no fegyver addolás here;)");
 	}
 	SendErrorMessage(playerid, "Invalid item name (use /itemlist for a list).");
 	return 1;
