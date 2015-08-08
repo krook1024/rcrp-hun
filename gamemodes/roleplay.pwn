@@ -37426,7 +37426,7 @@ CMD:boombox(playerid, params[])
 
 		Boombox_Place(playerid);
 
-		SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvesz egy zenelejátszót és letezi.", ReturnName(playerid, 0));
+		SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvesz egy zenelejátszót és leteszi.", ReturnName(playerid, 0));
 		SendServerMessage(playerid, "Letettél egy zenelejtászót (/boombox).");
 	}
 	else if (!strcmp(type, "pickup", true))
