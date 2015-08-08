@@ -1758,7 +1758,7 @@ stock FactionPayDay(playerid)
 	for (new i = 0; i != MAX_FACTIONS; i ++) if (FactionData[i][factionExists]) {
  		format(string, sizeof(string), "%s{FFFFFF}Frakció ({FFBF00}%i{FFFFFF}) | %s\n", string, i, FactionData[i][factionName]);
 	}
-	Dialog_Show(playerid, FactionPayDay2, DIALOG_STYLE_LIST, "Frakciólista", string, "Bezár", "");
+	Dialog_Show(playerid, FactionPayDay2, DIALOG_STYLE_LIST, "Frakciólista", string, "OK", "Mégse");
 	return 1;
 }
 
@@ -1767,12 +1767,15 @@ Dialog:FactionPayDay2(playerid, response, listitem, inputtext[])
 	if (GetFactionType(playerid) != FACTION_GOV)
 	    return 0;
 
-	if (GetFactionType(listitem) == FACTION_GANG)
-	    return SendErrorMessage( playerid, "Illegális frakcióhoz nem mûködik.");
+	if( !response )
+	{
+		if (GetFactionType(listitem) == FACTION_GANG)
+		    return SendErrorMessage( playerid, "Illegális frakcióhoz nem mûködik.");
 
-   	PlayerData[playerid][pFactionPayDay] = listitem;
+	   	PlayerData[playerid][pFactionPayDay] = listitem;
 
-	Dialog_Show(playerid, FactionPayDay3, DIALOG_STYLE_INPUT, "Frakciófizetés", "Frakció neve: %s\n\nAdd meg, mennyit kapjanak a tagok óránként:", "OK", "", FactionData[listitem][factionName]);
+		Dialog_Show(playerid, FactionPayDay3, DIALOG_STYLE_INPUT, "Frakciófizetés", "Frakció neve: %s\n\nAdd meg, mennyit kapjanak a tagok óránként:", "OK", "", FactionData[listitem][factionName]);
+	}
 	return 1;
 }
 
@@ -1798,7 +1801,7 @@ Dialog:FactionPayDay3(playerid, response, listitem, inputtext[])
 		}
 		
 		FactionData[playerid][factionPayDay] = amount;
-		SendServerMessage(playerid, "Átállítottad a(z) %s frakció fizetését erre: %i.", FactionData[PlayerData[playerid][pFactionPayDay]][factionName], FormatNumber(amount));
+		SendServerMessage(playerid, "Átállítottad a(z) %s frakció fizetését erre: %s.", FactionData[PlayerData[playerid][pFactionPayDay]][factionName], FormatNumber(amount));
 		PlayerData[playerid][pFactionPayDay] = -1;
 	}
 	else {
