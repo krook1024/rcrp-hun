@@ -14,11 +14,7 @@
 #include <sscanf2>
 #include <streamer>
 #include <zcmd>
-
-#define SQL_HOSTNAME "127.0.0.1"
-#define SQL_USERNAME "15_rcrp_server"
-#define SQL_DATABASE "15_rcrp_server"
-#define SQL_PASSWORD "I1tw&E7-"
+#include <sqlConnect>
 
 #define SERVER_NAME 	 "Red County Roleplay"
 #define SERVER_URL 		 "rc-rp.gq"
