@@ -265,6 +265,7 @@ enum playerData {
 	pCookingTime,
 	pCookingHouse,
 	pPlayingHours,
+	pLastJobJoin,
 	pMinutes,
 	Float:pArmorStatus,
 	pArmorShown,
@@ -16590,7 +16591,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 	}
 	new id = Car_GetID(vehicleid);
 
-	if (!ispassenger && id != -1 && ((CarData[id][carFaction] > 0 && GetFactionType(playerid) != CarData[id][carFaction]) || (CarData[id][carJob] > 0 && PlayerData[playerid][pJob] != CarData[id][carJob])))
+	if (!ispassenger && id != -1 && ((CarData[id][carFaction] > 0 && PlayerData[playerid][pFaction] != CarData[id][carFaction]) || (CarData[id][carJob] > 0 && PlayerData[playerid][pJob] != CarData[id][carJob])))
 	{
 	    ClearAnimations(playerid);
 	    return SendErrorMessage(playerid, "Nincsen kulcsod ehhez a jármûhöz.");
@@ -16943,7 +16944,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 	{
 	    new id = Car_GetID(vehicleid);
 
-		if (id != -1 && ((CarData[id][carFaction] > 0 && GetFactionType(playerid) != CarData[id][carFaction]) || (CarData[id][carJob] > 0 && PlayerData[playerid][pJob] != CarData[id][carJob])) ) {
+		if (id != -1 && ((CarData[id][carFaction] > 0 && PlayerData[playerid][pFaction] != CarData[id][carFaction]) || (CarData[id][carJob] > 0 && PlayerData[playerid][pJob] != CarData[id][carJob])) ) {
 		    RemovePlayerFromVehicle(playerid);
 
 	    	return SendErrorMessage(playerid, "Nincs kulcsod a jármûhöz.");
@@ -36157,7 +36158,7 @@ CMD:editcar(playerid, params[])
 		if (typeint < 0 || typeint > 9)
 		    return SendErrorMessage(playerid, "Hibás érték (1-9).");
 
-		CarData[id][carFaction] = typeint;
+		CarData[id][carJob] = typeint;
 
 		Car_Save(id);
 		SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s beállította egy jármû munka típusát. ID: %d Típus: %d.", ReturnName(playerid, 0), CarData[id][carVehicle], typeint);
