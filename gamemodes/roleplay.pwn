@@ -15196,7 +15196,7 @@ public PlayerCheck()
 		{
 		    GetPlayerHealth(i, health);
 
-		    if (++ PlayerData[i][pHungerTime] >= 300)
+		    if (++ PlayerData[i][pHungerTime] >= 600)
 			{
 				if (PlayerData[i][pHunger] > 0)
 				{
@@ -15209,7 +15209,7 @@ public PlayerCheck()
         		}
         		PlayerData[i][pHungerTime] = 0;
         	}
-	        if (++ PlayerData[i][pThirstTime] >= 280)
+	        if (++ PlayerData[i][pThirstTime] >= 560)
 			{
 				if (PlayerData[i][pThirst] > 0)
 				{
