@@ -17612,7 +17612,7 @@ public OnGameModeInit()
 	TextDrawSetProportional(gServerTextdraws[0], 1);
 	TextDrawSetSelectable(gServerTextdraws[0], 0);
 
-	gServerTextdraws[1] = TextDrawCreate(500.000000, 6.000000, "~r~Red ~w~County ~y~Roleplay");
+	gServerTextdraws[1] = TextDrawCreate(500.000000, 6.000000, "~r~Red ~w~County ~g~Roleplay");
 	TextDrawBackgroundColor(gServerTextdraws[1], 255);
 	TextDrawFont(gServerTextdraws[1], 1);
 	TextDrawLetterSize(gServerTextdraws[1], 0.260000, 1.200000);
