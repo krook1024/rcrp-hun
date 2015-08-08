@@ -9496,13 +9496,13 @@ Business_Refresh(bizid)
 			BusinessData[bizid][bizText3D] = CreateDynamic3DTextLabel(string, (BusinessData[bizid][bizLocked]) ? (COLOR_LIGHTRED) : (COLOR_WHITE), BusinessData[bizid][bizPos][0], BusinessData[bizid][bizPos][1], BusinessData[bizid][bizPos][2], 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, BusinessData[bizid][bizExteriorVW], BusinessData[bizid][bizExterior]);
 		}
 		switch (BusinessData[bizid][bizType]) {
-		    case 1: pickup = 1272;
-		    case 2: pickup = 348;
-		    case 3: pickup = 1275;
-		    case 4: pickup = 19094;
-		    case 5: pickup = 1274;
-		    case 6: pickup = 1650;
-		    case 7: pickup = 2096;
+		    case 1: pickup = 1239;
+		    case 2: pickup = 1239;
+		    case 3: pickup = 1239;
+		    case 4: pickup = 1239;
+		    case 5: pickup = 1239;
+		    case 6: pickup = 1239;
+		    case 7: pickup = 1239;
 		}
 		if (BusinessData[bizid][bizType] == 6) {
         	BusinessData[bizid][bizPickup] = CreateDynamicPickup(pickup, 23, BusinessData[bizid][bizPos][0], BusinessData[bizid][bizPos][1], BusinessData[bizid][bizPos][2] + 0.3, BusinessData[bizid][bizExteriorVW], BusinessData[bizid][bizExterior]);
