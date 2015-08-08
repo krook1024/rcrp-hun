@@ -27907,7 +27907,7 @@ CMD:help(playerid, params[])
 
     if (PlayerData[playerid][pTester] > 0)
 	{
-	    SendClientMessage(playerid, COLOR_CLIENT, "TESZTER:{FFFFFF} /t, /sduty, /ah, /dh, /kick");
+	    SendClientMessage(playerid, COLOR_CLIENT, "TESZTER:{FFFFFF} /t, /tduty, /ah, /dh, /kick");
 	}
 	if (PlayerData[playerid][pAdmin] > 0)
 	{
@@ -38420,7 +38420,7 @@ CMD:tduty(playerid, params[])
 		SetPlayerColor(playerid, 0xFF634700);
 
 		PlayerData[playerid][pTesterDuty] = 1;
-		//SendClientMessageToAllEx(COLOR_LIGHTRED, "** %s is now on duty as a tester (/seekhelp for help).", ReturnName(playerid, 0));
+		SendServerMessage(playerid, "Teszter szolgálatba léptél.");
 	}
 	else
 	{
