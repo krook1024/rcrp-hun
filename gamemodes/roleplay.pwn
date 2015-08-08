@@ -29162,7 +29162,7 @@ CMD:goto(playerid, params[])
 		    SetPlayerInterior(playerid, JobData[id][jobInterior]);
 
 			SetPlayerVirtualWorld(playerid, JobData[id][jobWorld]);
-		    SendServerMessage(playerid, "Elteleportáltál az %d ID-jû üzlethez.", id);
+		    SendServerMessage(playerid, "Elteleportáltál az %d ID-jû munkához.", id);
 		    return 1;
 		}
 		else if (!strcmp(type, "gate", true))
