@@ -14656,7 +14656,7 @@ public MinuteCheck()
 
         if (PlayerData[i][pMinutes] >= 60)
        	{
-       	    new paycheck = random(100) + 100;
+       	    new paycheck = random(300) + 100;
        	    
            	new factionid = PlayerData[i][pFaction];
 		 	if (factionid != -1)
