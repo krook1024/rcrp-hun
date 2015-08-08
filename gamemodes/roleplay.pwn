@@ -12621,7 +12621,7 @@ ResetStatistics(playerid)
     PlayerData[playerid][pHospitalInt] = -1;
     PlayerData[playerid][pHospitalTime] = 0;
     PlayerData[playerid][pRepairTime] = 0;
-    PlayerData[playerid][pMoney] = 250;
+    PlayerData[playerid][pMoney] = 2500;
     PlayerData[playerid][pBankMoney] = 250;
     PlayerData[playerid][pSpawnPoint] = 0;
     PlayerData[playerid][pSavings] = 0;
@@ -16296,6 +16296,15 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		        SendClientMessage(playerid, -1, "");
 			}
 		    SetDefaultSpawn(playerid);
+		    
+	        PlayerData[playerid][pTutorialStage] = 0;
+
+		    PlayerData[playerid][pCreated] = 1;
+		    PlayerData[playerid][pTask] = 1;
+
+	  		PlayerData[playerid][pTutorial] = 0;
+			PlayerData[playerid][pTutorialTime] = 0;
+		
 		    //Dialog_Show(playerid, TutorialConfirm, DIALOG_STYLE_MSGBOX, "Tutorial", "Szeretnéd megnézni a szerver tutorialját?", "Igen", "Nem");
 		}
 		if (IsPlayerInRangeOfPoint(playerid, 2.5, -204.5334, -1735.3131, 675.7687) && PlayerData[playerid][pHospitalInt] != -1)
@@ -16825,7 +16834,7 @@ public OnPlayerEnterCheckpoint(playerid)
 		}
 		else if (PlayerData[playerid][pJob] == JOB_MINER && PlayerData[playerid][pMinedRock] && GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CARRY)
 		{
-		    new money = random(20) + 5;
+		    new money = random(30) + 20;
 
 			SendServerMessage(playerid, "Kaptál $%d-t a kõért.", money);
 			GiveMoney(playerid, money);
