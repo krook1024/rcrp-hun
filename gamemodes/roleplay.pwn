@@ -1678,7 +1678,7 @@ SQL_Connect() {
 	g_iHandle = mysql_connect(SQL_HOSTNAME, SQL_USERNAME, SQL_DATABASE, SQL_PASSWORD);
 
 	if (mysql_errno(g_iHandle) != 0) {
-	    printf("[SQL] Kapcsolodas a \"%s\" hoszthoz sikertelen...\a", SQL_HOSTNAME);
+	    printf("[SQL] Kapcsolodas a \"%s\" hoszthoz, \"%s\" felhasználóval és \"%s\" jelszóval sikertelen...\a", SQL_HOSTNAME, SQL_USERNAME, SQL_PASSWORD);
 	}
 	else {
 		printf("[SQL] Kapcsolodas a \"%s\" hoszthoz sikeres!", SQL_HOSTNAME);
@@ -1767,9 +1767,12 @@ Dialog:FactionPayDay2(playerid, response, listitem, inputtext[])
 	if (GetFactionType(playerid) != FACTION_GOV)
 	    return 0;
 
+	if (GetFactionType(listitem) != FACTION_GANG)
+	    return SendErrorMessage( playerid, "Illegális frakcióhoz nem mûködik.");
+
    	PlayerData[playerid][pFactionPayDay] = listitem;
 
-	Dialog_Show(playerid, FactionPayDay2, DIALOG_STYLE_INPUT, "Frakciófizetés", "Frakció neve: %s\n\nAdd meg, mennyit kapjanak a tagok óránként:", "OK", "", FactionData[listitem][factionName]);
+	Dialog_Show(playerid, FactionPayDay3, DIALOG_STYLE_INPUT, "Frakciófizetés", "Frakció neve: %s\n\nAdd meg, mennyit kapjanak a tagok óránként:", "OK", "", FactionData[listitem][factionName]);
 	return 1;
 }
 
@@ -27966,7 +27969,7 @@ CMD:help(playerid, params[])
  		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /radio, /dept, /bandage, /loadinjured, /dropinjured.");
 		}
 		else if (GetFactionType(playerid) == FACTION_GOV) {
- 		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /radio, /dept, /twithdraw, /tdeposit.");
+ 		    SendClientMessage(playerid, COLOR_CLIENT, "FRAKCIÓ:{FFFFFF} /radio, /dept, /twithdraw, /tdeposit /factionpayday.");
 		}
 	}
 	SendClientMessage(playerid, COLOR_CLIENT, "JÁRMÛ:{FFFFFF} /park, /lock, /abandon, /refuel, /unmod, /trunk, /listcars, /engine, /lights, /hood, /tow.");
@@ -33724,6 +33727,18 @@ CMD:fspawn(playerid, params[])
 	FactionData[faction][SpawnInterior] = GetPlayerInterior(playerid);
 	FactionData[faction][SpawnVW] = GetPlayerVirtualWorld(playerid);
 	Faction_Save(faction);
+	return 1;
+}
+
+CMD:factionpayday(playerid, params[])
+{
+    if (GetFactionType(playerid) != FACTION_GOV)
+		return SendErrorMessage(playerid, "Nem vagy kormánytag.");
+
+	if (PlayerData[playerid][pFactionRank] < FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1)
+	    return SendErrorMessage(playerid, "Nem vagy legalább %d-es rangú.", FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1);
+
+    FactionPayDay(playerid);
 	return 1;
 }
 
