@@ -12877,7 +12877,7 @@ ResetStatistics(playerid)
     PlayerData[playerid][pNameTag] = Text3D:INVALID_3DTEXT_ID;
 	PlayerData[playerid][pTempHouse] = -1;
 	PlayerData[playerid][pTempBiz] = -1;
-	PlayerData[playerid][pPMEnable] = -1;
+	PlayerData[playerid][pPMEnable] = 0;
 	PlayerData[playerid][pTempCar] = -1;
     ResetWarnings(playerid);
 }
@@ -13632,7 +13632,7 @@ public OnQueryFinished(extraid, threadid)
 
 					PlayerData[extraid][pTempHouse] = -1;
 					PlayerData[extraid][pTempBiz] = -1;
-					PlayerData[extraid][pPMEnable] = -1;
+					PlayerData[extraid][pPMEnable] = 0;
 					PlayerData[extraid][pTempCar] = -1;
 
 					cache_get_field_content(0, "Warn1", PlayerData[extraid][pWarn1], g_iHandle, 32);
@@ -34527,7 +34527,7 @@ CMD:pm(playerid, params[])
 	if (PlayerData[userid][pDisablePM])
 	    return SendErrorMessage(playerid, "Ez a játékos nem fogad PM-eket..");
 
-	if( PlayerData[playerid][pAdminDuty] == 1 && PlayerData[playerid][pPMEnable] == 0 )
+	if( PlayerData[userid][pAdminDuty] == 1 && PlayerData[playerid][pPMEnable] == 0 )
 	{
 	    PlayerData[playerid][pPMEnable] = 1;
 	    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Adminisztrátor PM-elése", "Éppen PM-elni akarsz egy szolgálatban lévõ adminisztrátort. Az adminisztrátorok elfoglaltak, és ezért ha szolgálatba vannak, csak szükség esetén PM-eld õket.\n\
