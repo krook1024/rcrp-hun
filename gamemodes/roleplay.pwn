@@ -34531,7 +34531,9 @@ CMD:pm(playerid, params[])
 	if( PlayerData[userid][pAdminDuty] == 1 && PlayerData[playerid][pPMEnable] == 0 )
 	{
 	    PlayerData[playerid][pPMEnable] = 1;
-	    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Adminisztrátor PM-elése", "Éppen PM-elni akarsz egy szolgálatban lévõ adminisztrátort. Az adminisztrátorok elfoglaltak, és ezért ha szolgálatba vannak, csak szükség esetén PM-eld õket.\n\
+	    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Adminisztrátor PM-elése", "{FFFFFF}\n\
+Éppen PM-elni akarsz egy szolgálatban lévõ adminisztrátort.\n\n\
+Az adminisztrátorok elfoglaltak, és ezért ha szolgálatba vannak, csak szükség esetén PM-eld õket.\n\
 Ha szerverel kapcsolatos kérdésed, kérésed lenne, {FF0000}NE küldd el a PM-ed{FFFFFF}. Helyette használd a /report vagy /helpme parancsokat.\n\
 Ha mégis úgy döntesz, hogy PM-elni szeretnéd az admint, küldd el a PM-edet mégegyszer.", "Megértettem", "");
 		return 1;
