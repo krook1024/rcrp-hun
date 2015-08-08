@@ -16,13 +16,13 @@
 #include <zcmd>
 
 #define SQL_HOSTNAME "127.0.0.1"
-#define SQL_USERNAME "root"
-#define SQL_DATABASE "scrp"
-#define SQL_PASSWORD ""
+#define SQL_USERNAME "15_rcrp_server"
+#define SQL_DATABASE "15_rcrp_server"
+#define SQL_PASSWORD "I1tw&E7-"
 
-#define SERVER_NAME 	 "Teszt"
-#define SERVER_URL 		 "teszt.net"
-#define SERVER_REVISION  "RC:RP 0.1a"
+#define SERVER_NAME 	 "Red County Roleplay"
+#define SERVER_URL 		 "rc-rp.gq"
+#define SERVER_REVISION  "RC-RP 1.0"
 #define SERVER_CITY 	 (1) // (1) Los Santos, (2) San Fierro, (3) Las Venturas
 
 #define COLOR_CLIENT      (0xAAC4E5FF)
@@ -16381,7 +16381,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	        if (HouseData[id][houseLocked])
 	            return SendErrorMessage(playerid, "Nem tudsz bemenni egy zárt házba.");
 
-			SetPlayerPos(playerid, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]);
+			SetPlayerPosEx(playerid, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]);
 			SetPlayerFacingAngle(playerid, HouseData[id][houseInt][3]);
 
 			SetPlayerInterior(playerid, HouseData[id][houseInterior]);
@@ -16393,7 +16393,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		}
 		if ((id = House_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]))
 	    {
-			SetPlayerPos(playerid, HouseData[id][housePos][0], HouseData[id][housePos][1], HouseData[id][housePos][2]);
+			SetPlayerPosEx(playerid, HouseData[id][housePos][0], HouseData[id][housePos][1], HouseData[id][housePos][2]);
 			SetPlayerFacingAngle(playerid, HouseData[id][housePos][3] - 180.0);
 
 			SetPlayerInterior(playerid, HouseData[id][houseExterior]);
@@ -16419,7 +16419,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 					ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
 				}
 			}
-			SetPlayerPos(playerid, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]);
+			SetPlayerPosEx(playerid, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]);
 			SetPlayerFacingAngle(playerid, BusinessData[id][bizInt][3]);
 
 			SetPlayerInterior(playerid, BusinessData[id][bizInterior]);
@@ -16435,7 +16435,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		}
 		if ((id = Business_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]))
 	    {
-			SetPlayerPos(playerid, BusinessData[id][bizPos][0], BusinessData[id][bizPos][1], BusinessData[id][bizPos][2]);
+			SetPlayerPosEx(playerid, BusinessData[id][bizPos][0], BusinessData[id][bizPos][1], BusinessData[id][bizPos][2]);
 			SetPlayerFacingAngle(playerid, BusinessData[id][bizPos][3] - 180.0);
 
 			SetPlayerInterior(playerid, BusinessData[id][bizExterior]);
@@ -16479,7 +16479,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
 
 			else
-			    SetPlayerPos(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
+			    SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
 
 			SetPlayerFacingAngle(playerid, EntranceData[id][entranceInt][3]);
 
@@ -16499,7 +16499,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			    SetPlayerPosEx(playerid, EntranceData[id][entrancePos][0], EntranceData[id][entrancePos][1], EntranceData[id][entrancePos][2]);
 
 			SetPlayerFacingAngle(playerid, EntranceData[id][entrancePos][3] - 180.0);
-
 			SetPlayerInterior(playerid, EntranceData[id][entranceExterior]);
 			SetPlayerVirtualWorld(playerid, EntranceData[id][entranceExteriorVW]);
 
