@@ -974,7 +974,7 @@ new const g_aInventoryItems[][e_InventoryItems] = {
 	{"Sütött hamburger", 2703},
 	{"Sütött pizza", 2702},
 	{"Vezetõi engedély", 1581},
-	//{"Fegyverengedély", 1581},
+	{"Fegyverengedély", 1581},
 	{"Mobiltelefon", 330},
 	{"GPS rendszer", 18875},
 	{"Festékszóró", 365},
