@@ -12619,7 +12619,7 @@ ResetStatistics(playerid)
     PlayerData[playerid][pHospitalTime] = 0;
     PlayerData[playerid][pRepairTime] = 0;
     PlayerData[playerid][pMoney] = 2500;
-    PlayerData[playerid][pBankMoney] = 250;
+    PlayerData[playerid][pBankMoney] = 25000;
     PlayerData[playerid][pSpawnPoint] = 0;
     PlayerData[playerid][pSavings] = 0;
     PlayerData[playerid][pAdmin] = 0;
