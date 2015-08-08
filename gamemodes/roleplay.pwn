@@ -27938,6 +27938,7 @@ CMD:engine(playerid, params[])
 	if( Car_IsOwner(playerid, vehicleid) ||
 		PlayerData[playerid][pTempCar] == vehicleid ||
 		(PlayerData[playerid][pFaction] != -1 && CarData[vehicleid][carFaction] == PlayerData[playerid][pFaction]) ||
+		(CoreVehicles[vehicleid][vehTemporary] && PlayerData[playerid][pAdmin] >= 3) ||
  		(CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] > 0 && PlayerData[playerid][pJob] == CarData[vehicleid][carJob])
 	   ) {
 		switch (GetEngineStatus(vehicleid))
