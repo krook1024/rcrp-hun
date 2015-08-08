@@ -7538,6 +7538,7 @@ Car_GetCount(playerid)
 	return count;
 }
 
+#pragma unused House_GetCount
 House_GetCount(playerid)
 {
 	new
@@ -30074,7 +30075,7 @@ CMD:buy(playerid, params[])
 
 	if ((id = House_Nearest(playerid)) != -1)
 	{
-		if (House_GetCount(playerid) >= MAX_OWNABLE_HOUSES)
+		if (House_GetCountEx(playerid) >= MAX_OWNABLE_HOUSES)
 			return SendErrorMessage(playerid, "Egyszerre csak %d házad lehet.", MAX_OWNABLE_HOUSES);
 
 		if (HouseData[id][houseOwner] != 0)
@@ -30096,7 +30097,7 @@ CMD:buy(playerid, params[])
 	}
 	else if ((id = Business_Nearest(playerid)) != -1)
 	{
-	    if (Business_GetCountEx(playerid) >= MAX_OWNABLE_BUSINESSES)
+	    if (Business_GetCount(playerid) >= MAX_OWNABLE_BUSINESSES)
 			return SendErrorMessage(playerid, "Egyszerre csak %d üzleted lehet.", MAX_OWNABLE_BUSINESSES);
 
 		if (BusinessData[id][bizOwner] != 0)
