@@ -10800,8 +10800,8 @@ stock SetDefaultSpawn(playerid)
 	    new faction = PlayerData[playerid][pFactionID];
 	    if(PlayerData[playerid][pFactionID] == -1)
 	    {
-	        SendErrorMessage(playerid, "You've been set to civilian spawn.");
-	        SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
+	        SendErrorMessage(playerid, "Nem spawnolhatsz már frakcióban.");
+	        SetPlayerPos(playerid, 2286.7236,55.7477,26.4844);
 	    	SetPlayerFacingAngle(playerid, 0.0);
 		}
 		SetPlayerPos(playerid,FactionData[faction][SpawnX],FactionData[faction][SpawnY],FactionData[faction][SpawnZ]);
