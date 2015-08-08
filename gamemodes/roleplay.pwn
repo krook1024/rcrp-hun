@@ -27959,6 +27959,7 @@ CMD:engine(playerid, params[])
 
 	if( (id != -1 && Car_IsOwner(playerid, id)) ||
 		PlayerData[playerid][pTempCar] == vehicleid ||
+		vehicleid == PlayerData[playerid][pTestCar] ||
 		(id != -1 && PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == PlayerData[playerid][pFaction]) ||
 		(CoreVehicles[vehicleid][vehTemporary] && PlayerData[playerid][pAdmin] >= 3) ||
  		(CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] > 0 && PlayerData[playerid][pJob] == CarData[vehicleid][carJob])
