@@ -31736,7 +31736,7 @@ CMD:bank(playerid, params[])
 	if (!IsPlayerInBank(playerid))
 	    return SendErrorMessage(playerid, "Nem vagy bank közelében.");
 
-	Dialog_Show(playerid, Bank, DIALOG_STYLE_LIST, "Bankszámla", "Egyenleg: %s", "Kiválaszt", "Mégse", FormatNumber(PlayerData[playerid][pBankMoney]), FormatNumber(PlayerData[playerid][pSavings]));
+	Dialog_Show(playerid, Bank, DIALOG_STYLE_LIST, "Bankszámla", "Banki egyenleg: %s\nBetétszámla egyenleg: %s", "Kiválaszt", "Mégse", FormatNumber(PlayerData[playerid][pBankMoney]), FormatNumber(PlayerData[playerid][pSavings]));
 	return 1;
 }
 
