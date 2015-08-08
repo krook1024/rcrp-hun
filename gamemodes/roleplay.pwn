@@ -28014,7 +28014,7 @@ CMD:engine(playerid, params[])
 	
 	new id = -1;
 	
-	if( !CoreVehicles[vehicleid][vehTemporary] )
+	if( !CoreVehicles[vehicleid][vehTemporary] || GetVehicleModel(vehicleid) == 530 )
 		id = Car_GetID(vehicleid);
 
 	if (!IsEngineVehicle(vehicleid))
