@@ -5685,7 +5685,7 @@ DropPlayerItem(playerid, itemid, quantity = 1)
  	Inventory_Remove(playerid, string, quantity);
 
 	ApplyAnimation(playerid, "GRENADE", "WEAPON_throwu", 4.1, 0, 0, 0, 0, 0, 1);
- 	SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s eldobott egy \"%s\" fegyvert.", ReturnName(playerid, 0), string);
+ 	SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s eldobott egy \"%s\"-t.", ReturnName(playerid, 0), string);
 	return 1;
 }
 
@@ -27789,10 +27789,10 @@ CMD:s(playerid, params[])
 
 	if (strlen(params) > 64) {
 	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "%s ordítja: %.64s", ReturnName(playerid, 0), params);
-	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "...%s!", params[64]);
+	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "...%s", params[64]);
 	}
 	else {
-	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "%s ordítja: %s!", ReturnName(playerid, 0), params);
+	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "%s ordítja: %s", ReturnName(playerid, 0), params);
 	}
  	//format(string, sizeof(string), "shouts: %s", params);
 	//SetPlayerChatBubble(playerid, string, COLOR_WHITE, 30.0, 6000);
@@ -29735,6 +29735,7 @@ CMD:destroyveh(playerid, params[])
 	return 1;
 }
 
+/*
 CMD:givewep(playerid, params[])
 {
 	static
@@ -29761,6 +29762,7 @@ CMD:givewep(playerid, params[])
 	SendServerMessage(playerid, "Adtál %s-nak egy %s-t %d lõszerrel.", ReturnName(userid, 0), ReturnWeaponName(weaponid), ammo);
 	return 1;
 }
+*/
 
 CMD:setplayer(playerid, params[])
 {
