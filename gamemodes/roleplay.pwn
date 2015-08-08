@@ -16296,7 +16296,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		        SendClientMessage(playerid, -1, "");
 			}
 		    SetDefaultSpawn(playerid);
-		    Dialog_Show(playerid, TutorialConfirm, DIALOG_STYLE_MSGBOX, "Tutorial", "Szeretnéd megnézni a szerver tutorialját?", "Igen", "Nem");
+		    //Dialog_Show(playerid, TutorialConfirm, DIALOG_STYLE_MSGBOX, "Tutorial", "Szeretnéd megnézni a szerver tutorialját?", "Igen", "Nem");
 		}
 		if (IsPlayerInRangeOfPoint(playerid, 2.5, -204.5334, -1735.3131, 675.7687) && PlayerData[playerid][pHospitalInt] != -1)
 		{
