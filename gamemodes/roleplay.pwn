@@ -1767,7 +1767,7 @@ Dialog:FactionPayDay2(playerid, response, listitem, inputtext[])
 	if (GetFactionType(playerid) != FACTION_GOV)
 	    return 0;
 
-	if (GetFactionType(listitem) != FACTION_GANG)
+	if (GetFactionType(listitem) == FACTION_GANG)
 	    return SendErrorMessage( playerid, "Illegális frakcióhoz nem mûködik.");
 
    	PlayerData[playerid][pFactionPayDay] = listitem;
