@@ -34540,8 +34540,8 @@ Ha mégis úgy döntesz, hogy PM-elni szeretnéd az admint, küldd el a PM-edet mégeg
 	GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~Új privát üzenet.", 3000, 3);
 	PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
 
-	SendClientMessageEx(userid, COLOR_YELLOW, "(( PM <%s (%d): %s ))", ReturnName(playerid, 0), playerid, text);
-	SendClientMessageEx(playerid, COLOR_YELLOW, "(( PM >%s (%d): %s ))", ReturnName(userid, 0), userid, text);
+	SendClientMessageEx(userid, COLOR_YELLOW, "(( PM tõle: %s (%d): %s ))", ReturnName(playerid, 0), playerid, text);
+	SendClientMessageEx(playerid, COLOR_YELLOW, "(( PM neki: %s (%d): %s ))", ReturnName(userid, 0), userid, text);
 	return 1;
 }
 
