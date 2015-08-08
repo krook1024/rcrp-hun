@@ -27939,7 +27939,11 @@ CMD:lastlogged(playerid, params[])
 CMD:engine(playerid, params[])
 {
 	new vehicleid = GetPlayerVehicleID(playerid);
-	new id = Car_GetID(vehicleid);
+	
+	new id = -1;
+	
+	if( !CoreVehicles[vehicleid][vehTemporary] )
+		id = Car_GetID(vehicleid);
 
 	if (!IsEngineVehicle(vehicleid))
 		return SendErrorMessage(playerid, "Nem vagy jármûben.");
@@ -27953,9 +27957,9 @@ CMD:engine(playerid, params[])
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
 
-	if( Car_IsOwner(playerid, id) ||
+	if( (id != -1 && Car_IsOwner(playerid, id)) ||
 		PlayerData[playerid][pTempCar] == vehicleid ||
-		(PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == PlayerData[playerid][pFaction]) ||
+		(id != -1 && PlayerData[playerid][pFaction] != -1 && CarData[id][carFaction] == PlayerData[playerid][pFaction]) ||
 		(CoreVehicles[vehicleid][vehTemporary] && PlayerData[playerid][pAdmin] >= 3) ||
  		(CarData[vehicleid][carJob] > 0 && PlayerData[playerid][pJob] > 0 && PlayerData[playerid][pJob] == CarData[vehicleid][carJob])
 	   ) {
