@@ -32287,10 +32287,10 @@ CMD:takejob(playerid, params[])
 	    if (PlayerData[playerid][pJob] == JobData[id][jobType])
 	        return SendErrorMessage(playerid, "Már vagy ebbe a munkába.");
 
-		if( (id == 2) || (GetFactionType(playerid) != FACTION_MECHANIC) )
+		if( (id == 2) && (GetFactionType(playerid) != FACTION_MECHANIC) )
 	        return SendErrorMessage(playerid, "Ezt a munkát csak a szerelõ frakciókban lévõk vehetik fel.");
 
-		if( (id == 9) || (GetFactionType(playerid) != FACTION_GANG) )
+		if( (id == 9) && (GetFactionType(playerid) != FACTION_GANG) )
 	        return SendErrorMessage(playerid, "Ezt a munkát csak illegális frakciókban lévõk vehetik fel.");
 	        
 	    PlayerData[playerid][pJob] = JobData[id][jobType];
