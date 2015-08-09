@@ -10880,7 +10880,7 @@ stock SetDefaultSpawn(playerid)
 	    SetPlayerVirtualWorld(playerid, PlayerData[playerid][pWorld]);
 	}
 
-	/*#if SERVER_CITY == 1
+	#if SERVER_CITY == 1
 	    SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
 	    SetPlayerFacingAngle(playerid, 0.0);
 	#elseif SERVER_CITY == 2
@@ -10889,10 +10889,7 @@ stock SetDefaultSpawn(playerid)
 	#elseif SERVER_CITY == 3
 	    SetPlayerPos(playerid, 1675.7245, 1447.8938, 10.7866);
 	    SetPlayerFacingAngle(playerid, 270.0);
-	#endif*/
-
-	SetCameraBehindPlayer(playerid);
-	TogglePlayerControllable(playerid, 1);
+	#endif
 	return 1;
 }
 
