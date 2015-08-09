@@ -34511,11 +34511,11 @@ CMD:pm(playerid, params[])
 	if( PlayerData[userid][pAdminDuty] == 1 && PlayerData[playerid][pPMEnable] == 0 )
 	{
 	    PlayerData[playerid][pPMEnable] = 1;
-	    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Adminisztrátor PM-elése", "{FFFFFF}\n\
-Éppen PM-elni akarsz egy szolgálatban lévõ adminisztrátort.\n\n\
-Az adminisztrátorok elfoglaltak, és ezért ha szolgálatba vannak, csak szükség esetén PM-eld õket.\n\
-Ha szerverel kapcsolatos kérdésed, kérésed lenne, {FF0000}NE küldd el a PM-ed{FFFFFF}. Helyette használd a /report vagy /helpme parancsokat.\n\
-Ha mégis úgy döntesz, hogy PM-elni szeretnéd az admint, küldd el a PM-edet mégegyszer.", "Megértettem", "");
+		SendClientMessageEx(playerid, COLOR_YELLOW, "Éppen PM-et szeretnél küldeni egy szolgálatban lévõ adminisztrátornak.");
+		SendClientMessageEx(playerid, COLOR_YELLOW, "A szolgálatban lévõ adminisztrátorok nagyon elfoglaltak, és általában nincs idejük a jelentéseken kívül");
+		SendClientMessageEx(playerid, COLOR_YELLOW, "bármi egyébbel foglalkozni. Ha az üzeneted nem feltétlen sürgõs, várj addig, amíg az adminisztrátor");
+		SendClientMessageEx(playerid, COLOR_YELLOW, "kilép a szolgálatból. Adminisztrátoroknak jelentésekkel vagy segítségkéréssel kapcsolatban {FF0000}ne írj.");
+		SendClientMessageEx(playerid, COLOR_YELLOW, "Helyette használd a /report vagy a /helpme parancsokat. Ha mégis szeretnél írni, küldd el újra az üzenetedet.");
 		return 1;
 	}
 
@@ -36265,7 +36265,6 @@ CMD:editcar(playerid, params[])
 	    if (sscanf(string, "d", typeint))
      	{
      	    SendSyntaxMessage(playerid, "/editcar [id] [faction] [frakcióID]");
-		 	SendClientMessage(playerid, COLOR_YELLOW, "A FRAKCIÓ ID KELL NEM A TÍPUS TI FASZOK!!!!!!!!!!!!! :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		 	return 1;
 		}
 
