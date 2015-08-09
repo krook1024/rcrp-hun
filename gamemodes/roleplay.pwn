@@ -33109,11 +33109,11 @@ CMD:createfaction(playerid, params[])
 	if (sscanf(params, "ds[32]", type, name))
 	{
 	    SendSyntaxMessage(playerid, "/createfaction [típus] [név]");
-	    SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres");
+	    SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres | 7: Szerelõ");
 		return 1;
 	}
-	if (type < 1 || type > 6)
-	    return SendErrorMessage(playerid, "Érvénytelen típus (1-6).");
+	if (type < 1 || type > 7)
+	    return SendErrorMessage(playerid, "Érvénytelen típus (1-7).");
 
 	id = Faction_Create(name, type);
 
@@ -33369,11 +33369,11 @@ CMD:editfaction(playerid, params[])
 	    if (sscanf(string, "d", typeint))
      	{
 		 	SendSyntaxMessage(playerid, "/editfaction [id] [típus] [típus]");
-            SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres");
+            SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Rendõrség | 2: Híradó | 3: Mentõ | 4: Kormány | 5: Banda | 6: Üres | 7: Szerelõ");
             return 1;
 		}
-		if (typeint < 1 || typeint > 6)
-		    return SendErrorMessage(playerid, "Érvénytelen típus (1-6).");
+		if (typeint < 1 || typeint > 7)
+		    return SendErrorMessage(playerid, "Érvénytelen típus (1-7).");
 
 	    FactionData[id][factionType] = typeint;
 
