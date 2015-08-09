@@ -13932,7 +13932,6 @@ public OnViewCharges(extraid, name[])
 
 stock SetCameraData(playerid)
 {
-/*
     #if SERVER_CITY == 1
 	    SetPlayerPos(playerid, 2096.8398,-1879.4764,15.000);
 		SetPlayerCameraPos(playerid, 2096.8398,-1879.4764,30);
@@ -13946,11 +13945,6 @@ stock SetCameraData(playerid)
 		SetPlayerCameraPos(playerid, 2069.442138, 977.235412, 26.572320);
 		SetPlayerCameraLookAt(playerid, 2069.452148, 977.702697, 26.557329);
 	#endif
-*/
-
-	SetPlayerPos(playerid, 2123.7595, 184.5564, -5.0 );
-	SetPlayerCameraPos(playerid, 2123.7595, 184.5564, 123.5068 );
-	SetPlayerCameraLookAt(playerid, 2124.6641, 184.1184, 123.0718 );
 	return 1;
 }
 
