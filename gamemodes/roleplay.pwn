@@ -36284,17 +36284,15 @@ CMD:editcar(playerid, params[])
 
 	    if (sscanf(string, "d", typeint))
      	{
-     	    SendSyntaxMessage(playerid, "/editcar [id] [faction] [típus]");
-		 	SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Police | 2: News | 3: Medical | 4: Government");
+     	    SendSyntaxMessage(playerid, "/editcar [id] [faction] [frakcióID]");
+		 	SendClientMessage(playerid, COLOR_YELLOW, "A FRAKCIÓ ID KELL NEM A TÍPUS TI FASZOK!!!!!!!!!!!!! :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		 	return 1;
 		}
-		if (typeint < 0 || typeint > 4)
-		    return SendErrorMessage(playerid, "Hibás érték (1-4).");
 
 		CarData[id][carFaction] = typeint;
 
 		Car_Save(id);
-		SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s beállította egy jármû frakció típusát. ID: %d Típus: %d.", ReturnName(playerid, 0), CarData[id][carVehicle], typeint);
+		SendAdminAlert(COLOR_LIGHTRED, "AdmCmd: %s beállította egy jármû frakcióIDjét. ID: %d FrakcióID: %d.", ReturnName(playerid, 0), CarData[id][carVehicle], typeint);
 	}
 	else if (!strcmp(type, "job", true))
 	{
