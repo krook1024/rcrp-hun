@@ -35002,6 +35002,71 @@ CMD:doorbell(playerid, params[])
 	return 1;
 }
 
+CMD:ds(playerid, params[])
+{
+	if (isnull(params))
+	    return SendSyntaxMessage(playerid, "/(ds)hout [házba ordibálás]");
+
+	new id = House_Nearest(playerid);
+
+	if (id == -1)
+	    return SendErrorMessage(playerid, "Nem vagy egy ház közelében.");
+
+	if (strlen(params) > 64) {
+	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "%s ordítja: %.64s", ReturnName(playerid, 0), params);
+	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "...%s", params[64]);
+	}
+	else {
+	    SendNearbyMessage(playerid, 30.0, COLOR_WHITE, "%s ordítja: %s", ReturnName(playerid, 0), params);
+	}
+
+	foreach (new i : Player) if (House_Inside(i) == id) {
+		if (strlen(params) > 64) {
+		    SendClientMessageEx(i, COLOR_WHITE, "%s ordítja: %.64s", ReturnName(playerid, 0), params);
+		    SendClientMessageEx(i, COLOR_WHITE, "...%s", params[64]);
+		}
+		else {
+		    SendClientMessageEx(i, COLOR_WHITE, "%s ordítja: %s", ReturnName(playerid, 0), params);
+		}
+	}
+	return 1;
+}
+
+CMD:dshout(playerid, params[])
+{
+	return cmd_ds(playerid, params);
+}
+
+CMD:ddo(playerid, params[])
+{
+	if (isnull(params))
+	    return SendSyntaxMessage(playerid, "/ddo [házba cselekvés küldése]");
+
+	new id = House_Nearest(playerid);
+
+	if (id == -1)
+	    return SendErrorMessage(playerid, "Nem vagy egy ház közelében.");
+
+	if (strlen(params) > 64) {
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "* %.64s", params);
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "...%s (( %s ))", params[64], ReturnName(playerid, 0));
+	}
+	else {
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "* %s (( %s ))", params, ReturnName(playerid, 0));
+	}
+
+	foreach (new i : Player) if (House_Inside(i) == id) {
+		if (strlen(params) > 64) {
+		    SendClientMessageEx(i, COLOR_PURPLE, "* %.64s", params);
+		    SendClientMessageEx(i, COLOR_PURPLE, "...%s (( %s ))", params[64], ReturnName(playerid, 0));
+		}
+		else {
+		    SendClientMessageEx(i, COLOR_PURPLE, "* %s (( %s ))", params, ReturnName(playerid, 0));
+		}
+	}
+	return 1;
+}
+
 CMD:creategate(playerid, params[])
 {
 	static
