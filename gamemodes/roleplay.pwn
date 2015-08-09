@@ -404,7 +404,7 @@ enum playerData {
 	pTempCar,
 	pTempHouse,
 	pTempBiz,
-	pPMEnable,
+	pPMEnable
 };
 
 enum reportData {
@@ -10879,17 +10879,6 @@ stock SetDefaultSpawn(playerid)
 	    SetPlayerInterior(playerid, PlayerData[playerid][pInterior]);
 	    SetPlayerVirtualWorld(playerid, PlayerData[playerid][pWorld]);
 	}
-
-	#if SERVER_CITY == 1
-	    SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
-	    SetPlayerFacingAngle(playerid, 0.0);
-	#elseif SERVER_CITY == 2
-		SetPlayerPos(playerid, -2425.5615, 337.5465, 37.0018);
-		SetPlayerFacingAngle(playerid, 238.0);
-	#elseif SERVER_CITY == 3
-	    SetPlayerPos(playerid, 1675.7245, 1447.8938, 10.7866);
-	    SetPlayerFacingAngle(playerid, 270.0);
-	#endif
 	return 1;
 }
 
