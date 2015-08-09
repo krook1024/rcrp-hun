@@ -10855,7 +10855,7 @@ stock SetDefaultSpawn(playerid)
 
 	if(PlayerData[playerid][pSpawnPoint] == 0) // Airport
 	{
-	    SetPlayerPos(playerid, 2286.7236,55.7477,26.4844);
+	    SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
 	    SetPlayerFacingAngle(playerid, 0.0);
 	}
 	if(PlayerData[playerid][pSpawnPoint] == 1) // Faction
@@ -10864,7 +10864,7 @@ stock SetDefaultSpawn(playerid)
 	    if(PlayerData[playerid][pFactionID] == -1)
 	    {
 	        SendErrorMessage(playerid, "Nem spawnolhatsz már frakcióban.");
-	        SetPlayerPos(playerid, 2286.7236,55.7477,26.4844);
+	        SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
 	    	SetPlayerFacingAngle(playerid, 0.0);
 		}
 		SetPlayerPos(playerid,FactionData[faction][SpawnX],FactionData[faction][SpawnY],FactionData[faction][SpawnZ]);
