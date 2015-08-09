@@ -10853,7 +10853,6 @@ stock SetDefaultSpawn(playerid)
     SetPlayerInterior(playerid, 0);
 	SetPlayerVirtualWorld(playerid, 0);
 
-
 	if(PlayerData[playerid][pSpawnPoint] == 0) // Airport
 	{
 	    SetPlayerPos(playerid, 2286.7236,55.7477,26.4844);
@@ -13857,10 +13856,10 @@ public OnQueryFinished(extraid, threadid)
 				PlayerTextDrawSetPreviewModel(extraid, PlayerData[extraid][pTextdraws][73], skin);
 
 				if (!strlen(birthdate)) {
-				    birthdate = "Not Specified";
+				    birthdate = "Ismeretlen";
 				}
 				if (!strlen(origin)) {
-				    origin = "Not Specified";
+				    origin = "Ismeretlen";
 				}
 				format(string, sizeof(string), "~b~DOB:~w~ %s", birthdate);
 				PlayerTextDrawSetString(extraid, PlayerData[extraid][pTextdraws][74], string);
@@ -16348,15 +16347,13 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		        SendClientMessage(playerid, -1, "");
 			}
 		    SetDefaultSpawn(playerid);
-		    
-	        PlayerData[playerid][pTutorialStage] = 0;
 
-		    PlayerData[playerid][pCreated] = 1;
-		    PlayerData[playerid][pTask] = 1;
+            PlayerData[i][pCreated] = 1;
+            PlayerData[i][pTask] = 1;
 
-	  		PlayerData[playerid][pTutorial] = 0;
-			PlayerData[playerid][pTutorialTime] = 0;
-		
+            PlayerData[i][pTutorial] = 0;
+            PlayerData[i][pTutorialTime] = 0;
+            
 		    //Dialog_Show(playerid, TutorialConfirm, DIALOG_STYLE_MSGBOX, "Tutorial", "Szeretnéd megnézni a szerver tutorialját?", "Igen", "Nem");
 		}
 		if (IsPlayerInRangeOfPoint(playerid, 2.5, -204.5334, -1735.3131, 675.7687) && PlayerData[playerid][pHospitalInt] != -1)
@@ -34506,7 +34503,7 @@ CMD:pm(playerid, params[])
 	    return SendErrorMessage(playerid, "Magadnak nem üzenhetsz.");
 
 	if (PlayerData[userid][pDisablePM])
-	    return SendErrorMessage(playerid, "Ez a játékos nem fogad PM-eket..");
+	    return SendErrorMessage(playerid, "Ez a játékos nem fogad PM-eket.");
 
 	if( PlayerData[userid][pAdminDuty] == 1 && PlayerData[playerid][pPMEnable] == 0 )
 	{
