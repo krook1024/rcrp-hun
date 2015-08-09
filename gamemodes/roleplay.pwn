@@ -16348,11 +16348,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			}
 		    SetDefaultSpawn(playerid);
 
-            PlayerData[i][pCreated] = 1;
-            PlayerData[i][pTask] = 1;
+            PlayerData[playerid][pCreated] = 1;
+            PlayerData[playerid][pTask] = 1;
 
-            PlayerData[i][pTutorial] = 0;
-            PlayerData[i][pTutorialTime] = 0;
+            PlayerData[playerid][pTutorial] = 0;
+            PlayerData[playerid][pTutorialTime] = 0;
+            PlayerData[playerid][pTutorialStage] = 0;
             
 		    //Dialog_Show(playerid, TutorialConfirm, DIALOG_STYLE_MSGBOX, "Tutorial", "Szeretnéd megnézni a szerver tutorialját?", "Igen", "Nem");
 		}
