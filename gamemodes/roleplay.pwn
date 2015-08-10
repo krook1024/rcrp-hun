@@ -37760,7 +37760,7 @@ CMD:take(playerid, params[])
 	    strcat(string, "Vezetõi engedély\n");
 
 	if (!strlen(string))
-	    return SendErrorMessage(playerid, "This player has no illegal items to take.");
+	    return SendErrorMessage(playerid, "Ennek a játékosnak nincsenek elvehetõ tárgyai.");
 
 	PlayerData[playerid][pTakeItems] = userid;
 	Dialog_Show(playerid, TakeItems, DIALOG_STYLE_LIST, "Tárgyak elvétele", string, "Kivesz", "Mégse");
