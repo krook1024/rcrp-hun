@@ -5436,20 +5436,11 @@ stock IsLegalComponent(modelid, componentid)
 
 ShowHungerTextdraw(playerid, enable)
 {
-	if (!enable) {
-	    PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][65]);
-		PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][66]);
+    PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][65]);
+	PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][66]);
 
-		PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][63]);
-		PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][64]);
-	}
-	else if (PlayerData[playerid][pHUD] && PlayerData[playerid][pJailTime] < 1) {
-	    PlayerTextDrawShow(playerid, PlayerData[playerid][pTextdraws][65]);
-		PlayerTextDrawShow(playerid, PlayerData[playerid][pTextdraws][66]);
-
-		PlayerTextDrawShow(playerid, PlayerData[playerid][pTextdraws][63]);
-		PlayerTextDrawShow(playerid, PlayerData[playerid][pTextdraws][64]);
-	}
+	PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][63]);
+	PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][64]);
 	return 1;
 }
 
@@ -10855,7 +10846,7 @@ stock SetDefaultSpawn(playerid)
 
 	if(PlayerData[playerid][pSpawnPoint] == 0) // Airport
 	{
-	    SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
+	    SetPlayerPos(playerid, 1642.0580,-2333.8066,-2.6797);
 	    SetPlayerFacingAngle(playerid, 0.0);
 	}
 	if(PlayerData[playerid][pSpawnPoint] == 1) // Faction
@@ -10864,7 +10855,7 @@ stock SetDefaultSpawn(playerid)
 	    if(PlayerData[playerid][pFactionID] == -1)
 	    {
 	        SendErrorMessage(playerid, "Nem spawnolhatsz már frakcióban.");
-	        SetPlayerPos(playerid, 1642.1957, -2334.4849, 13.5469);
+	        SetPlayerPos(playerid, 1642.0580,-2333.8066,-2.6797);
 	    	SetPlayerFacingAngle(playerid, 0.0);
 		}
 		SetPlayerPos(playerid,FactionData[faction][SpawnX],FactionData[faction][SpawnY],FactionData[faction][SpawnZ]);
@@ -12368,7 +12359,7 @@ CreateTextDraws(playerid) {
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][pTextdraws][62], -6.000000, 30.000000);
 	PlayerTextDrawSetSelectable(playerid, PlayerData[playerid][pTextdraws][62], 0);
 
-	PlayerData[playerid][pTextdraws][63] = CreatePlayerTextDraw(playerid, 579.000000, 122.000000, "100%");
+	PlayerData[playerid][pTextdraws][63] = CreatePlayerTextDraw(playerid, 579.000000, 122.000000, "_");
 	PlayerTextDrawBackgroundColor(playerid, PlayerData[playerid][pTextdraws][63], 255);
 	PlayerTextDrawFont(playerid, PlayerData[playerid][pTextdraws][63], 1);
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][pTextdraws][63], 0.290000, 0.899999);
@@ -12377,7 +12368,7 @@ CreateTextDraws(playerid) {
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][pTextdraws][63], 1);
 	PlayerTextDrawSetSelectable(playerid, PlayerData[playerid][pTextdraws][63], 0);
 
-	PlayerData[playerid][pTextdraws][64] = CreatePlayerTextDraw(playerid, 579.000000, 155.000000, "100%");
+	PlayerData[playerid][pTextdraws][64] = CreatePlayerTextDraw(playerid, 579.000000, 155.000000, "_");
 	PlayerTextDrawBackgroundColor(playerid, PlayerData[playerid][pTextdraws][64], 255);
 	PlayerTextDrawFont(playerid, PlayerData[playerid][pTextdraws][64], 1);
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][pTextdraws][64], 0.290000, 0.899999);
@@ -15299,6 +15290,7 @@ public PlayerCheck()
 		{
 			Booth_Leave(i);
 		}
+
 		format(str, sizeof(str), "%d%c", PlayerData[i][pHunger], '%');
 		PlayerTextDrawSetString(i, PlayerData[i][pTextdraws][63], str);
 
@@ -15311,6 +15303,7 @@ public PlayerCheck()
 forward UpdateTime();
 public UpdateTime()
 {
+/*
 	static
 	    time[3],
 	    string[32];
@@ -15329,6 +15322,7 @@ public UpdateTime()
 		SetPlayerTime(i, time[0], time[1]);
 	}
 	SetTimer("UpdateTime", 30000, false);
+*/
 }
 
 forward RefuelCheck();
@@ -17661,7 +17655,7 @@ public OnGameModeInit()
 		Create3DTextLabel("[Kórház]\n{FFFFFF}/dropinjured a játékos leadásához.", COLOR_DARKBLUE, arrHospitalDeliver[i][0], arrHospitalDeliver[i][1], arrHospitalDeliver[i][2], 15.0, 0);
 	}
 	// Textdraws
-	gServerTextdraws[0] = TextDrawCreate(547.000000, 23.000000, "12:00 PM");
+	gServerTextdraws[0] = TextDrawCreate(547.000000, 23.000000, "_");
 	TextDrawBackgroundColor(gServerTextdraws[0], 255);
 	TextDrawFont(gServerTextdraws[0], 1);
 	TextDrawLetterSize(gServerTextdraws[0], 0.360000, 1.499999);
@@ -17670,7 +17664,7 @@ public OnGameModeInit()
 	TextDrawSetProportional(gServerTextdraws[0], 1);
 	TextDrawSetSelectable(gServerTextdraws[0], 0);
 
-	gServerTextdraws[1] = TextDrawCreate(500.000000, 6.000000, "~r~Red ~w~County ~g~Roleplay");
+	gServerTextdraws[1] = TextDrawCreate(500.000000, 6.000000, "_");
 	TextDrawBackgroundColor(gServerTextdraws[1], 255);
 	TextDrawFont(gServerTextdraws[1], 1);
 	TextDrawLetterSize(gServerTextdraws[1], 0.260000, 1.200000);
