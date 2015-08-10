@@ -5436,6 +5436,7 @@ stock IsLegalComponent(modelid, componentid)
 
 ShowHungerTextdraw(playerid, enable)
 {
+	#pragma unused enable
     PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][65]);
 	PlayerTextDrawHide(playerid, PlayerData[playerid][pTextdraws][66]);
 
