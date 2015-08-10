@@ -14947,7 +14947,7 @@ public PlayerCheck()
 
 			if (PlayerData[i][pHospitalTime] >= 15)
 			{
-				SetDefaultSpawn(playerid);
+				SetDefaultSpawn(i);
 
 			    TogglePlayerControllable(i, 1);
 			    SetCameraBehindPlayer(i);
