@@ -14947,21 +14947,13 @@ public PlayerCheck()
 
 			if (PlayerData[i][pHospitalTime] >= 15)
 			{
-			    SetPlayerPos(i, -204.5867, -1740.7955, 675.7687);
-			    SetPlayerFacingAngle(i, 0.0000);
+				SetDefaultSpawn(playerid);
 
 			    TogglePlayerControllable(i, 1);
 			    SetCameraBehindPlayer(i);
 
-			    SetPlayerVirtualWorld(i, PlayerData[i][pHospital] + 5000);
-			    SendServerMessage(i, "Újraéledtél a kórháznál.");
-
 			    GameTextForPlayer(i, " ", 1, 3);
 			    ShowHungerTextdraw(i, 1);
-
-			    PlayerData[i][pHospitalInt] = PlayerData[i][pHospital];
-			    PlayerData[i][pHospital] = -1;
-			    PlayerData[i][pHospitalTime] = 0;
 			}
 		}
 		else if (PlayerData[i][pMuted] && PlayerData[i][pMuteTime] > 0)
@@ -21301,6 +21293,7 @@ public OnPlayerSpawn(playerid)
 		    ShowHungerTextdraw(playerid, 0);
 		    SetPlayerPos(playerid, PlayerData[playerid][pPos][0], PlayerData[playerid][pPos][1], PlayerData[playerid][pPos][2]);
 
+			SetPlayerHealth( playerid, 25.0 );
 			TextDrawShowForPlayer(playerid, gServerTextdraws[2]);
 			SendClientMessage(playerid, COLOR_LIGHTRED, "[FIGYELEM]:{FFFFFF} Meg vagy sérülve és segítségre van szükséged (/call 911).");
 
