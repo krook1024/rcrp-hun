@@ -30927,11 +30927,11 @@ CMD:createbiz(playerid, params[])
 	if (sscanf(params, "dd", type, price))
  	{
 	 	SendSyntaxMessage(playerid, "/createbiz [típus] [ár]");
-    	SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Vegyes | 2: Fegyver | 3: Ruha | 4: Gyors | 5: Kereskedés | 6: Benzinkút | 7: Bútor");
+    	SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Vegyes | 2: Fegyver | 3: Ruha | 4: Gyors | 5: Kereskedés | 6: Benzinkút | 7: Bútor | 8: Üres");
     	return 1;
 	}
-	if (type < 1 || type > 7)
-	    return SendErrorMessage(playerid, "Érvénytelen típus (1-7).");
+	if (type < 1 || type > 8)
+	    return SendErrorMessage(playerid, "Érvénytelen típus (1-8).");
 
 	id = Business_Create(playerid, type, price);
 
@@ -31058,11 +31058,11 @@ CMD:editbiz(playerid, params[])
 	    if (sscanf(string, "d", typeint))
 	    {
 	        SendSyntaxMessage(playerid, "/editbiz [id] [type] [típus]");
-			SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Vegyes | 2: Fegyver | 3: Ruha | 4: Gyors | 5: Kereskedés | 6: Benzinkút | 7: Bútor");
+			SendClientMessage(playerid, COLOR_YELLOW, "[TÍPUS]:{FFFFFF} 1: Vegyes | 2: Fegyver | 3: Ruha | 4: Gyors | 5: Kereskedés | 6: Benzinkút | 7: Bútor | 8: Öres");
 			return 1;
 		}
-		if (typeint < 1 || typeint > 7)
-			return SendErrorMessage(playerid, "A számnak 1 és 7 között kell lennie.");
+		if (typeint < 1 || typeint > 8)
+			return SendErrorMessage(playerid, "A számnak 1 és 8 között kell lennie.");
 
         BusinessData[id][bizType] = typeint;
 
