@@ -14952,6 +14952,9 @@ public PlayerCheck()
 			    TogglePlayerControllable(i, 1);
 			    SetCameraBehindPlayer(i);
 
+				PlayerData[i][pHospital] = -1;
+			    PlayerData[i][pHospitalTime] = 0;
+
 			    GameTextForPlayer(i, " ", 1, 3);
 			    ShowHungerTextdraw(i, 1);
 			}
