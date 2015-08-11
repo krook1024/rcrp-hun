@@ -1259,46 +1259,15 @@ new const g_arrInteriorData[][e_InteriorData] = {
 };
 
 new const Float:g_arrDrivingCheckpoints[][] = {
-    {-2064.9561, -67.7125, 34.8247},
-    {-2110.5261, -67.8857, 34.8247},
-    {-2154.2473, -67.6854, 34.8231},
-    {-2169.3850, -82.5202, 34.8302},
-    {-2169.8767, -114.5743, 34.8188},
-    {-2170.6482, -162.7804, 34.8249},
-    {-2215.5796, -187.5162, 34.8745},
-    {-2244.0376, -187.6771, 34.8235},
-    {-2259.1860, -202.9163, 34.9007},
-    {-2259.7864, -253.0544, 39.7875},
-    {-2260.3638, -300.5378, 48.1640},
-    {-2259.5361, -339.2552, 50.5190},
-    {-2258.4385, -371.1333, 50.5193},
-    {-2236.2454, -416.2657, 50.5155},
-    {-2195.2356, -459.0606, 49.3517},
-    {-2155.1711, -497.7458, 41.1217},
-    {-2117.1301, -536.1792, 34.2394},
-    {-2059.1565, -577.5410, 29.0998},
-    {-1984.6453, -582.2720, 25.5633},
-    {-1925.5862, -583.2345, 24.0926},
-    {-1885.5591, -583.6432, 24.0940},
-    {-1821.1207, -583.9514, 15.9855},
-    {-1816.3672, -559.6774, 15.8619},
-    {-1821.3180, -527.9517, 14.6263},
-    {-1819.6934, -462.3056, 14.6151},
-    {-1809.8923, -396.5690, 16.1884},
-    {-1798.9331, -317.3351, 24.3122},
-    {-1796.9186, -239.6917, 17.8804},
-    {-1797.0546, -168.9667, 9.4126},
-    {-1797.6467, -125.6053, 5.1712},
-    {-1811.8171, -114.1203, 5.1504},
-    {-1841.5179, -114.4944, 5.1483},
-    {-1882.5660, -106.9792, 14.5634},
-    {-1911.3077, -79.0253, 24.6949},
-    {-1938.0209, -62.3110, 25.2069},
-    {-1975.7996, -64.1764, 27.7167},
-    {-2014.0769, -67.5033, 34.8182},
-    {-2040.5736, -67.4500, 34.8250},
-    {-2046.2883, -84.8129, 34.8103},
-    {-2068.5259, -84.6942, 34.8201}
+	{1280.5173,-1569.9976,13.2578},
+	{1044.3319,-1569.9331,13.2611},
+	{1011.6945,-1488.4376,13.2500},
+	{914.8365,-1556.2850,13.2473},
+	{904.9570,-1770.4712,13.2575},
+	{812.9999,-1663.1163,13.2579},
+	{962.3077,-1574.6035,13.2579},
+	{1075.3728,-1574.2522,13.2597},
+	{1245.3104,-1575.2465,13.2578}
 };
 
 new const Float:g_arrPrisonSpawns[][] = {
@@ -15198,7 +15167,7 @@ public PlayerCheck()
 		}
 		else if (PlayerData[i][pDrivingTest] && IsPlayerInVehicle(i, PlayerData[i][pTestCar]))
 		{
-		    if (!IsPlayerInRangeOfPoint(i, 100.0, g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][0], g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][1], g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][2]))
+		    if (!IsPlayerInRangeOfPoint(i, 250.0, g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][0], g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][1], g_arrDrivingCheckpoints[PlayerData[i][pTestStage]][2]))
 			{
 		        CancelDrivingTest(i);
 				SendClientMessage(i, COLOR_LIGHTRED, "[FIGYELEM]:{FFFFFF} Megbuktál a vizsgán, mert elhagytad a tesztbázist.");
@@ -31445,18 +31414,19 @@ CMD:drivingtest(playerid, params[])
 	GetPlayerPos(playerid, PlayerData[playerid][pPos][0], PlayerData[playerid][pPos][1], PlayerData[playerid][pPos][2]);
  	GetPlayerFacingAngle(playerid, PlayerData[playerid][pPos][3]);
 
-    PlayerData[playerid][pTestCar] = CreateVehicle(410, -2047.1056, -87.7183, 34.8219, 0.1447, 1, 1, -1);
+    PlayerData[playerid][pTestCar] = CreateVehicle(405, 1272.3558, -1558.7355, 13.4364, 269.2886, 1, 1, -1);
     PlayerData[playerid][pTestWarns] = 0;
 
 	if (PlayerData[playerid][pTestCar] != INVALID_VEHICLE_ID)
 	{
+	    SetPlayerPos( playerid, 1272.3558, -1558.7355, 13.4364 );
+	    SetPlayerInterior( playerid, 0 );
+	    SetPlayerVirtualWorld( playerid, 0 );
+	    
 		PlayerData[playerid][pDrivingTest] = true;
 	    PlayerData[playerid][pTestStage] = 0;
 
 		ResetVehicle(PlayerData[playerid][pTestCar]);
-	    SetPlayerVirtualWorld(playerid, (2000 + playerid));
-
-	    SetVehicleVirtualWorld(PlayerData[playerid][pTestCar], (2000 + playerid));
 		PutPlayerInVehicle(playerid, PlayerData[playerid][pTestCar], 0);
 
 		SetPlayerCheckpoint(playerid, g_arrDrivingCheckpoints[0][0], g_arrDrivingCheckpoints[0][1], g_arrDrivingCheckpoints[0][2], 3.0);
