@@ -33094,7 +33094,7 @@ CMD:open(playerid, params[])
 		}
 		else
 		{
-		    if (GateData[id][gateFaction] != -1 && PlayerData[playerid][pFaction] != GateData[id][gateFaction])
+		    if (GateData[id][gateFaction] != -1 && PlayerData[playerid][pFaction] != GetFactionByID(GateData[id][gateFaction]))
 				return SendErrorMessage(playerid, "Ezt nem nyithatod ki.");
 
 			Gate_Operate(id);
