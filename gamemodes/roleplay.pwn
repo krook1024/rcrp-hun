@@ -404,7 +404,8 @@ enum playerData {
 	pTempCar,
 	pTempHouse,
 	pTempBiz,
-	pPMEnable
+	pPMEnable,
+	pUpgradeEnable,
 };
 
 enum reportData {
@@ -551,7 +552,14 @@ enum carData {
 	carJob,
 	carWeapons[5],
 	carAmmo[5],
-	carVehicle
+	carVehicle,
+	carLock,
+	carAlarm,
+	carImmob,
+	carInsurance,
+	Float:carEngine,
+	Float:carBattery
+	
 };
 
 enum carStorage {
@@ -6858,8 +6866,13 @@ public Car_Load()
 	    CarData[i][carImpounded] = cache_get_field_int(i, "carImpounded");
 	    CarData[i][carImpoundPrice] = cache_get_field_int(i, "carImpoundPrice");
         CarData[i][carFaction] = cache_get_field_int(i, "carFaction");
+        CarData[i][carLock] = cache_get_field_int(i, "carLock");
+        CarData[i][carAlarm] = cache_get_field_int(i, "carAlarm");
+        CarData[i][carImmob] = cache_get_field_int(i, "carImmob");
+        CarData[i][carInsurance] = cache_get_field_int(i, "carInsurance");
+        CarData[i][carEngine] = cache_get_field_float(i, "carEngine");
+        CarData[i][carBattery] = cache_get_field_float(i, "carBattery");
         
-		printf("carFaction(%i): %i", i, CarData[i][carFaction] );
 		
         CarData[i][carJob] = cache_get_field_int(i, "carJob");
 
@@ -7164,6 +7177,38 @@ public RepairCar(playerid, vehicleid)
 
 	return 1;
 }
+
+forward UpgradeSecurity(playerid, vehicleid, upgrade, level);
+public UpgradeSecurity(playerid, vehicleid, upgrade, level)
+{
+	new id = Car_GetID(vehicleid), UpgradeWord[];
+	
+	if( !Car_Inside(playerid, id) )
+	    return 0;
+
+	switch (upgrade)
+	{
+	    case 'l':
+	    {
+            CarData[id][carLock] = upgrade;
+            UpgradeWord = "zárja";
+	    }
+	    case 'a':
+	    {
+            CarData[id][carAlarm] = upgrade;
+            UpgradeWord = "riasztója";
+	    }
+	    case 'i':
+	    {
+            CarData[id][carImmob] = upgrade;
+            UpgradeWord = "immobilizere";
+	    }
+	}
+	
+	SendServerMessage( playerid, "A jármûved %s fel lett fejlesztve %d-es szintre.", UpgradeWord, level );
+	return 1;
+}
+
 
 forward Business_LoadCars(bizid);
 public Business_LoadCars(bizid)
@@ -8473,6 +8518,23 @@ Car_Create(ownerid, modelid, Float:x, Float:y, Float:z, Float:angle, color1, col
             CarData[i][carImpoundPrice] = 0;
             CarData[i][carFaction] = type;
 
+/*
+            if(IsEngineVehicle(modelid) && IsABike(modelid))
+            {
+	            CarData[i][carEngine] = 50.0;
+	            CarData[i][carBattery] = 100.0;
+			}
+			else if(IsEngineVehicle(modelid))
+			{
+				CarData[i][carEngine] = 100.0;
+	            CarData[i][carBattery] = 100.0;
+			}
+			else
+			{
+				CarData[i][carEngine] = 0.0;
+	            CarData[i][carBattery] = 0.0;
+			}
+*/
             for (new j = 0; j < 14; j ++)
 			{
                 if (j < 5)
@@ -8516,6 +8578,13 @@ Car_Delete(carid)
 	    CarData[carid][carID] = 0;
 	    CarData[carid][carOwner] = 0;
 	    CarData[carid][carVehicle] = 0;
+
+        CarData[carid][carLock] = 0;
+        CarData[carid][carAlarm] = 0;
+        CarData[carid][carImmob] = 0;
+        CarData[carid][carInsurance] = 0;
+        CarData[carid][carEngine] = 0;
+        CarData[carid][carBattery] = 0;
 	}
 	return 1;
 }
@@ -8531,7 +8600,7 @@ Car_Save(carid)
 			CarData[carid][carMods][i] = GetVehicleComponentInSlot(CarData[carid][carVehicle], i);
 	    }
 	}
-	format(query, sizeof(query), "UPDATE `cars` SET `carModel` = '%d', `carOwner` = '%d', `carPosX` = '%.4f', `carPosY` = '%.4f', `carPosZ` = '%.4f', `carPosR` = '%.4f', `carColor1` = '%d', `carColor2` = '%d', `carPaintjob` = '%d', `carLocked` = '%d'",
+	format(query, sizeof(query), "UPDATE `cars` SET `carModel` = '%d', `carOwner` = '%d', `carPosX` = '%.4f', `carPosY` = '%.4f', `carPosZ` = '%.4f', `carPosR` = '%.4f', `carColor1` = '%d', `carColor2` = '%d', `carPaintjob` = '%d', `carLocked` = '%d', `carLock` = '%d', `carAlarm` = '%d', `carImmob` = '%d', `carInsurance` = '%d', `carEngine` = '%f', `carBattery` = '%f'",
         CarData[carid][carModel],
         CarData[carid][carOwner],
         CarData[carid][carPos][0],
@@ -8541,7 +8610,14 @@ Car_Save(carid)
         CarData[carid][carColor1],
         CarData[carid][carColor2],
         CarData[carid][carPaintjob],
-        CarData[carid][carLocked]
+        CarData[carid][carLocked],
+        CarData[carid][carLock],
+        CarData[carid][carAlarm],
+        CarData[carid][carImmob],
+        CarData[carid][carInsurance],
+        CarData[carid][carEngine],
+        CarData[carid][carBattery]
+        
 	);
 	format(query, sizeof(query), "%s, `carMod1` = '%d', `carMod2` = '%d', `carMod3` = '%d', `carMod4` = '%d', `carMod5` = '%d', `carMod6` = '%d', `carMod7` = '%d', `carMod8` = '%d', `carMod9` = '%d', `carMod10` = '%d', `carMod11` = '%d', `carMod12` = '%d', `carMod13` = '%d', `carMod14` = '%d'",
 		query,
@@ -8560,7 +8636,7 @@ Car_Save(carid)
 		CarData[carid][carMods][12],
 		CarData[carid][carMods][13]
 	);
-	format(query, sizeof(query), "%s, `carImpounded` = '%d', `carImpoundPrice` = '%d', `carFaction` = '%d', `carJob` = '%d', `carWeapon1` = '%d', `carWeapon2` = '%d', `carWeapon3` = '%d', `carWeapon4` = '%d', `carWeapon5` = '%d', `carAmmo1` = '%d', `carAmmo2` = '%d', `carAmmo3` = '%d', `carAmmo4` = '%d', `carAmmo5` = '%d' WHERE `carID` = '%d'",
+	format(query, sizeof(query), "%s, `carImpounded` = '%d', `carImpoundPrice` = '%d', `carFaction` = '%d', `carJob` = '%d', `carWeapon1` = '%d', `carWeapon2` = '%d', `carWeapon3` = '%d', `carWeapon4` = '%d', `carWeapon5` = '%d', `carAmmo1` = '%d', `carAmmo2` = '%d', `carAmmo3` = '%d', `carAmmo4` = '%d', `carAmmo5` = '%d', WHERE `carID` = '%d'",
 		query,
 		CarData[carid][carImpounded],
 		CarData[carid][carImpoundPrice],
@@ -12824,6 +12900,7 @@ ResetStatistics(playerid)
 	PlayerData[playerid][pTempHouse] = -1;
 	PlayerData[playerid][pTempBiz] = -1;
 	PlayerData[playerid][pPMEnable] = 0;
+	PlayerData[playerid][pUpgradeEnable] = 0;
 	PlayerData[playerid][pTempCar] = -1;
     ResetWarnings(playerid);
 }
@@ -15366,6 +15443,28 @@ public OnVehicleDeath(vehicleid)
 	    CoreVehicles[vehicleid][vehTemporary] = false;
 	    DestroyVehicle(vehicleid);
 	}
+	
+	if( CarData[vehicleid][carExists] && CarData[vehicleid][carOwner] != 0 )
+	{
+		new id = Car_GetID(vehicleid);
+
+/*
+	    CarData[id][carEngine] -= 10-float(random(5));
+	    CarData[id][carBattery] -= 10;
+
+		if( CarData[id][carEngine] < 0 )
+	        CarData[id][carEngine] = 0;
+
+		if( CarData[id][carBattery] < 0 )
+	        CarData[id][carBattery] = 0;
+*/
+		foreach (new i : Player)
+		{
+		    if( Car_IsOwner(i, id) )
+				SendServerMessage(i, "A %s-ed megsemmisült. Motor állapot: %.2f, akku állapot: %.2f.", ReturnVehicleModelName(CarData[id][carModel]), CarData[id][carEngine], CarData[id][carBattery]);
+		}
+	}
+	
 	for (new i = 0; i != MAX_CRATES; i ++) if (CrateData[i][crateExists] && CrateData[i][crateVehicle] == vehicleid) {
 	    Crate_Delete(i);
 	}
@@ -27967,6 +28066,19 @@ CMD:engine(playerid, params[])
 	if (ReturnVehicleHealth(vehicleid) <= 300)
 	    return SendErrorMessage(playerid, "Ez a jármû totálkáros és nem lehet elindítani.");
 
+/*
+	if( id != -1 )
+	{
+		if( CarData[id][carEngine] <= 10 && IsEngineVehicle(vehicleid) )
+		    return SendErrorMessage(playerid, "A jármûved motorja totálkáros, ezért nem tudod beindítani.");
+
+		if( CarData[id][carBattery] <= 10 && GetPlayerSpeed(playerid) < 3.0 )
+		    return SendErrorMessage(playerid, "A jármû aksija le van merülve. Próbáld meg megtolni a kocsit az indításhoz.");
+
+		if( !GetEngineStatus(vehicleid) && ( GetVehicleHealth(vehicleid) <= 389 && GetVehicleHealth(vehicleid) > 300 ) && random(1) == 0 )
+		    return SendErrorMessage(playerid, "A jármû motorja lefulladt. Próbáld meg újra elindítani a jármûvet." );
+	}
+*/
 	if( (id != -1 && Car_IsOwner(playerid, id)) ||
 		PlayerData[playerid][pTempCar] == vehicleid ||
 		vehicleid == PlayerData[playerid][pTestCar] ||
@@ -27980,6 +28092,8 @@ CMD:engine(playerid, params[])
 		    case false:
 		    {
 		        SetEngineStatus(vehicleid, true);
+		        CarData[vehicleid][carEngine] -= 0.001;
+		        
 		        ShowPlayerFooter(playerid, "~g~Elindítottad~w~ a motort.");
 		        SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elfordítja a kulcsot és beindítja a jármûvet.", ReturnName(playerid, 0));
 			}
@@ -28151,6 +28265,7 @@ CMD:lights(playerid, params[])
 		    ShowPlayerFooter(playerid, "~r~Lekapcsoltad~w~ a fényszórókat.");
 		}
 	}
+    //CarData[vehicleid][carBattery] -= 0.001;
 	return 1;
 }
 
@@ -28203,6 +28318,7 @@ CMD:windows(playerid, params[])
 		    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s felhúzta az ablakot.", ReturnName(playerid, 0));
 		}
 	}
+    //CarData[vehicleid][carBattery] -= 0.001;
 	return 1;
 }
 
@@ -30234,6 +30350,128 @@ CMD:abandon(playerid, params[])
 	return 1;
 }
 
+
+CMD:v(playerid, params[])
+{
+	static
+	    id,
+	    id2,
+	    type[24],
+	    string[128];
+
+	if (sscanf(params, "s[24]S()[128]", type, string))
+ 	{
+	 	SendSyntaxMessage(playerid, "/v [nevek]");
+	    SendClientMessage(playerid, COLOR_YELLOW, "[NEVEK]:{FFFFFF} lock, factionize"); //upgradelock, upgradealarm, upgradeimmo, insurance, engine, battery, armor");
+		return 1;
+	}
+	
+	id = Car_Inside(playerid);
+	id2 = CarData[id][carVehicle];
+	
+	if( id != -1 || !Car_IsOwner(playerid, id) )
+	    return SendErrorMessage(playerid, "Nem ülsz jármûben vagy a jármû nem a tied.");
+
+	if (!strcmp(type, "lock", true))
+	{
+		cmd_lock( playerid, "\1" );
+	}
+	else if (!strcmp(type, "factionize", true))
+	{
+		if (PlayerData[playerid][pFaction] == -1)
+		    return SendErrorMessage(playerid, "Nem vagy frakcióban.");
+
+		if (PlayerData[playerid][pFactionRank] < FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1)
+		    return SendErrorMessage(playerid, "Nem vagy legalább %d-es rangú.", FactionData[PlayerData[playerid][pFaction]][factionRanks] - 1);
+
+		CarData[id][carFaction] = PlayerData[playerid][pFaction];
+	 	CarData[id][carOwner] = 0;
+		Car_Save(id);
+		
+		SendServerMessage(playerid, "A %s kocsi mostantól a frakciódé.", ReturnVehicleModelName(model));
+	}
+/*	else if (!strcmp(type, "upgradelock", true))
+	{
+	    new level;
+
+	    if (sscanf(string, "d", level))
+     	{
+     	    SendSyntaxMessage(playerid, "/v upgradelock [szint]. Jelenlegi szint: %d", CarData[id][carLock]);
+		 	return 1;
+		}
+		
+		if (level < 1 || level > 5)
+		    return SendErrorMessage(playerid, "Hibás érték (1-5).");
+
+		if( level <= CarData[id][carLock])
+		    return SendErrorMessage(playerid, "Ez a szint kisebb, mint amekkorán a jármûved most van.");
+
+        if (CoreVehicles[vehicleid][vehRepairing])
+            return SendErrorMessage(playerid, "Ezen a jármûven már dolgoznak.");
+
+		if( BusinessData[Business_Nearest(playerid)][bizType] != 5 )
+			return SendErrorMessage(playerid, "Nem vagy egy kereskedés közelében.");
+
+        CoreVehicles[id2][vehRepairing] = true;
+        SetTimerEx("UpgradeSecurity", 30000, false, "dddd", playerid, id2, 'l', level);
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~g~Fejlesztés...~w~ Kérlek várj 30 másodpercet.", 5500, 3);
+	}
+	else if (!strcmp(type, "upgradealarm", true))
+	{
+	    new level;
+
+	    if (sscanf(string, "d", level))
+     	{
+     	    SendSyntaxMessage(playerid, "/v upgradealarm [szint]. Jelenlegi szint: %d", CarData[id][carAlarm]);
+		 	return 1;
+		}
+
+		if (level < 1 || level > 4)
+		    return SendErrorMessage(playerid, "Hibás érték (1-4).");
+
+		if( level <= CarData[id][carAlarm])
+		    return SendErrorMessage(playerid, "Ez a szint kisebb, mint amekkorán a jármûved most van.");
+
+        if (CoreVehicles[vehicleid][vehRepairing])
+            return SendErrorMessage(playerid, "Ezen a jármûven már dolgoznak.");
+
+		if( BusinessData[Business_Nearest(playerid)][bizType] != 5 )
+			return SendErrorMessage(playerid, "Nem vagy egy kereskedés közelében.");
+
+        CoreVehicles[id2][vehRepairing] = true;
+        SetTimerEx("UpgradeSecurity", 30000, false, "dddd", playerid, id2, 'a', level);
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~g~Fejlesztés...~w~ Kérlek várj 30 másodpercet.", 5500, 3);
+	}
+	else if (!strcmp(type, "upgradeimmo", true))
+	{
+	    new level;
+
+	    if (sscanf(string, "d", level))
+     	{
+     	    SendSyntaxMessage(playerid, "/v upgradeimmo [szint]. Jelenlegi szint: %d", CarData[id][carImmo]);
+		 	return 1;
+		}
+
+		if (level < 1 || level > 5)
+		    return SendErrorMessage(playerid, "Hibás érték (1-5).");
+
+		if( level <= CarData[id][carImmob])
+		    return SendErrorMessage(playerid, "Ez a szint kisebb, mint amekkorán a jármûved most van.");
+
+        if (CoreVehicles[vehicleid][vehRepairing])
+            return SendErrorMessage(playerid, "Ezen a jármûven már dolgoznak.");
+
+		if( BusinessData[Business_Nearest(playerid)][bizType] != 5 )
+			return SendErrorMessage(playerid, "Nem vagy egy kereskedés közelében.");
+
+        CoreVehicles[id2][vehRepairing] = true;
+        SetTimerEx("UpgradeSecurity", 30000, false, "dddd", playerid, id2, 'i', level);
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~g~Fejlesztés...~w~ Kérlek várj 30 másodpercet.", 5500, 3);
+	}*/
+	return 1;
+}
+
+
 CMD:switch(playerid, params[])
 {
 	static
@@ -31782,6 +32020,28 @@ CMD:park(playerid, params[])
 		GetVehicleDamageStatus(CarData[carid][carVehicle], g_arrDamage[0], g_arrDamage[1], g_arrDamage[2], g_arrDamage[3]);
 		GetVehicleHealth(CarData[carid][carVehicle], health);
 
+/*
+		if( health >= 550 && health <= 650 )
+		{
+		    CarData[carid][carEngine] -= ((1000-health)/125.0);
+		    CarData[carid][carBattery] -= ((1000-health)/150.0);
+		}else if( health >= 390 && health <= 549 )
+		{
+		    CarData[carid][carEngine] -= ((1000-health)/100.0);
+		    CarData[carid][carBattery] -= ((1000-health)/125.0);
+		}else if( health > 250 && health <= 389 )
+		{
+		    CarData[carid][carEngine] -= ((1000-health)/75.0);
+		    CarData[carid][carBattery] -= ((1000-health)/100.0);
+		}
+		
+		if( CarData[carid][carEngine] < 0 )
+            CarData[carid][carEngine] = 0;
+            
+		if( CarData[carid][carBattery] < 0 )
+            CarData[carid][carBattery] = 0;
+*/
+
 		foreach (new i : Player) if (IsPlayerInVehicle(i, CarData[carid][carVehicle])) {
 		    seatid = GetPlayerVehicleSeat(i);
 
@@ -32404,7 +32664,7 @@ CMD:repair(playerid, params[])
 	        return SendErrorMessage(playerid, "Nincs felnyitva a motorháztetõ.");
 
         if (CoreVehicles[i][vehRepairing])
-            return SendErrorMessage(playerid, "Ezt a jármûvet már javítják.");
+            return SendErrorMessage(playerid, "Ezen a jármûven már dolgoznak.");
 
 		Inventory_Remove(playerid, "Szerszámos láda");
 		ApplyAnimation(playerid, "BD_FIRE", "wash_up", 4.1, 0, 0, 0, 0, 0, 1);
