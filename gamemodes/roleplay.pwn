@@ -33930,6 +33930,18 @@ CMD:frank(playerid, params[])
 	return 1;
 }
 
+CMD:rand(playerid, params[])
+{
+	new randmin, randmax, emote[256];
+
+	if(sscanf(params, "iiS[256]", randmin, randmax)) return SendSyntaxMessage(playerid, "/rand [min] [max] [emote]");
+	if(randmin < 0 || randmax < 0 || randmax >= randmin) return SendErrorMessage(playerid, "Érvénytelen érték.");
+	
+	new rand = randmin+rand(randmax-randmin);
+    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "! %s %s (szám: %d, min: %d, max: %d)", ReturnName(playerid, 0), emote, rand, randmin, randmax );
+}
+
+
 CMD:spawnpoint(playerid, params[])
 {
 	new point;
