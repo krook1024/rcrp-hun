@@ -310,6 +310,7 @@ enum playerData {
 	pCP,
 	pPrisoned,
 	pInjured,
+	pInjuredTime,
 	pBroadcast,
 	pNewsGuest,
 	pSpamCount,
@@ -7178,12 +7179,14 @@ public RepairCar(playerid, vehicleid)
 	return 1;
 }
 
+/*
 forward UpgradeSecurity(playerid, vehicleid, upgrade, level);
 public UpgradeSecurity(playerid, vehicleid, upgrade, level)
 {
-	new id = Car_GetID(vehicleid), UpgradeWord[];
+	new id = Car_GetID(vehicleid);
+	new UpgradeWord[10];
 	
-	if( !Car_Inside(playerid, id) )
+	if( !Car_Inside(playerid) )
 	    return 0;
 
 	switch (upgrade)
@@ -7208,7 +7211,7 @@ public UpgradeSecurity(playerid, vehicleid, upgrade, level)
 	SendServerMessage( playerid, "A jármûved %s fel lett fejlesztve %d-es szintre.", UpgradeWord, level );
 	return 1;
 }
-
+*/
 
 forward Business_LoadCars(bizid);
 public Business_LoadCars(bizid)
@@ -12817,6 +12820,7 @@ ResetStatistics(playerid)
     PlayerData[playerid][pDraggedBy] = INVALID_PLAYER_ID;
 	PlayerData[playerid][pPrisoned] = 0;
 	PlayerData[playerid][pInjured] = 0;
+	PlayerData[playerid][pInjuredTime] = 0;
 	PlayerData[playerid][pWarrants] = 0;
     PlayerData[playerid][pMDCPlayer] = INVALID_PLAYER_ID;
     PlayerData[playerid][pTrackTime] = 0;
@@ -16921,14 +16925,13 @@ public OnPlayerEnterCheckpoint(playerid)
 					    PlayerData[playerid][pUnloadVehicle] = INVALID_VEHICLE_ID;
 
 						DisablePlayerCheckpoint(playerid);
-					    SendServerMessage(playerid, "You have delivered all the crates from the vehicle.");
-					    SendServerMessage(playerid, "Deliver your truck to the checkpoint to get paid.");
+					    SendServerMessage(playerid, "Mindegyik ládát elszállítottad. Vidd a kamionodat a CP-hez, hogy megkapd a fizetésedet.");
 					    SetPlayerCheckpoint(playerid, 2521.0376, -2090.3279, 13.4125, 5.0);
 
 					    if (PlayerData[playerid][pShipment] != -1)
 					    {
 					        foreach (new i : Player) if (Business_IsOwner(i, PlayerData[playerid][pShipment])) {
-					            SendServerMessage(playerid, "%s elszállította a küldeményt %s-ba..", ReturnName(playerid, 0), BusinessData[PlayerData[playerid][pShipment]][bizName]);
+					            SendServerMessage(playerid, "%s elszállította a küldeményt %s-ba.", ReturnName(playerid, 0), BusinessData[PlayerData[playerid][pShipment]][bizName]);
 							}
 							BusinessData[PlayerData[playerid][pShipment]][bizShipment] = 0;
 							Business_Save(PlayerData[playerid][pShipment]);
@@ -17030,6 +17033,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 	    if (!PlayerData[playerid][pInjured])
 		{
 	        PlayerData[playerid][pInjured] = 1;
+	        PlayerData[playerid][pInjuredTime] = gettime()+120;
 
 	        PlayerData[playerid][pInterior] = GetPlayerInterior(playerid);
 	    	PlayerData[playerid][pWorld] = GetPlayerVirtualWorld(playerid);
@@ -17042,6 +17046,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 		    TextDrawHideForPlayer(playerid, gServerTextdraws[2]);
 
 			PlayerData[playerid][pInjured] = 0;
+			PlayerData[playerid][pInjuredTime] = 0;
 			PlayerData[playerid][pHospital] = GetClosestHospital(playerid);
 		}
 		if (PlayerData[playerid][pCallLine] != INVALID_PLAYER_ID)
@@ -23513,7 +23518,7 @@ Dialog:StartDelivery(playerid, response, listitem, inputtext[])
 		PlayerData[playerid][pLoadCrate] = 1;
 		PlayerData[playerid][pLoading] = 1;
 
-		SendServerMessage(playerid, "Kiválasztottad ezt: \"%s\". Rakd be a ládát a kamionba.", inputtext);
+		SendServerMessage(playerid, "Rakd be a ládát a kamionba.");
 		SetPlayerCheckpoint(playerid, JobData[id][jobPoint][0], JobData[id][jobPoint][1], JobData[id][jobPoint][2], 1.0);
 
         SetPlayerAttachedObject(playerid, 4, 3014, 1, 0.038192, 0.371544, 0.055191, 0.000000, 90.000000, 357.668670, 1.000000, 1.000000, 1.000000);
@@ -27710,6 +27715,16 @@ Dialog:ChangePassword(playerid, response, listitem, inputtext[])
 	return 1;
 }
 
+public OnPlayerCommandPerformed(playerid, cmdtext[], success)
+{
+    if (!success)
+	{
+		SendServerMessage(playerid, "Érvénytelen parancs, segítségért használd a /help parancsot. Ha kérdésed van, használd a /helpme parancsot.");
+		return 1;
+    }
+	return 1;
+}
+
 CMD:x(playerid, params[])
 {
 	new Float:x, Float:y, Float:z, Float:npos;
@@ -28911,6 +28926,7 @@ CMD:revive(playerid, params[])
 
 	ShowHungerTextdraw(userid, 1);
 	PlayerData[userid][pInjured] = 0;
+	PlayerData[userid][pInjuredTime] = 0;
 
 	ClearAnimations(userid);
 	TextDrawHideForPlayer(userid, gServerTextdraws[2]);
@@ -30388,7 +30404,7 @@ CMD:v(playerid, params[])
 	 	CarData[id][carOwner] = 0;
 		Car_Save(id);
 		
-		SendServerMessage(playerid, "A %s kocsi mostantól a frakciódé.", ReturnVehicleModelName(model));
+		SendServerMessage(playerid, "A %s kocsi mostantól a frakciódé.", ReturnVehicleModelName(GetVehicleModel(id2)));
 	}
 /*	else if (!strcmp(type, "upgradelock", true))
 	{
@@ -34303,6 +34319,9 @@ CMD:giveup(playerid, params[])
 	if (!PlayerData[playerid][pInjured])
 	    return SendErrorMessage(playerid, "Jelenleg nem vagy megsérülve.");
 
+	if( PlayerData[playerid][pInjuredTime] - gettime() >= 0 )
+	    return SendErrorMessage(playerid, "Még várnod kell %d másodpercet.", PlayerData[playerid][pInjuredTime] - gettime() );
+
 	SetPlayerHealth(playerid, 0.0);
 	SendServerMessage(playerid, "Feladtad.");
 	return 1;
@@ -34395,6 +34414,7 @@ CMD:dropinjured(playerid, params[])
   		ShowHungerTextdraw(userid, 1);
 
   		PlayerData[userid][pInjured] = 0;
+  		PlayerData[userid][pInjuredTime] = 0;
 		TextDrawHideForPlayer(userid, gServerTextdraws[2]);
 		return 1;
 	}
@@ -38367,7 +38387,6 @@ CMD:stoploading(playerid, params[])
 
 	return 1;
 }
-
 CMD:startdelivery(playerid, params[])
 {
  	new id = Job_NearestPoint(playerid);
@@ -38384,7 +38403,7 @@ CMD:startdelivery(playerid, params[])
     if (IsPlayerInAnyVehicle(playerid))
     	return SendErrorMessage(playerid, "Ki kell szállnod a jármûbõl.");
 
-	Dialog_Show(playerid, StartDelivery, DIALOG_STYLE_LIST, "Select Type", "Válaszd ki az árut\nFegyverek\nRuházat\nÉlelmiszer\nGázolaj\nBútorok", "Kiválaszt", "Mégse");
+	Dialog_Show(playerid, StartDelivery, DIALOG_STYLE_LIST, "Válaszd ki az árut {FF000}Használd a /shipments parancsot az elfogadó üzletekhez.", "Bolti kellékek\nLõszer\nRuházat\nÉtelek\nÜzemanyag\nBútorzat", "Kiválaszt", "Mégse");
 	return 1;
 }
 
@@ -38444,7 +38463,7 @@ CMD:shipments(playerid, params[])
 	    return SendErrorMessage(playerid, "Nem vagy a megfelelõ munkában.");
 
 	if (PlayerData[playerid][pShipment] != -1)
-	    return SendErrorMessage(playerid, "You have already accepted a shipment (type /cancelshipment to cancel it).");
+	    return SendErrorMessage(playerid, "Már elfogadtál egyet. /cancelshipment a visszamondáshoz.");
 
 	ShowShipments(playerid);
 	return 1;
