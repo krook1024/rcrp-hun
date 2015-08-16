@@ -30403,6 +30403,7 @@ CMD:v(playerid, params[])
 	if (!strcmp(type, "lock", true))
 	{
 		cmd_lock( playerid, "\1" );
+		return 1;
 	}
 	else if (!strcmp(type, "factionize", true))
 	{
@@ -34295,7 +34296,7 @@ CMD:arrest(playerid, params[])
 	PlayerData[userid][pJailTime] = time * 60;
 
 	StopDragging(userid);
-	SetPlayerInPrison(userid);
+	//SetPlayerInPrison(userid);
 
 	ResetWeapons(userid);
 	ResetPlayer(userid);
