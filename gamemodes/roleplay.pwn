@@ -300,6 +300,7 @@ enum playerData {
 	pTazer,
 	pBeanBag,
 	pStunned,
+	pStunnedTime,
 	pCuffed,
 	pDragged,
 	pDraggedBy,
@@ -16509,136 +16510,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		{
 		    cmd_open(playerid, "\1");
 		}
-	    if ((id = House_Nearest(playerid)) != -1)
-	    {
-	        if (HouseData[id][houseLocked])
-	            return SendErrorMessage(playerid, "Nem tudsz bemenni egy zárt házba.");
-
-			SetPlayerPosEx(playerid, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]);
-			SetPlayerFacingAngle(playerid, HouseData[id][houseInt][3]);
-
-			SetPlayerInterior(playerid, HouseData[id][houseInterior]);
-			SetPlayerVirtualWorld(playerid, HouseData[id][houseID] + 5000);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pHouse] = HouseData[id][houseID];
-			return 1;
-		}
-		if ((id = House_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]))
-	    {
-			SetPlayerPosEx(playerid, HouseData[id][housePos][0], HouseData[id][housePos][1], HouseData[id][housePos][2]);
-			SetPlayerFacingAngle(playerid, HouseData[id][housePos][3] - 180.0);
-
-			SetPlayerInterior(playerid, HouseData[id][houseExterior]);
-			SetPlayerVirtualWorld(playerid, HouseData[id][houseExteriorVW]);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pHouse] = -1;
-			return 1;
-		}
-        if ((id = Business_Nearest(playerid)) != -1)
-	    {
-	        if (BusinessData[id][bizLocked])
-	            return SendErrorMessage(playerid, "Ezt az üzletet bezárta a tulaj.");
-
-			if (PlayerData[playerid][pTask] && !PlayerData[playerid][pStoreTask])
-			{
-			    PlayerData[playerid][pStoreTask] = 1;
-			    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Vegyesbolt", "Ez az üzlet egy vegyesbolt. Itt tárgyakat vehetsz a /buy paranccsal.\nSok hasznos dolgot vehetsz itt, amelyeket hozzáadhatsz az inventorydhoz.\n\nA leghasznosabb tárgy a GPS rendszer, mivel ez segít abban, hogy megtaláld azt, amire szükséged van.\nAz 'F' gomb megnyomásával bármikor elhagyhatod az üzletet, ha az ajtónál vagy.", "Bezár", "");
-
-			    if (IsTaskCompleted(playerid))
-				{
-    				PlayerData[playerid][pTask] = 0;
-					ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
-				}
-			}
-			SetPlayerPosEx(playerid, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]);
-			SetPlayerFacingAngle(playerid, BusinessData[id][bizInt][3]);
-
-			SetPlayerInterior(playerid, BusinessData[id][bizInterior]);
-			SetPlayerVirtualWorld(playerid, BusinessData[id][bizID] + 6000);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pBusiness] = BusinessData[id][bizID];
-
-			if (strlen(BusinessData[id][bizMessage]) && strcmp(BusinessData[id][bizMessage], "NULL", true)) {
-			    SendClientMessage(playerid, COLOR_DARKBLUE, BusinessData[id][bizMessage]);
-			}
-			return 1;
-		}
-		if ((id = Business_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]))
-	    {
-			SetPlayerPosEx(playerid, BusinessData[id][bizPos][0], BusinessData[id][bizPos][1], BusinessData[id][bizPos][2]);
-			SetPlayerFacingAngle(playerid, BusinessData[id][bizPos][3] - 180.0);
-
-			SetPlayerInterior(playerid, BusinessData[id][bizExterior]);
-			SetPlayerVirtualWorld(playerid, BusinessData[id][bizExteriorVW]);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pBusiness] = -1;
-			return 1;
-		}
-		if ((id = Entrance_Nearest(playerid)) != -1)
-	    {
-	        if (EntranceData[id][entranceLocked])
-	            return SendErrorMessage(playerid, "Ez a bejárat jelenleg be van zárva.");
-
-            if (PlayerData[playerid][pTask])
-			{
-				if (EntranceData[id][entranceType] == 2 && !PlayerData[playerid][pBankTask])
-				{
-			    	PlayerData[playerid][pBankTask] = 1;
-			    	Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Bank", "Ez az egyik San Andreasi bank. Itt tudod a bankszámláidat kezelni.\nMinden játékosnak van egy alapértelmezett bankszámlája és befektetési számlája.\n\nA /bank parancs használatával tudod a bankszámláidat kezelni.\nHa egy ATM közelében vagy, az /atm parancsot használhatod a banki ügyeid intézéséhez.", "Bezár", "");
-
-				    if (IsTaskCompleted(playerid))
-					{
-				        PlayerData[playerid][pTask] = 0;
-						ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
-					}
-				}
-				else if (EntranceData[id][entranceType] == 1 && !PlayerData[playerid][pTestTask])
-				{
-			    	PlayerData[playerid][pTestTask] = 1;
-			    	Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "DMV", "A DMV az, ahol le tudod tenni a jogosítványodat.\nKerüld el az akadályokat, ne sérüljön a jármûved és ne hajts gyorsan a teszt során.\n\nMinden lakosnak rendelkeznie kell jogosítvánnyal, ha jármûvet szeretne vezetni.\nA jogosítvány nélküli jármûvezetés súlyos következményekkel járhat.", "Bezár", "");
-
-				    if (IsTaskCompleted(playerid))
-					{
-				        PlayerData[playerid][pTask] = 0;
-						ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
-					}
-				}
-			}
-			if (EntranceData[id][entranceCustom])
-				SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
-
-			else
-			    SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
-
-			SetPlayerFacingAngle(playerid, EntranceData[id][entranceInt][3]);
-
-			SetPlayerInterior(playerid, EntranceData[id][entranceInterior]);
-			SetPlayerVirtualWorld(playerid, EntranceData[id][entranceWorld]);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pEntrance] = EntranceData[id][entranceID];
-			return 1;
-		}
-		if ((id = Entrance_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]))
-	    {
-	        if (EntranceData[id][entranceCustom])
-				SetPlayerPosEx(playerid, EntranceData[id][entrancePos][0], EntranceData[id][entrancePos][1], EntranceData[id][entrancePos][2]);
-
-			else
-			    SetPlayerPosEx(playerid, EntranceData[id][entrancePos][0], EntranceData[id][entrancePos][1], EntranceData[id][entrancePos][2]);
-
-			SetPlayerFacingAngle(playerid, EntranceData[id][entrancePos][3] - 180.0);
-			SetPlayerInterior(playerid, EntranceData[id][entranceExterior]);
-			SetPlayerVirtualWorld(playerid, EntranceData[id][entranceExteriorVW]);
-
-			SetCameraBehindPlayer(playerid);
-			PlayerData[playerid][pEntrance] = Entrance_GetLink(playerid);
-			return 1;
-		}
 		if ((id = Crate_Nearest(playerid)) != -1 && PlayerData[playerid][pCarryCrate] == -1 && !IsCrateInUse(id))
 		{
 		    // If the crate is within a stack, this function below
@@ -16938,7 +16809,7 @@ public OnPlayerEnterCheckpoint(playerid)
 
 						DisablePlayerCheckpoint(playerid);
 					    SendServerMessage(playerid, "Mindegyik ládát elszállítottad. Vidd a kamionodat a CP-hez, hogy megkapd a fizetésedet.");
-					    SetPlayerCheckpoint(playerid, 2521.0376, -2090.3279, 13.4125, 5.0);
+					    SetPlayerCheckpoint(playerid, 891.2290, -1229.5023, 16.8252, 5.0);
 
 					    if (PlayerData[playerid][pShipment] != -1)
 					    {
@@ -29691,6 +29562,152 @@ CMD:getcar( playerid, params[] )
 	return cmd_bringcar(playerid, params);
 }
 
+CMD:exit(playerid, params[])
+{
+	static
+	    id = -1;
+	    
+	if ((id = House_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]))
+    {
+		SetPlayerPosEx(playerid, HouseData[id][housePos][0], HouseData[id][housePos][1], HouseData[id][housePos][2]);
+		SetPlayerFacingAngle(playerid, HouseData[id][housePos][3] - 180.0);
+
+		SetPlayerInterior(playerid, HouseData[id][houseExterior]);
+		SetPlayerVirtualWorld(playerid, HouseData[id][houseExteriorVW]);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pHouse] = -1;
+		return 1;
+	}
+	if ((id = Business_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]))
+    {
+		SetPlayerPosEx(playerid, BusinessData[id][bizPos][0], BusinessData[id][bizPos][1], BusinessData[id][bizPos][2]);
+		SetPlayerFacingAngle(playerid, BusinessData[id][bizPos][3] - 180.0);
+
+		SetPlayerInterior(playerid, BusinessData[id][bizExterior]);
+		SetPlayerVirtualWorld(playerid, BusinessData[id][bizExteriorVW]);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pBusiness] = -1;
+		return 1;
+	}
+	if ((id = Entrance_Inside(playerid)) != -1 && IsPlayerInRangeOfPoint(playerid, 2.5, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]))
+    {
+        if (EntranceData[id][entranceCustom])
+			SetPlayerPosEx(playerid, EntranceData[id][entrancePos][0], EntranceData[id][entrancePos][1], EntranceData[id][entrancePos][2]);
+
+		else
+		    SetPlayerPosEx(playerid, EntranceData[id][entrancePos][0], EntranceData[id][entrancePos][1], EntranceData[id][entrancePos][2]);
+
+		SetPlayerFacingAngle(playerid, EntranceData[id][entrancePos][3] - 180.0);
+		SetPlayerInterior(playerid, EntranceData[id][entranceExterior]);
+		SetPlayerVirtualWorld(playerid, EntranceData[id][entranceExteriorVW]);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pEntrance] = Entrance_GetLink(playerid);
+		return 1;
+	}
+	return 1;
+}
+
+CMD:enter(playerid, params[])
+{
+	static
+	    id = -1;
+		    
+    if ((id = House_Nearest(playerid)) != -1)
+    {
+        if (HouseData[id][houseLocked])
+            return SendErrorMessage(playerid, "Nem tudsz bemenni egy zárt házba.");
+
+		SetPlayerPosEx(playerid, HouseData[id][houseInt][0], HouseData[id][houseInt][1], HouseData[id][houseInt][2]);
+		SetPlayerFacingAngle(playerid, HouseData[id][houseInt][3]);
+
+		SetPlayerInterior(playerid, HouseData[id][houseInterior]);
+		SetPlayerVirtualWorld(playerid, HouseData[id][houseID] + 5000);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pHouse] = HouseData[id][houseID];
+		return 1;
+	}
+    if ((id = Business_Nearest(playerid)) != -1)
+    {
+        if (BusinessData[id][bizLocked])
+            return SendErrorMessage(playerid, "Ezt az üzletet bezárta a tulaj.");
+
+		if (PlayerData[playerid][pTask] && !PlayerData[playerid][pStoreTask])
+		{
+		    PlayerData[playerid][pStoreTask] = 1;
+		    Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Vegyesbolt", "Ez az üzlet egy vegyesbolt. Itt tárgyakat vehetsz a /buy paranccsal.\nSok hasznos dolgot vehetsz itt, amelyeket hozzáadhatsz az inventorydhoz.\n\nA leghasznosabb tárgy a GPS rendszer, mivel ez segít abban, hogy megtaláld azt, amire szükséged van.\nAz 'F' gomb megnyomásával bármikor elhagyhatod az üzletet, ha az ajtónál vagy.", "Bezár", "");
+
+		    if (IsTaskCompleted(playerid))
+			{
+				PlayerData[playerid][pTask] = 0;
+				ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
+			}
+		}
+		SetPlayerPosEx(playerid, BusinessData[id][bizInt][0], BusinessData[id][bizInt][1], BusinessData[id][bizInt][2]);
+		SetPlayerFacingAngle(playerid, BusinessData[id][bizInt][3]);
+
+		SetPlayerInterior(playerid, BusinessData[id][bizInterior]);
+		SetPlayerVirtualWorld(playerid, BusinessData[id][bizID] + 6000);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pBusiness] = BusinessData[id][bizID];
+
+		if (strlen(BusinessData[id][bizMessage]) && strcmp(BusinessData[id][bizMessage], "NULL", true)) {
+		    SendClientMessage(playerid, COLOR_DARKBLUE, BusinessData[id][bizMessage]);
+		}
+		return 1;
+	}
+	if ((id = Entrance_Nearest(playerid)) != -1)
+    {
+        if (EntranceData[id][entranceLocked])
+            return SendErrorMessage(playerid, "Ez a bejárat jelenleg be van zárva.");
+
+        if (PlayerData[playerid][pTask])
+		{
+			if (EntranceData[id][entranceType] == 2 && !PlayerData[playerid][pBankTask])
+			{
+		    	PlayerData[playerid][pBankTask] = 1;
+		    	Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "Bank", "Ez az egyik San Andreasi bank. Itt tudod a bankszámláidat kezelni.\nMinden játékosnak van egy alapértelmezett bankszámlája és befektetési számlája.\n\nA /bank parancs használatával tudod a bankszámláidat kezelni.\nHa egy ATM közelében vagy, az /atm parancsot használhatod a banki ügyeid intézéséhez.", "Bezár", "");
+
+			    if (IsTaskCompleted(playerid))
+				{
+			        PlayerData[playerid][pTask] = 0;
+					ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
+				}
+			}
+			else if (EntranceData[id][entranceType] == 1 && !PlayerData[playerid][pTestTask])
+			{
+		    	PlayerData[playerid][pTestTask] = 1;
+		    	Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_MSGBOX, "DMV", "A DMV az, ahol le tudod tenni a jogosítványodat.\nKerüld el az akadályokat, ne sérüljön a jármûved és ne hajts gyorsan a teszt során.\n\nMinden lakosnak rendelkeznie kell jogosítvánnyal, ha jármûvet szeretne vezetni.\nA jogosítvány nélküli jármûvezetés súlyos következményekkel járhat.", "Bezár", "");
+
+			    if (IsTaskCompleted(playerid))
+				{
+			        PlayerData[playerid][pTask] = 0;
+					ShowPlayerFooter(playerid, "Sikeresen ~g~befejezted~w~ az összes feladatod.");
+				}
+			}
+		}
+		if (EntranceData[id][entranceCustom])
+			SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
+
+		else
+		    SetPlayerPosEx(playerid, EntranceData[id][entranceInt][0], EntranceData[id][entranceInt][1], EntranceData[id][entranceInt][2]);
+
+		SetPlayerFacingAngle(playerid, EntranceData[id][entranceInt][3]);
+
+		SetPlayerInterior(playerid, EntranceData[id][entranceInterior]);
+		SetPlayerVirtualWorld(playerid, EntranceData[id][entranceWorld]);
+
+		SetCameraBehindPlayer(playerid);
+		PlayerData[playerid][pEntrance] = EntranceData[id][entranceID];
+		return 1;
+	}
+	return 1;
+}
+
 CMD:entercar(playerid, params[])
 {
 	new vehicleid, seatid;
@@ -30397,7 +30414,7 @@ CMD:v(playerid, params[])
 	id = Car_Inside(playerid);
 	id2 = CarData[id][carVehicle];
 	
-	if( id != -1 || !Car_IsOwner(playerid, id) )
+	if( id == -1 || !Car_IsOwner(playerid, id) )
 	    return SendErrorMessage(playerid, "Nem ülsz jármûben vagy a jármû nem a tied.");
 
 	if (!strcmp(type, "lock", true))
