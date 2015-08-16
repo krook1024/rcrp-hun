@@ -4651,7 +4651,7 @@ stock EquipWeapon(playerid, weapon[])
 	    GiveWeaponToPlayer(playerid, 2, 1);
 
 	    Inventory_Remove(playerid, "Golf Club");
-	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has equipped a Golf Club from their inventory.", ReturnName(playerid, 0));
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvett egy golfütõt az inventoryból.", ReturnName(playerid, 0));
 	}
 	else if (!strcmp(weapon, "Knife", true))
 	{
@@ -4664,7 +4664,7 @@ stock EquipWeapon(playerid, weapon[])
 	    GiveWeaponToPlayer(playerid, 4, 1);
 
 	    Inventory_Remove(playerid, "Knife");
-	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has equipped a Knife from their inventory.", ReturnName(playerid, 0));
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvett egy kést az inventoryból.", ReturnName(playerid, 0));
 	}
 	else if (!strcmp(weapon, "Shovel", true))
 	{
@@ -4677,7 +4677,7 @@ stock EquipWeapon(playerid, weapon[])
 	    GiveWeaponToPlayer(playerid, 6, 1);
 
 	    Inventory_Remove(playerid, "Shovel");
-	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has equipped a Shovel from their inventory.", ReturnName(playerid, 0));
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvett egy ásót az inventoryból.", ReturnName(playerid, 0));
 	}
     else if (!strcmp(weapon, "Katana", true))
 	{
@@ -4690,7 +4690,7 @@ stock EquipWeapon(playerid, weapon[])
 	    GiveWeaponToPlayer(playerid, 8, 1);
 
 	    Inventory_Remove(playerid, "Katana");
-	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has equipped a Katana from their inventory.", ReturnName(playerid, 0));
+	    SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s elõvett egy katanát az inventoryból.", ReturnName(playerid, 0));
 	}
 	return 1;
 }
