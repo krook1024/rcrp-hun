@@ -12815,6 +12815,7 @@ ResetStatistics(playerid)
 	PlayerData[playerid][pTazer] = 0;
 	PlayerData[playerid][pBeanBag] = 0;
 	PlayerData[playerid][pStunned] = 0;
+	PlayerData[playerid][pStunnedTime] = 0;
 	PlayerData[playerid][pCuffed] = 0;
     PlayerData[playerid][pDragged] = 0;
     PlayerData[playerid][pDraggedBy] = INVALID_PLAYER_ID;
@@ -15767,7 +15768,15 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		SetTimerEx("UpdateBooth", 3000, false, "dd", playerid, PlayerData[playerid][pRangeBooth]);
 	}
 	if (weaponid == 23 && PlayerData[playerid][pTazer] && GetFactionType(playerid) == FACTION_POLICE) {
+	
+	    if( PlayerData[playerid][pStunnedTime] - gettime() > 0 )
+	    {
+	        SendErrorMessage(playerid, "Várnod kell még %d másodpercet a sokkoláshoz.", PlayerData[playerid][pStunnedTime] - gettime() );
+	        return 0;
+		}
+	        
 	    PlayerPlaySoundEx(playerid, 6003);
+		PlayerData[playerid][pStunnedTime] = gettime()+5;
 	}
 	if ((weaponid >= 22 && weaponid <= 38) && hittype == BULLET_HIT_TYPE_PLAYER && hitid != INVALID_PLAYER_ID)
 	{
@@ -15850,6 +15859,9 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 
             if (GetPlayerDistanceFromPlayer(playerid, damagedid) > 10.0)
                 return SendErrorMessage(playerid, "Közelebb kell állnod a sokkoláshoz.");
+
+            if( PlayerData[playerid][pStunnedTime] - gettime() > 0 )
+				return 1;
 
             new
                 string[64];
