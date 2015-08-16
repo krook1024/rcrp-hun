@@ -27004,7 +27004,7 @@ Dialog:HouseWithdrawCash(playerid, response, listitem, inputtext[])
 			House_Save(houseid);
 			House_OpenStorage(playerid, houseid);
 
-			SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has withdrawn %s from their house safe.", ReturnName(playerid, 0), FormatNumber(amount));
+			SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s kivett %s-t a házszéfjébõl.", ReturnName(playerid, 0), FormatNumber(amount));
 		}
 		else Dialog_Show(playerid, HouseMoney, DIALOG_STYLE_LIST, "Széf", "Kivesz\nBerak", "Kiválaszt", "Vissza");
 	}
@@ -27034,7 +27034,7 @@ Dialog:HouseDepositCash(playerid, response, listitem, inputtext[])
 			House_Save(houseid);
 			House_OpenStorage(playerid, houseid);
 
-			SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has deposited %s into their house safe.", ReturnName(playerid, 0), FormatNumber(amount));
+			SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s berakott %s-t a házszéfjébe.", ReturnName(playerid, 0), FormatNumber(amount));
 		}
 		else Dialog_Show(playerid, HouseMoney, DIALOG_STYLE_LIST, "Széf", "Kivesz\nBerak", "Kiválaszt", "Vissza");
 	}
