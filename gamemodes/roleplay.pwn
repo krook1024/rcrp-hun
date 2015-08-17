@@ -561,7 +561,6 @@ enum carData {
 	carInsurance,
 	Float:carEngine,
 	Float:carBattery
-	
 };
 
 enum carStorage {
@@ -26878,8 +26877,8 @@ Dialog:HouseWeapons(playerid, response, listitem, inputtext[])
 		    {
 				GiveWeaponToPlayer(playerid, HouseData[houseid][houseWeapons][listitem], HouseData[houseid][houseAmmo][listitem]);
 
-				SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has taken a \"%s\" from their weapon storage.", ReturnName(playerid, 0), ReturnWeaponName(HouseData[houseid][houseWeapons][listitem]));
-                Log_Write("logs/storage_log.txt", "[%s] %s has taken a \"%s\" from house ID: %d (owner: %s).", ReturnDate(), ReturnName(playerid, 0), ReturnWeaponName(HouseData[houseid][houseWeapons][listitem]), HouseData[houseid][houseID], (House_IsOwner(playerid, houseid)) ? ("Igen") : ("Nem"));
+				SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s kivett egy \"%s\"-t a fegyvertárából.", ReturnName(playerid, 0), ReturnWeaponName(HouseData[houseid][houseWeapons][listitem]));
+                Log_Write("logs/storage_log.txt", "[%s] %s kivett egy \"%s\"-t az %d ID-jû házból (tulaj: %s).", ReturnDate(), ReturnName(playerid, 0), ReturnWeaponName(HouseData[houseid][houseWeapons][listitem]), HouseData[houseid][houseID], (House_IsOwner(playerid, houseid)) ? ("Igen") : ("Nem"));
 
 				HouseData[houseid][houseWeapons][listitem] = 0;
 				HouseData[houseid][houseAmmo][listitem] = 0;
@@ -26894,16 +26893,16 @@ Dialog:HouseWeapons(playerid, response, listitem, inputtext[])
 					ammo = GetPlayerAmmo(playerid);
 
 			    if (!weaponid)
-			        return SendErrorMessage(playerid, "You are not holding any weapon!");
+			        return SendErrorMessage(playerid, "Nincs a kezedben fegyver.");
 
        			if (weaponid == 23 && PlayerData[playerid][pTazer])
-	    			return SendErrorMessage(playerid, "You can't store a tazer into your safe.");
+	    			return SendErrorMessage(playerid, "Tazert ne.");
 
                 if (weaponid == 25 && PlayerData[playerid][pBeanBag])
-	    			return SendErrorMessage(playerid, "You can't store a beanbag shotgun into your safe.");
+	    			return SendErrorMessage(playerid, "Beanbaget ne.");
 
                 ResetWeapon(playerid, weaponid);
-				SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s has stored a \"%s\" into their weapon storage.", ReturnName(playerid, 0), ReturnWeaponName(weaponid));
+				SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "** %s berakott egy \"%s\"-t a fegyverraktárába.", ReturnName(playerid, 0), ReturnWeaponName(weaponid));
 
 				HouseData[houseid][houseWeapons][listitem] = weaponid;
 				HouseData[houseid][houseAmmo][listitem] = ammo;
@@ -33934,11 +33933,12 @@ CMD:rand(playerid, params[])
 {
 	new randmin, randmax, emote[256];
 
-	if(sscanf(params, "iiS[256]", randmin, randmax)) return SendSyntaxMessage(playerid, "/rand [min] [max] [emote]");
+	if(sscanf(params, "iis[256]", randmin, randmax)) return SendSyntaxMessage(playerid, "/rand [min] [max] [emote]");
 	if(randmin < 0 || randmax < 0 || randmax >= randmin) return SendErrorMessage(playerid, "Érvénytelen érték.");
 	
-	new rand = randmin+rand(randmax-randmin);
+	new rand = randmin+random(randmax-randmin);
     SendNearbyMessage(playerid, 30.0, COLOR_PURPLE, "! %s %s (szám: %d, min: %d, max: %d)", ReturnName(playerid, 0), emote, rand, randmin, randmax );
+    return 1;
 }
 
 
@@ -36371,7 +36371,7 @@ CMD:listcars(playerid, params[])
 		for (new i = 0; i < MAX_DYNAMIC_CARS; i ++) if (Car_IsOwner(playerid, i)) {
 		    GetVehiclePos(CarData[i][carVehicle], fX, fY, fZ);
 
-		    SendClientMessageEx(playerid, COLOR_WHITE, "** ID: %d | Modell: %s | Pozíció: %s", CarData[i][carVehicle], ReturnVehicleModelName(CarData[i][carModel]), GetLocation(fX, fY, fZ));
+		    SendClientMessageEx(playerid, COLOR_WHITE, "** ID: %d | Modell: %s | Pozíció: %s | Spawnolva: %s", CarData[i][carVehicle], ReturnVehicleModelName(CarData[i][carModel]), GetLocation(fX, fY, fZ), );
 		    count++;
 		}
 		if (!count)
